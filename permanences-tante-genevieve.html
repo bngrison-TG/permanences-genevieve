@@ -707,8 +707,9 @@ function renderWeek(){
 // ─── SELECTION ────────────────────────────────────────────────────────
 function startSelect(k){ if(!inRange(keyToDate(k))) return; selecting=true; selStart=k; selEnd=k; updateSelectionUI(); }
 function updateSelect(k){ if(!selecting||!inRange(keyToDate(k))) return; selEnd=k; updateSelectionUI(); }
-function endSelect(k){ if(!selecting) return; selecting=false; selEnd=k; updateSelectionUI(); if(selStart&&selEnd&&selStart!==selEnd) openSlotModal(); }
-function cellClick(k){ if(!inRange(keyToDate(k))) return; selStart=k; selEnd=k; updateSelectionUI(); openSlotModal(); }
+function endSelect(k){ if(!selecting) return; selecting=false; selEnd=k; updateSelectionUI(); if(selStart&&selEnd&&selStart!==selEnd){ if(isAdmin) openAdminChoice(); else openSlotModal(); } }
+function cellClick(k){ if(!inRange(keyToDate(k))) return; selStart=k; selEnd=k; updateSelectionUI(); if(isAdmin) openAdminChoice(); else openSlotModal(); }
+function openAdminChoice(){ const a=selStart<=selEnd?selStart:selEnd; const da=keyToDate(a); const choice=confirm('Que voulez-vous ajouter ?\n\nOK  →  Événement (gris)\nAnnuler  →  Permanence'); if(choice) openEventModal(null,undefined); else openSlotModal(); }
 
 function updateSelectionUI(){
   if(!selStart||!selEnd) return;
@@ -800,12 +801,17 @@ async function deleteSlot(){
 // ─── EVENT MODAL (admin) ──────────────────────────────────────────────
 function openEventModal(k, idx){
   if(!isAdmin) return;
+  // Si pas de sélection et pas de jour précis, demander de cliquer sur un jour
+  if(!k && !selStart){
+    showToast('Cliquez d\'abord sur un jour du calendrier');
+    return;
+  }
   editingEventKey=k;
-  const a=selStart<=selEnd?selStart:selEnd, b=selStart<=selEnd?selEnd:selStart;
-  const usedKey=k||a;
-  const da=keyToDate(usedKey);
-  const db=b?keyToDate(b):da;
-  const n=k?1:Math.round((db-da)/86400000)+1;
+  const a=k||(selStart<=selEnd?selStart:selEnd);
+  const b=k?k:(selStart<=selEnd?selEnd:selStart);
+  const da=keyToDate(a);
+  const db=keyToDate(b);
+  const n=Math.round((db-da)/86400000)+1;
 
   document.getElementById('modal-event-title').textContent=idx!==undefined?'Modifier l\'événement':'Ajouter un événement';
   document.getElementById('event-date-display').textContent=n>1?`Du ${formatDateFR(da)} au ${formatDateFR(db)}`:formatDateFR(da);
