@@ -8,24 +8,26 @@
   :root {
     --bg: #FAFAF8;
     --surface: #FFFFFF;
-    --border: #E8E6E0;
-    --border-strong: #C8C5BC;
+    --border: #B0ADA6;
+    --border-strong: #8A877F;
     --text: #1A1916;
     --text-soft: #6B6860;
     --text-muted: #A09E99;
     --accent: #5B4A9C;
     --accent-light: #EEECf8;
-    --weekend: #F5F3EE;
+    --weekend: #F0EEE8;
     --ferie: #FFF3E0;
-    --ferie-border: #FFB74D;
-    --uncovered: #FFFFFF;
     --radius: 8px;
     --radius-lg: 12px;
     --shadow: 0 1px 4px rgba(0,0,0,0.08);
+    --today-red: #D32F2F;
+    --event-bg: #EEEEEE;
+    --event-border: #9E9E9E;
+    --event-text: #424242;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 15px; min-height: 100vh; }
-  
+
   /* AUTH */
   #auth-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; }
   .auth-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem 2rem; width: 320px; text-align: center; box-shadow: var(--shadow); }
@@ -42,16 +44,21 @@
   .app-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0 1.25rem; flex-wrap: wrap; gap: 8px; }
   .app-title { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
   .app-title span { color: var(--accent); }
-  
+  .admin-badge { background: #B71C1C; color: white; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px; letter-spacing: 0.05em; }
+
   /* MEMBER SECTION */
   .members-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
   .members-section h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 10px; }
   .members-list { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .member-chip { display: flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 99px; font-size: 13px; font-weight: 500; border: 1.5px solid; cursor: default; }
-  .member-chip .chip-edit { font-size: 11px; opacity: 0.7; cursor: pointer; margin-left: 2px; text-decoration: none; }
+  .member-chip .chip-edit { font-size: 11px; opacity: 0.7; cursor: pointer; margin-left: 2px; }
   .member-chip .chip-edit:hover { opacity: 1; }
+  .member-chip .chip-admin-del { font-size: 10px; opacity: 0.6; cursor: pointer; margin-left: 2px; color: #B71C1C; }
+  .member-chip .chip-admin-del:hover { opacity: 1; }
   .btn-add-member { padding: 5px 12px; border: 1.5px dashed var(--border-strong); border-radius: 99px; font-size: 13px; color: var(--text-soft); background: none; cursor: pointer; }
   .btn-add-member:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-switch-user { padding: 5px 12px; border: 1.5px dashed var(--border-strong); border-radius: 99px; font-size: 13px; color: var(--text-soft); background: none; cursor: pointer; margin-left: 4px; }
+  .btn-switch-user:hover { border-color: var(--accent); color: var(--accent); }
   .current-user-note { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
 
   /* VIEW TOGGLE */
@@ -61,57 +68,69 @@
   .view-toggle button.active { background: var(--accent); color: white; }
   .nav-btn { padding: 6px 12px; border: 1px solid var(--border); border-radius: var(--radius); background: none; cursor: pointer; font-size: 14px; color: var(--text); }
   .nav-btn:hover { background: var(--accent-light); }
-  .period-label { font-size: 15px; font-weight: 600; min-width: 160px; text-align: center; }
+  .period-label { font-size: 24px; font-weight: 800; min-width: 220px; text-align: center; color: var(--text); }
 
-  /* CALENDAR MONTH */
-  .cal-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-  .cal-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); background: var(--bg); border-bottom: 1px solid var(--border); }
-  .cal-day-name { text-align: center; padding: 8px 4px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
+  /* CALENDAR */
+  .cal-wrap { background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .cal-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); background: var(--bg); border-bottom: 2px solid var(--border); }
+  .cal-day-name { text-align: center; padding: 8px 4px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
   .cal-day-name.we { color: var(--accent); }
   .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
-  .cal-cell { min-height: 80px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 4px; position: relative; cursor: pointer; transition: background 0.1s; }
+  .cal-cell { min-height: 88px; border-right: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); padding: 4px; position: relative; cursor: pointer; transition: background 0.1s; }
   .cal-cell:nth-child(7n) { border-right: none; }
   .cal-cell.we { background: var(--weekend); }
   .cal-cell.ferie { background: var(--ferie); }
-  .cal-cell.other-month { opacity: 0.3; pointer-events: none; }
-  .cal-cell.out-of-range { opacity: 0.2; pointer-events: none; }
+  .cal-cell.other-month { opacity: 0.25; pointer-events: none; }
+  .cal-cell.out-of-range { opacity: 0.15; pointer-events: none; }
   .cal-cell:hover:not(.out-of-range):not(.other-month) { background: var(--accent-light); }
   .cal-cell.selecting { background: #DDD9F5 !important; }
-  .day-num { font-size: 12px; font-weight: 600; color: var(--text-soft); margin-bottom: 2px; display: flex; align-items: center; gap: 4px; }
-  .day-num.today-num { background: var(--accent); color: white; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; }
-  .ferie-label { font-size: 9px; color: #E65100; font-weight: 500; line-height: 1.1; margin-bottom: 2px; }
-  .slot-tag { font-size: 10px; font-weight: 500; padding: 2px 5px; border-radius: 4px; margin-bottom: 2px; border-left: 3px solid; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 2px; line-height: 1.3; }
-  .slot-tag:hover { filter: brightness(0.95); }
-  .slot-note-icon { opacity: 0.6; font-size: 9px; }
+  .cal-cell.today-cell { border-left: 4px solid var(--today-red) !important; }
+  .day-num { font-size: 12px; font-weight: 600; color: var(--text-soft); margin-bottom: 2px; }
+  .day-num.today-num { background: var(--today-red); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+  .ferie-label { font-size: 9px; color: #E65100; font-weight: 600; line-height: 1.1; margin-bottom: 2px; }
+
+  /* SLOT TAGS */
+  .slot-tag { font-size: 11px; font-weight: 600; padding: 3px 6px; border-radius: 4px; margin-bottom: 3px; border-left: 3px solid; cursor: pointer; display: flex; flex-direction: column; gap: 1px; line-height: 1.3; filter: brightness(0.80); }
+  .slot-tag:hover { filter: brightness(0.70); }
+  .slot-tag .slot-name { font-size: 11px; font-weight: 700; }
+  .slot-tag .slot-note-text { font-size: 10px; font-weight: 500; opacity: 0.9; word-break: break-word; white-space: normal; }
+  .event-tag { font-size: 11px; font-weight: 600; padding: 3px 6px; border-radius: 4px; margin-bottom: 3px; border-left: 3px solid var(--event-border); background: var(--event-bg); color: var(--event-text); cursor: pointer; display: flex; flex-direction: column; gap: 1px; line-height: 1.3; }
+  .event-tag:hover { filter: brightness(0.93); }
+  .event-tag .event-title { font-size: 11px; font-weight: 700; }
+  .event-tag .event-note-text { font-size: 10px; font-weight: 500; opacity: 0.85; }
 
   /* WEEK VIEW */
   .week-grid { display: grid; grid-template-columns: 60px repeat(7, 1fr); border-top: 1px solid var(--border); }
-  .week-day-header { text-align: center; padding: 8px 4px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .week-day-header .wd-name { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); }
-  .week-day-header .wd-date { font-size: 16px; font-weight: 600; }
+  .week-day-header { text-align: center; padding: 8px 4px; border-right: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); }
+  .week-day-header.today-wh { border-left: 4px solid var(--today-red); }
+  .week-day-header .wd-name { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+  .week-day-header .wd-date { font-size: 16px; font-weight: 700; }
   .week-day-header.we { background: var(--weekend); }
   .week-day-header.ferie { background: var(--ferie); }
-  .week-col-label { padding: 8px 4px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg); }
-  .week-cell { min-height: 60px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 4px; cursor: pointer; }
+  .week-col-label { padding: 8px 4px; border-right: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); background: var(--bg); }
+  .week-cell { min-height: 70px; border-right: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); padding: 4px; cursor: pointer; }
   .week-cell:last-child { border-right: none; }
   .week-cell.we { background: var(--weekend); }
   .week-cell.ferie { background: var(--ferie); }
   .week-cell:hover { background: var(--accent-light); }
-  .week-cell.out-of-range { opacity: 0.2; pointer-events: none; }
+  .week-cell.out-of-range { opacity: 0.15; pointer-events: none; }
 
   /* LEGEND */
   .legend { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-top: 10px; font-size: 12px; color: var(--text-soft); }
   .legend-item { display: flex; align-items: center; gap: 5px; }
-  .legend-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; border: 1px solid var(--border); }
+
+  /* SELECTION INFO */
+  .selection-info { background: var(--accent-light); border: 1px solid var(--accent); border-radius: var(--radius); padding: 8px 12px; font-size: 13px; margin-bottom: 10px; color: var(--accent); display: none; }
 
   /* MODALS */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 500; align-items: center; justify-content: center; padding: 1rem; }
   .modal-overlay.open { display: flex; }
-  .modal { background: var(--surface); border-radius: var(--radius-lg); padding: 1.5rem; width: 100%; max-width: 360px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+  .modal { background: var(--surface); border-radius: var(--radius-lg); padding: 1.5rem; width: 100%; max-width: 380px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; }
   .modal h3 { font-size: 16px; font-weight: 600; margin-bottom: 1rem; }
   .modal label { font-size: 13px; color: var(--text-soft); display: block; margin-bottom: 4px; margin-top: 12px; }
   .modal input[type=text], .modal textarea, .modal select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; font-family: inherit; outline: none; }
-  .modal input:focus, .modal textarea:focus { border-color: var(--accent); }
+  .modal input:focus, .modal textarea:focus, .modal select:focus { border-color: var(--accent); }
   .modal textarea { resize: vertical; min-height: 60px; }
   .modal-actions { display: flex; gap: 8px; margin-top: 1.25rem; justify-content: flex-end; flex-wrap: wrap; }
   .btn { padding: 8px 16px; border-radius: var(--radius); font-size: 13px; cursor: pointer; font-weight: 500; border: none; }
@@ -121,24 +140,22 @@
   .btn-secondary:hover { background: var(--bg); }
   .btn-danger { background: none; border: 1px solid #F09595; color: #A32D2D; margin-right: auto; }
   .btn-danger:hover { background: #FCEBEB; }
+  .btn-event { background: #616161; color: white; }
+  .btn-event:hover { opacity: 0.9; }
+  .char-counter { font-size: 11px; color: var(--text-muted); text-align: right; margin-top: 2px; }
 
-  /* COLOR PREVIEW */
-  .color-preview { width: 24px; height: 24px; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 6px; border: 2px solid rgba(0,0,0,0.1); }
-
-  /* SELECTION INFO */
-  .selection-info { background: var(--accent-light); border: 1px solid var(--accent); border-radius: var(--radius); padding: 8px 12px; font-size: 13px; margin-bottom: 10px; color: var(--accent); display: none; }
-  
   /* TOAST */
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #1A1916; color: white; padding: 10px 20px; border-radius: 99px; font-size: 13px; z-index: 9999; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #1A1916; color: white; padding: 10px 20px; border-radius: 99px; font-size: 13px; z-index: 9999; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
   .toast.show { opacity: 1; }
 
-  /* RESPONSIVE */
+  /* ADMIN BAR */
+  .admin-bar { background: #FFEBEE; border: 1px solid #FFCDD2; border-radius: var(--radius); padding: 8px 14px; margin-bottom: 10px; font-size: 13px; color: #B71C1C; display: flex; align-items: center; gap: 8px; }
+
   @media (max-width: 600px) {
-    .cal-cell { min-height: 54px; padding: 2px; }
-    .slot-tag { font-size: 9px; padding: 1px 3px; }
-    .app-header { gap: 6px; }
-    .period-label { font-size: 13px; min-width: 120px; }
-    .week-grid { grid-template-columns: 44px repeat(7, 1fr); }
+    .cal-cell { min-height: 60px; padding: 2px; }
+    .slot-tag, .event-tag { font-size: 9px; padding: 2px 3px; }
+    .period-label { font-size: 18px; min-width: 150px; }
+    .week-grid { grid-template-columns: 40px repeat(7, 1fr); }
     .week-day-header .wd-date { font-size: 13px; }
   }
 </style>
@@ -148,9 +165,9 @@
 <!-- AUTH -->
 <div id="auth-screen">
   <div class="auth-card">
-    <div style="font-size:32px; margin-bottom:8px;">💜</div>
+    <div style="font-size:32px;margin-bottom:8px;">💜</div>
     <h1>Permanences</h1>
-    <p>Tante Geneviève · Été 2026</p>
+    <p>Tante Geneviève · 2026–2027</p>
     <input type="password" id="auth-input" placeholder="Mot de passe" autofocus />
     <button onclick="checkAuth()">Accéder</button>
     <div class="auth-error" id="auth-error"></div>
@@ -160,7 +177,10 @@
 <!-- APP -->
 <div id="app">
   <div class="app-header">
-    <div class="app-title">💜 Permanences <span>Tante Geneviève</span></div>
+    <div class="app-title">
+      💜 Permanences <span>Tante Geneviève</span>
+      <span class="admin-badge" id="admin-badge" style="display:none">ADMIN</span>
+    </div>
     <div class="view-controls">
       <button class="nav-btn" onclick="navigate(-1)">‹</button>
       <span class="period-label" id="period-label"></span>
@@ -172,6 +192,11 @@
     </div>
   </div>
 
+  <div class="admin-bar" id="admin-bar" style="display:none">
+    🔐 Mode administrateur — vous pouvez supprimer tous les créneaux et étiquettes, et ajouter des événements.
+    <button class="btn btn-event" style="margin-left:auto;font-size:12px;" onclick="openEventModal(null)">+ Ajouter un événement</button>
+  </div>
+
   <!-- MEMBERS -->
   <div class="members-section">
     <h2>Membres de la famille</h2>
@@ -179,22 +204,20 @@
     <div class="current-user-note" id="current-user-note"></div>
   </div>
 
-  <!-- SELECTION INFO -->
   <div class="selection-info" id="selection-info"></div>
 
-  <!-- CALENDAR -->
   <div class="cal-wrap" id="cal-wrap"></div>
 
-  <!-- LEGEND -->
   <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#F5F3EE;border:1px solid #E8E6E0;"></div> Week-end</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#FFF3E0;border:1px solid #FFB74D;"></div> Jour férié</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#FFFFFF;border:1px solid #E8E6E0;"></div> Jour non couvert</div>
-    <div style="color:#A09E99;font-size:11px;margin-left:auto;">Cliquez ou glissez pour sélectionner des jours</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--weekend);"></div>Week-end</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--ferie);border-color:#FFB74D;"></div>Jour férié</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--event-bg);border-color:var(--event-border);"></div>Événement</div>
+    <div class="legend-item"><div style="width:4px;height:14px;background:var(--today-red);border-radius:2px;"></div>Aujourd'hui</div>
+    <div style="color:#A09E99;font-size:11px;margin-left:auto;">Cliquez ou glissez pour sélectionner</div>
   </div>
 </div>
 
-<!-- MODAL: CRÉER MEMBRE -->
+<!-- MODAL: CRÉER/MODIFIER MEMBRE -->
 <div class="modal-overlay" id="modal-member">
   <div class="modal">
     <h3 id="modal-member-title">Mon étiquette</h3>
@@ -210,12 +233,30 @@
       <option value="5">Ambre</option>
       <option value="6">Vert sauge</option>
       <option value="7">Terracotta</option>
+      <option value="8">Indigo</option>
+      <option value="9">Bordeaux</option>
+      <option value="10">Cyan</option>
+      <option value="11">Olive</option>
     </select>
     <div style="margin-top:10px;font-size:13px;color:var(--text-soft);">Aperçu : <span id="color-preview-chip" style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:500;border:1.5px solid;">Prénom</span></div>
     <div class="modal-actions">
       <button class="btn btn-danger" id="btn-delete-member" onclick="deleteMember()" style="display:none">Supprimer mon étiquette</button>
       <button class="btn btn-secondary" onclick="closeModal('modal-member')">Annuler</button>
       <button class="btn btn-primary" onclick="saveMember()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: CHOISIR ÉTIQUETTE EXISTANTE -->
+<div class="modal-overlay" id="modal-switch">
+  <div class="modal">
+    <h3>Me connecter sous une étiquette existante</h3>
+    <p style="font-size:13px;color:var(--text-soft);margin-bottom:12px;">Choisissez votre prénom si vous avez déjà une étiquette créée (depuis un autre appareil par exemple).</p>
+    <label>Mon étiquette</label>
+    <select id="switch-member-select"></select>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-switch')">Annuler</button>
+      <button class="btn btn-primary" onclick="switchMember()">Me connecter</button>
     </div>
   </div>
 </div>
@@ -227,8 +268,9 @@
     <div id="slot-date-display" style="font-size:13px;color:var(--text-soft);margin-bottom:8px;"></div>
     <label>Qui prend en charge ?</label>
     <select id="slot-member-select"></select>
-    <label>Note (optionnel)</label>
-    <textarea id="slot-note" placeholder="ex : apporter médicaments, rendez-vous médecin…" maxlength="200"></textarea>
+    <label>Note (max 30 caractères, optionnel)</label>
+    <input type="text" id="slot-note" placeholder="ex : apporter médicaments…" maxlength="30" oninput="updateNoteCounter('slot-note','slot-note-counter')" />
+    <div class="char-counter" id="slot-note-counter">0 / 30</div>
     <div class="modal-actions">
       <button class="btn btn-danger" id="btn-delete-slot" onclick="deleteSlot()" style="display:none">Supprimer</button>
       <button class="btn btn-secondary" onclick="closeModal('modal-slot')">Annuler</button>
@@ -237,14 +279,32 @@
   </div>
 </div>
 
-<!-- MODAL: VOIR CRÉNEAU -->
+<!-- MODAL: ÉVÉNEMENT (admin) -->
+<div class="modal-overlay" id="modal-event">
+  <div class="modal">
+    <h3 id="modal-event-title">Ajouter un événement</h3>
+    <div id="event-date-display" style="font-size:13px;color:var(--text-soft);margin-bottom:8px;"></div>
+    <label>Titre de l'événement (max 30 car.)</label>
+    <input type="text" id="event-title-input" placeholder="ex : Visite infirmière" maxlength="30" oninput="updateNoteCounter('event-title-input','event-title-counter')" />
+    <div class="char-counter" id="event-title-counter">0 / 30</div>
+    <label>Note complémentaire (optionnel)</label>
+    <textarea id="event-note-input" placeholder="Détails supplémentaires…" maxlength="200"></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-danger" id="btn-delete-event" onclick="deleteEvent()" style="display:none">Supprimer</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-event')">Annuler</button>
+      <button class="btn btn-event" onclick="saveEvent()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: VOIR JOUR -->
 <div class="modal-overlay" id="modal-view-slot">
   <div class="modal">
     <h3 id="view-slot-title"></h3>
     <div id="view-slot-content" style="font-size:14px;color:var(--text-soft);line-height:1.6;"></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal('modal-view-slot')">Fermer</button>
-      <button class="btn btn-primary" id="btn-edit-my-slot" onclick="editMySlotFromView()">Modifier ma permanence</button>
+      <button class="btn btn-primary" id="btn-edit-my-slot" onclick="editMySlotFromView()" style="display:none">Modifier ma permanence</button>
     </div>
   </div>
 </div>
@@ -252,49 +312,77 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────────────────────
-const BIN_ID = '6a36b196f5f4af5e2914b464';
+// ─── CONFIG ───────────────────────────────────────────────────────────
+const BIN_ID     = '6a36b196f5f4af5e2914b464';
 const MASTER_KEY = '$2a$10$Sfj0pRzTS02qhP.FJ3xz5uITBzc1HHWsH9A64h6a658oF1mFLdxY.';
-const API = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
-const PASSWORD = 'TG';
-const START_DATE = new Date(2026, 5, 1);  // 1 juin 2026
-const END_DATE   = new Date(2026, 8, 7);  // 7 sept 2026
+const API        = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const PASSWORD   = 'TG';
+const ADMIN_PW   = 'TG-admin';
+const START_DATE = new Date(2026, 5, 1);   // 1 juin 2026
+const END_DATE   = new Date(2027, 11, 31); // 31 déc 2027
 
 const COLORS = [
-  { name:'Violet',     bg:'#EEEDFE', border:'#534AB7', text:'#3C3489' },
-  { name:'Vert forêt', bg:'#E1F5EE', border:'#0F6E56', text:'#085041' },
-  { name:'Corail',     bg:'#FAECE7', border:'#993C1D', text:'#712B13' },
-  { name:'Rose',       bg:'#FBEAF0', border:'#993556', text:'#72243E' },
-  { name:'Bleu',       bg:'#E6F1FB', border:'#185FA5', text:'#0C447C' },
-  { name:'Ambre',      bg:'#FAEEDA', border:'#854F0B', text:'#633806' },
-  { name:'Vert sauge', bg:'#EAF3DE', border:'#3B6D11', text:'#27500A' },
-  { name:'Terracotta', bg:'#FFF0E6', border:'#A0522D', text:'#7B3F1E' },
+  { name:'Violet',      bg:'#EEEDFE', border:'#534AB7', text:'#3C3489' },
+  { name:'Vert forêt',  bg:'#E1F5EE', border:'#0F6E56', text:'#085041' },
+  { name:'Corail',      bg:'#FAECE7', border:'#993C1D', text:'#712B13' },
+  { name:'Rose',        bg:'#FBEAF0', border:'#993556', text:'#72243E' },
+  { name:'Bleu',        bg:'#E6F1FB', border:'#185FA5', text:'#0C447C' },
+  { name:'Ambre',       bg:'#FAEEDA', border:'#854F0B', text:'#633806' },
+  { name:'Vert sauge',  bg:'#EAF3DE', border:'#3B6D11', text:'#27500A' },
+  { name:'Terracotta',  bg:'#FFF0E6', border:'#A0522D', text:'#7B3F1E' },
+  { name:'Indigo',      bg:'#E8EAF6', border:'#3949AB', text:'#1A237E' },
+  { name:'Bordeaux',    bg:'#FCE4EC', border:'#880E4F', text:'#560027' },
+  { name:'Cyan',        bg:'#E0F7FA', border:'#00838F', text:'#004D40' },
+  { name:'Olive',       bg:'#F9FBE7', border:'#827717', text:'#524B00' },
 ];
 
-// Jours fériés France 2026
+// Jours fériés France 2026 et 2027 (dans la période)
 const FERIES = {
-  '2026-07-14': 'Fête Nationale',
-  '2026-08-15': 'Assomption',
+  '2026-07-14':'Fête Nationale',
+  '2026-08-15':'Assomption',
+  '2026-11-01':'Toussaint',
+  '2026-11-11':'Armistice',
+  '2026-12-25':'Noël',
+  '2027-01-01':'Jour de l\'An',
+  '2027-04-05':'Lundi de Pâques',
+  '2027-05-01':'Fête du Travail',
+  '2027-05-08':'Victoire 1945',
+  '2027-05-13':'Ascension',
+  '2027-05-24':'Lundi de Pentecôte',
+  '2027-07-14':'Fête Nationale',
+  '2027-08-15':'Assomption',
+  '2027-11-01':'Toussaint',
+  '2027-11-11':'Armistice',
+  '2027-12-25':'Noël',
 };
 
-const DAYS_FR  = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-const MONTHS_FR= ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const DAYS_FR   = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+const MONTHS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
-// ─── STATE ────────────────────────────────────────────────────────────────
-let data = { membres: [], creneaux: {} };
-let currentUser = null; // { id, name, color }
+// ─── STATE ────────────────────────────────────────────────────────────
+let data = { membres: [], creneaux: {}, evenements: {} };
+let currentUser = null;
+let isAdmin = false;
 let view = 'month';
 let viewDate = new Date(2026, 5, 1);
 let selecting = false;
 let selStart = null, selEnd = null;
-let editingSlotId = null;
 let viewSlotDayKey = null;
+let editingEventKey = null; // dayKey for event being edited
 let saving = false;
 
-// ─── AUTH ─────────────────────────────────────────────────────────────────
+// ─── AUTH ─────────────────────────────────────────────────────────────
 function checkAuth() {
   const v = document.getElementById('auth-input').value.trim();
-  if (v.toUpperCase() === PASSWORD) {
+  if (v === ADMIN_PW) {
+    isAdmin = true;
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('admin-badge').style.display = 'inline-flex';
+    document.getElementById('admin-bar').style.display = 'flex';
+    loadData();
+  } else if (v.toUpperCase() === PASSWORD) {
+    isAdmin = false;
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     loadData();
@@ -302,17 +390,18 @@ function checkAuth() {
     document.getElementById('auth-error').textContent = 'Mot de passe incorrect.';
   }
 }
-document.getElementById('auth-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkAuth(); });
+document.getElementById('auth-input').addEventListener('keydown', e => { if (e.key==='Enter') checkAuth(); });
 
-// ─── DATA (JSONBin) ────────────────────────────────────────────────────────
+// ─── DATA ─────────────────────────────────────────────────────────────
 async function loadData() {
   try {
-    const r = await fetch(API + '/latest', { headers: { 'X-Master-Key': MASTER_KEY } });
+    const r = await fetch(API+'/latest', { headers:{'X-Master-Key':MASTER_KEY} });
     const j = await r.json();
-    data = j.record || { membres: [], creneaux: {} };
-    if (!data.membres) data.membres = [];
-    if (!data.creneaux) data.creneaux = {};
-  } catch(e) { data = { membres: [], creneaux: {} }; }
+    data = j.record || { membres:[], creneaux:{}, evenements:{} };
+    if (!data.membres)    data.membres = [];
+    if (!data.creneaux)   data.creneaux = {};
+    if (!data.evenements) data.evenements = {};
+  } catch(e) { data = { membres:[], creneaux:{}, evenements:{} }; }
   checkCurrentUser();
   render();
 }
@@ -322,489 +411,508 @@ async function saveData() {
   saving = true;
   try {
     await fetch(API, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':MASTER_KEY},
       body: JSON.stringify(data)
     });
   } catch(e) { showToast('Erreur de sauvegarde'); }
   saving = false;
 }
 
-// ─── CURRENT USER (localStorage) ──────────────────────────────────────────
+// ─── CURRENT USER ─────────────────────────────────────────────────────
 function checkCurrentUser() {
   const stored = localStorage.getItem('tg_user_id');
-  if (stored) {
-    currentUser = data.membres.find(m => m.id === stored) || null;
-  }
+  if (stored) currentUser = data.membres.find(m => m.id === stored) || null;
 }
 
-// ─── UTILS ────────────────────────────────────────────────────────────────
-function dayKey(d) {
-  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+// ─── UTILS ────────────────────────────────────────────────────────────
+function dayKey(d)   { return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function keyToDate(k){ const [y,m,d]=k.split('-').map(Number); return new Date(y,m-1,d); }
+function inRange(d)  { const t=new Date(d.getFullYear(),d.getMonth(),d.getDate()); return t>=START_DATE && t<=END_DATE; }
+function isWeekend(d){ const dw=d.getDay(); return dw===0||dw===6; }
+function isFerie(d)  { return !!FERIES[dayKey(d)]; }
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+function formatDateFR(d){ return d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}); }
+function updateNoteCounter(inputId, counterId){
+  const el=document.getElementById(inputId), co=document.getElementById(counterId);
+  if(el&&co) co.textContent=el.value.length+' / 30';
 }
-function keyToDate(k) {
-  const [y,m,d] = k.split('-').map(Number);
-  return new Date(y, m-1, d);
-}
-function inRange(d) {
-  const t = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  return t >= START_DATE && t <= END_DATE;
-}
-function isWeekend(d) { const dw = d.getDay(); return dw === 0 || dw === 6; }
-function isFerie(d) { return !!FERIES[dayKey(d)]; }
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-function formatDateFR(d) {
-  return d.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' });
-}
-function sortedKeys(a, b) { return a < b ? -1 : a > b ? 1 : 0; }
 
-// ─── COLOR PREVIEW ────────────────────────────────────────────────────────
-function updateColorPreview() {
-  const idx = parseInt(document.getElementById('member-color').value);
-  const c = COLORS[idx];
-  const name = document.getElementById('member-name').value || 'Prénom';
-  const chip = document.getElementById('color-preview-chip');
-  chip.style.background = c.bg;
-  chip.style.borderColor = c.border;
-  chip.style.color = c.text;
-  chip.textContent = name;
+// ─── COLOR PREVIEW ────────────────────────────────────────────────────
+function updateColorPreview(){
+  const idx=parseInt(document.getElementById('member-color').value);
+  const c=COLORS[idx];
+  const name=document.getElementById('member-name').value||'Prénom';
+  const chip=document.getElementById('color-preview-chip');
+  chip.style.background=c.bg; chip.style.borderColor=c.border; chip.style.color=c.text;
+  chip.textContent=name;
 }
-document.getElementById('member-name').addEventListener('input', updateColorPreview);
+document.getElementById('member-name').addEventListener('input',updateColorPreview);
 
-// ─── MEMBERS ──────────────────────────────────────────────────────────────
-function renderMembers() {
-  const list = document.getElementById('members-list');
-  list.innerHTML = '';
-  data.membres.forEach(m => {
-    const c = COLORS[m.color];
-    const chip = document.createElement('div');
-    chip.className = 'member-chip';
-    chip.style.background = c.bg;
-    chip.style.borderColor = c.border;
-    chip.style.color = c.text;
-    const isMe = currentUser && currentUser.id === m.id;
-    chip.innerHTML = `${m.name}${isMe ? ' <a class="chip-edit" title="Modifier mon étiquette">✏️</a>' : ''}`;
-    if (isMe) chip.querySelector('.chip-edit').onclick = () => openMemberModal(true);
+// ─── MEMBERS ──────────────────────────────────────────────────────────
+function renderMembers(){
+  const list=document.getElementById('members-list');
+  list.innerHTML='';
+  data.membres.forEach(m=>{
+    const c=COLORS[m.color]||COLORS[0];
+    const chip=document.createElement('div');
+    chip.className='member-chip';
+    chip.style.background=c.bg; chip.style.borderColor=c.border; chip.style.color=c.text;
+    const isMe=currentUser&&currentUser.id===m.id;
+    let inner=`<span style="width:8px;height:8px;border-radius:50%;background:${c.border};flex-shrink:0;"></span>${m.name}`;
+    if(isMe) inner+=` <span class="chip-edit" title="Modifier mon étiquette" onclick="openMemberModal(true)">✏️</span>`;
+    if(isAdmin) inner+=` <span class="chip-admin-del" title="Supprimer cette étiquette (admin)" onclick="adminDeleteMember('${m.id}')">🗑</span>`;
+    chip.innerHTML=inner;
     list.appendChild(chip);
   });
-  const addBtn = document.createElement('button');
-  addBtn.className = 'btn-add-member';
-  if (currentUser) {
-    addBtn.style.display = 'none';
-  } else {
-    addBtn.textContent = '+ Créer mon étiquette';
-    addBtn.onclick = () => openMemberModal(false);
+
+  if(!currentUser){
+    const addBtn=document.createElement('button');
+    addBtn.className='btn-add-member';
+    addBtn.textContent='+ Créer mon étiquette';
+    addBtn.onclick=()=>openMemberModal(false);
+    list.appendChild(addBtn);
+
+    if(data.membres.length>0){
+      const switchBtn=document.createElement('button');
+      switchBtn.className='btn-switch-user';
+      switchBtn.textContent='↩ Rejoindre une étiquette existante';
+      switchBtn.onclick=openSwitchModal;
+      list.appendChild(switchBtn);
+    }
   }
-  list.appendChild(addBtn);
-  
-  const note = document.getElementById('current-user-note');
-  if (currentUser) {
-    const c = COLORS[currentUser.color];
-    note.innerHTML = `Vous êtes connecté(e) en tant que <span style="font-weight:600;color:${c.text}">${currentUser.name}</span>.`;
+
+  const note=document.getElementById('current-user-note');
+  if(isAdmin && !currentUser){
+    note.textContent='Connecté en mode administrateur.';
+  } else if(currentUser){
+    const c=COLORS[currentUser.color]||COLORS[0];
+    note.innerHTML=`Connecté(e) en tant que <span style="font-weight:600;color:${c.text}">${currentUser.name}</span>. <span style="cursor:pointer;color:var(--text-muted);font-size:11px;" onclick="logout()">[ changer ]</span>`;
   } else {
-    note.textContent = 'Créez votre étiquette pour ajouter des permanences.';
+    note.textContent='Créez votre étiquette pour ajouter des permanences.';
   }
 }
 
-function openMemberModal(editing) {
-  document.getElementById('modal-member-title').textContent = editing ? 'Mon étiquette' : 'Créer mon étiquette';
-  document.getElementById('btn-delete-member').style.display = editing ? 'inline-flex' : 'none';
-  if (editing && currentUser) {
-    document.getElementById('member-name').value = currentUser.name;
-    document.getElementById('member-color').value = currentUser.color;
+function logout(){
+  currentUser=null;
+  localStorage.removeItem('tg_user_id');
+  render();
+}
+
+function openMemberModal(editing){
+  document.getElementById('modal-member-title').textContent=editing?'Mon étiquette':'Créer mon étiquette';
+  document.getElementById('btn-delete-member').style.display=editing?'inline-flex':'none';
+  if(editing&&currentUser){
+    document.getElementById('member-name').value=currentUser.name;
+    document.getElementById('member-color').value=currentUser.color;
   } else {
-    document.getElementById('member-name').value = '';
-    document.getElementById('member-color').value = '0';
+    document.getElementById('member-name').value='';
+    // Auto-assign next color
+    document.getElementById('member-color').value=data.membres.length%COLORS.length;
   }
   updateColorPreview();
   document.getElementById('modal-member').classList.add('open');
 }
 
-async function saveMember() {
-  const name = document.getElementById('member-name').value.trim();
-  if (!name) { showToast('Entrez votre prénom'); return; }
-  const color = parseInt(document.getElementById('member-color').value);
-  if (currentUser) {
-    currentUser.name = name;
-    currentUser.color = color;
-    const idx = data.membres.findIndex(m => m.id === currentUser.id);
-    if (idx >= 0) data.membres[idx] = { ...currentUser };
+async function saveMember(){
+  const name=document.getElementById('member-name').value.trim();
+  if(!name){ showToast('Entrez votre prénom'); return; }
+  if(data.membres.length>=30&&!currentUser){ showToast('Maximum 30 membres atteint'); return; }
+  const color=parseInt(document.getElementById('member-color').value);
+  if(currentUser){
+    currentUser.name=name; currentUser.color=color;
+    const idx=data.membres.findIndex(m=>m.id===currentUser.id);
+    if(idx>=0) data.membres[idx]={...currentUser};
   } else {
-    const newM = { id: 'u_' + Date.now(), name, color };
+    const newM={id:'u_'+Date.now(),name,color};
     data.membres.push(newM);
-    currentUser = newM;
-    localStorage.setItem('tg_user_id', newM.id);
+    currentUser=newM;
+    localStorage.setItem('tg_user_id',newM.id);
   }
   closeModal('modal-member');
-  await saveData();
-  render();
+  await saveData(); render();
   showToast('Étiquette enregistrée ✓');
 }
 
-async function deleteMember() {
-  if (!currentUser) return;
-  if (!confirm('Supprimer votre étiquette et toutes vos permanences ?')) return;
-  // Remove all slots of this member
-  Object.keys(data.creneaux).forEach(k => {
-    data.creneaux[k] = data.creneaux[k].filter(s => s.memberId !== currentUser.id);
-    if (data.creneaux[k].length === 0) delete data.creneaux[k];
-  });
-  data.membres = data.membres.filter(m => m.id !== currentUser.id);
-  currentUser = null;
-  localStorage.removeItem('tg_user_id');
+async function deleteMember(){
+  if(!currentUser) return;
+  if(!confirm('Supprimer votre étiquette et toutes vos permanences ?')) return;
+  await removeMemberById(currentUser.id);
+  currentUser=null; localStorage.removeItem('tg_user_id');
   closeModal('modal-member');
-  await saveData();
-  render();
+  await saveData(); render();
   showToast('Étiquette supprimée');
 }
 
-// ─── CALENDAR RENDER ──────────────────────────────────────────────────────
-function render() {
-  renderMembers();
-  if (view === 'month') renderMonth();
-  else renderWeek();
-  document.getElementById('btn-month').className = view === 'month' ? 'active' : '';
-  document.getElementById('btn-week').className  = view === 'week'  ? 'active' : '';
+async function adminDeleteMember(id){
+  if(!isAdmin) return;
+  if(!confirm('Supprimer cette étiquette et toutes ses permanences ?')) return;
+  await removeMemberById(id);
+  if(currentUser&&currentUser.id===id){ currentUser=null; localStorage.removeItem('tg_user_id'); }
+  await saveData(); render();
+  showToast('Étiquette supprimée (admin)');
 }
 
-function setView(v) { view = v; render(); }
+function removeMemberById(id){
+  data.membres=data.membres.filter(m=>m.id!==id);
+  Object.keys(data.creneaux).forEach(k=>{
+    data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==id);
+    if(data.creneaux[k].length===0) delete data.creneaux[k];
+  });
+}
 
-function navigate(delta) {
-  if (view === 'month') {
-    viewDate.setMonth(viewDate.getMonth() + delta);
-  } else {
-    viewDate.setDate(viewDate.getDate() + delta * 7);
-  }
+// ─── SWITCH MODAL ─────────────────────────────────────────────────────
+function openSwitchModal(){
+  const sel=document.getElementById('switch-member-select');
+  sel.innerHTML=data.membres.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+  document.getElementById('modal-switch').classList.add('open');
+}
+function switchMember(){
+  const id=document.getElementById('switch-member-select').value;
+  const m=data.membres.find(m=>m.id===id);
+  if(m){ currentUser=m; localStorage.setItem('tg_user_id',m.id); }
+  closeModal('modal-switch');
+  render();
+  showToast(`Connecté(e) en tant que ${m.name}`);
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────
+function render(){
+  renderMembers();
+  if(view==='month') renderMonth(); else renderWeek();
+  document.getElementById('btn-month').className=view==='month'?'active':'';
+  document.getElementById('btn-week').className =view==='week' ?'active':'';
+}
+function setView(v){ view=v; render(); }
+function navigate(delta){
+  if(view==='month'){ viewDate.setMonth(viewDate.getMonth()+delta); }
+  else { viewDate.setDate(viewDate.getDate()+delta*7); }
   render();
 }
 
-// ─── MONTH VIEW ───────────────────────────────────────────────────────────
-function renderMonth() {
-  const y = viewDate.getFullYear(), m = viewDate.getMonth();
-  document.getElementById('period-label').textContent = MONTHS_FR[m] + ' ' + y;
-  const wrap = document.getElementById('cal-wrap');
+// ─── SLOT TAG HTML ────────────────────────────────────────────────────
+function slotTagHTML(s, k){
+  const mem=data.membres.find(m=>m.id===s.memberId);
+  if(!mem) return '';
+  const c=COLORS[mem.color]||COLORS[0];
+  const note=s.note?s.note.substring(0,30)+(s.note.length>30?'…':''):'';
+  let h=`<div class="slot-tag" style="background:${c.bg};border-color:${c.border};color:${c.text}" onclick="event.stopPropagation();viewSlot('${k}')" title="${mem.name}${s.note?' · '+s.note:''}">`;
+  h+=`<span class="slot-name">${mem.name}</span>`;
+  if(note) h+=`<span class="slot-note-text">${note}</span>`;
+  h+=`</div>`;
+  return h;
+}
 
-  let html = '<div class="cal-grid-header">';
-  DAYS_FR.forEach((d,i) => {
-    html += `<div class="cal-day-name${i>=5?' we':''}">${d}</div>`;
+function eventTagHTML(ev, k, idx){
+  const title=ev.title?ev.title.substring(0,30)+(ev.title.length>30?'…':''):'Événement';
+  const note=ev.note?ev.note.substring(0,30)+(ev.note.length>30?'…':''):'';
+  let h=`<div class="event-tag" onclick="event.stopPropagation();${isAdmin?`openEventModal('${k}',${idx})`:`viewSlot('${k}')`}" title="${title}${ev.note?' · '+ev.note:''}">`;
+  h+=`<span class="event-title">📅 ${title}</span>`;
+  if(note) h+=`<span class="event-note-text">${note}</span>`;
+  h+=`</div>`;
+  return h;
+}
+
+// ─── MONTH VIEW ───────────────────────────────────────────────────────
+function renderMonth(){
+  const y=viewDate.getFullYear(), m=viewDate.getMonth();
+  document.getElementById('period-label').textContent=MONTHS_FR[m]+' '+y;
+  const wrap=document.getElementById('cal-wrap');
+  const today=dayKey(new Date());
+
+  let html='<div class="cal-grid-header">';
+  DAYS_FR.forEach((d,i)=>{ html+=`<div class="cal-day-name${i>=5?' we':''}">${d}</div>`; });
+  html+='</div><div class="cal-grid">';
+
+  const first=new Date(y,m,1);
+  let startDow=first.getDay(); startDow=startDow===0?6:startDow-1;
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const prevDays=new Date(y,m,0).getDate();
+
+  let cells=[];
+  for(let i=startDow-1;i>=0;i--) cells.push({d:new Date(y,m-1,prevDays-i),other:true});
+  for(let d=1;d<=daysInMonth;d++) cells.push({d:new Date(y,m,d),other:false});
+  while(cells.length%7!==0) cells.push({d:new Date(y,m+1,cells.length-daysInMonth-startDow+1),other:true});
+
+  cells.forEach(cell=>{
+    const k=dayKey(cell.d);
+    const we=isWeekend(cell.d), fe=isFerie(cell.d), oor=!inRange(cell.d);
+    const isToday=k===today;
+    let cls='cal-cell';
+    if(cell.other) cls+=' other-month';
+    else if(oor) cls+=' out-of-range';
+    else if(fe) cls+=' ferie';
+    else if(we) cls+=' we';
+    if(isToday&&!cell.other) cls+=' today-cell';
+
+    const slots=(!cell.other&&!oor)?(data.creneaux[k]||[]):[];
+    const events=(!cell.other&&!oor)?(data.evenements[k]||[]):[];
+    const numCls=isToday?'day-num today-num':'day-num';
+
+    html+=`<div class="${cls}" data-key="${k}" onmousedown="startSelect('${k}')" onmouseenter="updateSelect('${k}')" onmouseup="endSelect('${k}')" onclick="cellClick('${k}')">`;
+    html+=`<div class="${numCls}">${cell.other?'':cell.d.getDate()}</div>`;
+    if(fe&&!cell.other) html+=`<div class="ferie-label">${FERIES[k]}</div>`;
+    events.forEach((ev,i)=>{ html+=eventTagHTML(ev,k,i); });
+    slots.forEach(s=>{ html+=slotTagHTML(s,k); });
+    html+=`</div>`;
   });
-  html += '</div><div class="cal-grid">';
+  html+='</div>';
+  wrap.innerHTML=html;
+}
 
-  const first = new Date(y, m, 1);
-  let startDow = first.getDay(); startDow = startDow === 0 ? 6 : startDow - 1;
-  const daysInMonth = new Date(y, m+1, 0).getDate();
-  const prevDays = new Date(y, m, 0).getDate();
+// ─── WEEK VIEW ────────────────────────────────────────────────────────
+function renderWeek(){
+  const d=new Date(viewDate);
+  const dow=d.getDay();
+  d.setDate(d.getDate()-(dow===0?6:dow-1));
+  const weekDays=[];
+  for(let i=0;i<7;i++) weekDays.push(new Date(d.getFullYear(),d.getMonth(),d.getDate()+i));
 
-  let cells = [];
-  for (let i = startDow-1; i >= 0; i--) cells.push({ d: new Date(y, m-1, prevDays-i), other: true });
-  for (let d = 1; d <= daysInMonth; d++) cells.push({ d: new Date(y, m, d), other: false });
-  while (cells.length % 7 !== 0) cells.push({ d: new Date(y, m+1, cells.length - daysInMonth - startDow + 1), other: true });
+  const label=weekDays[0].toLocaleDateString('fr-FR',{day:'numeric',month:'long'})+' – '+weekDays[6].toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('period-label').textContent=label;
 
-  const today = dayKey(new Date());
-  cells.forEach(cell => {
-    const k = dayKey(cell.d);
-    const we = isWeekend(cell.d);
-    const fe = isFerie(cell.d);
-    const oor = !inRange(cell.d);
-    let cls = 'cal-cell';
-    if (cell.other) cls += ' other-month';
-    else if (oor) cls += ' out-of-range';
-    else if (fe) cls += ' ferie';
-    else if (we) cls += ' we';
-    
-    const slots = !cell.other && !oor ? (data.creneaux[k] || []) : [];
-    const numCls = k === today ? 'day-num today-num' : 'day-num';
-
-    html += `<div class="${cls}" data-key="${k}" onmousedown="startSelect('${k}')" onmouseenter="updateSelect('${k}')" onmouseup="endSelect('${k}')" ontouchstart="startSelect('${k}')" ontouchend="endSelect('${k}')" onclick="cellClick('${k}')">`;
-    html += `<div class="${numCls}">${cell.other ? '' : cell.d.getDate()}</div>`;
-    if (fe && !cell.other) html += `<div class="ferie-label">${FERIES[k]}</div>`;
-    slots.forEach((s,i) => {
-      const mem = data.membres.find(m => m.id === s.memberId);
-      if (!mem) return;
-      const c = COLORS[mem.color];
-      html += `<div class="slot-tag" style="background:${c.bg};border-color:${c.border};color:${c.text}" onclick="event.stopPropagation();viewSlot('${k}')" title="${mem.name}${s.note?' · '+s.note:''}">`;
-      html += `<span>${mem.name}</span>${s.note?'<span class="slot-note-icon">📝</span>':''}`;
-      html += `</div>`;
-    });
-    html += `</div>`;
+  const today=dayKey(new Date());
+  let html='<div class="week-grid">';
+  html+='<div class="week-col-label" style="border-bottom:1.5px solid var(--border);"></div>';
+  DAYS_FR.forEach((dn,i)=>{
+    const dd=weekDays[i]; const k=dayKey(dd);
+    const we=isWeekend(dd), fe=isFerie(dd), isToday=k===today;
+    let cls='week-day-header';
+    if(fe) cls+=' ferie'; else if(we) cls+=' we';
+    if(isToday) cls+=' today-wh';
+    html+=`<div class="${cls}">`;
+    html+=`<div class="wd-name" style="${we?'color:var(--accent)':''}">${dn}</div>`;
+    html+=`<div class="wd-date" style="${isToday?'color:var(--today-red);font-weight:800;':''}">${dd.getDate()} ${MONTHS_FR[dd.getMonth()].substring(0,3)}</div>`;
+    if(fe) html+=`<div style="font-size:9px;color:#E65100;font-weight:600;">${FERIES[k]}</div>`;
+    html+=`</div>`;
   });
-  html += '</div>';
-  wrap.innerHTML = html;
-}
-
-// ─── WEEK VIEW ────────────────────────────────────────────────────────────
-function renderWeek() {
-  // Find Monday of current week
-  const d = new Date(viewDate);
-  const dow = d.getDay(); 
-  d.setDate(d.getDate() - (dow === 0 ? 6 : dow - 1));
-  
-  const weekDays = [];
-  for (let i = 0; i < 7; i++) {
-    weekDays.push(new Date(d.getFullYear(), d.getMonth(), d.getDate() + i));
-  }
-  
-  const label = weekDays[0].toLocaleDateString('fr-FR',{day:'numeric',month:'long'}) + ' – ' + weekDays[6].toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('period-label').textContent = label;
-
-  const today = dayKey(new Date());
-  let html = '<div class="week-grid">';
-  // Corner
-  html += '<div class="week-col-label" style="border-bottom:1px solid var(--border);"></div>';
-  // Day headers
-  DAYS_FR.forEach((dn, i) => {
-    const dd = weekDays[i];
-    const k = dayKey(dd);
-    const we = isWeekend(dd);
-    const fe = isFerie(dd);
-    let cls = 'week-day-header';
-    if (fe) cls += ' ferie'; else if (we) cls += ' we';
-    const isToday = k === today;
-    html += `<div class="${cls}" style="border-right:1px solid var(--border);">`;
-    html += `<div class="wd-name" style="${we?'color:var(--accent)':''}">${dn}</div>`;
-    html += `<div class="wd-date" style="${isToday?'color:var(--accent);':''}${!inRange(dd)?'opacity:0.3':''}">`;
-    html += `${dd.getDate()} ${MONTHS_FR[dd.getMonth()].substring(0,3)}`;
-    html += `</div>`;
-    if (fe) html += `<div style="font-size:9px;color:#E65100;font-weight:500;">${FERIES[k]}</div>`;
-    html += `</div>`;
+  html+='<div class="week-col-label" style="font-size:11px;color:var(--text-muted);font-weight:600;padding-top:12px;">Présences</div>';
+  weekDays.forEach(dd=>{
+    const k=dayKey(dd); const oor=!inRange(dd);
+    const we=isWeekend(dd), fe=isFerie(dd);
+    let cls='week-cell';
+    if(oor) cls+=' out-of-range'; else if(fe) cls+=' ferie'; else if(we) cls+=' we';
+    const slots=!oor?(data.creneaux[k]||[]):[];
+    const events=!oor?(data.evenements[k]||[]):[];
+    html+=`<div class="${cls}" onclick="cellClick('${k}')">`;
+    events.forEach((ev,i)=>{ html+=eventTagHTML(ev,k,i); });
+    slots.forEach(s=>{ html+=slotTagHTML(s,k); });
+    if(!oor&&slots.length===0&&events.length===0) html+=`<div style="font-size:11px;color:var(--text-muted);padding:4px;">–</div>`;
+    html+=`</div>`;
   });
-
-  // One row = "Permanences"
-  html += '<div class="week-col-label" style="font-size:11px;color:var(--text-muted);font-weight:500;padding-top:12px;">Présences</div>';
-  weekDays.forEach(dd => {
-    const k = dayKey(dd);
-    const oor = !inRange(dd);
-    const we = isWeekend(dd);
-    const fe = isFerie(dd);
-    let cls = 'week-cell';
-    if (oor) cls += ' out-of-range';
-    else if (fe) cls += ' ferie';
-    else if (we) cls += ' we';
-    const slots = !oor ? (data.creneaux[k] || []) : [];
-    html += `<div class="${cls}" onclick="cellClick('${k}')">`;
-    slots.forEach(s => {
-      const mem = data.membres.find(m => m.id === s.memberId);
-      if (!mem) return;
-      const c = COLORS[mem.color];
-      html += `<div class="slot-tag" style="background:${c.bg};border-color:${c.border};color:${c.text}" onclick="event.stopPropagation();viewSlot('${k}')" title="${mem.name}${s.note?' · '+s.note:''}">`;
-      html += `<span>${mem.name}</span>${s.note?'<span class="slot-note-icon">📝</span>':''}`;
-      html += `</div>`;
-    });
-    if (!oor && slots.length === 0) html += '<div style="font-size:11px;color:var(--text-muted);padding:4px;">–</div>';
-    html += '</div>';
-  });
-  html += '</div>';
-  document.getElementById('cal-wrap').innerHTML = html;
+  html+='</div>';
+  document.getElementById('cal-wrap').innerHTML=html;
 }
 
-// ─── SELECTION (drag) ──────────────────────────────────────────────────────
-function startSelect(k) {
-  if (!inRange(keyToDate(k))) return;
-  selecting = true;
-  selStart = k;
-  selEnd = k;
-  updateSelectionUI();
-}
-function updateSelect(k) {
-  if (!selecting || !inRange(keyToDate(k))) return;
-  selEnd = k;
-  updateSelectionUI();
-}
-function endSelect(k) {
-  if (!selecting) return;
-  selecting = false;
-  selEnd = k;
-  updateSelectionUI();
-  // If a real drag (start != end), open slot modal immediately
-  if (selStart && selEnd && selStart !== selEnd) {
-    openSlotModal(null);
-  }
-}
-function cellClick(k) {
-  if (!inRange(keyToDate(k))) return;
-  // If already has slots for current user, view them; otherwise open add modal
-  const slots = data.creneaux[k] || [];
-  selStart = k; selEnd = k;
-  updateSelectionUI();
-  openSlotModal(null);
-}
+// ─── SELECTION ────────────────────────────────────────────────────────
+function startSelect(k){ if(!inRange(keyToDate(k))) return; selecting=true; selStart=k; selEnd=k; updateSelectionUI(); }
+function updateSelect(k){ if(!selecting||!inRange(keyToDate(k))) return; selEnd=k; updateSelectionUI(); }
+function endSelect(k){ if(!selecting) return; selecting=false; selEnd=k; updateSelectionUI(); if(selStart&&selEnd&&selStart!==selEnd) openSlotModal(); }
+function cellClick(k){ if(!inRange(keyToDate(k))) return; selStart=k; selEnd=k; updateSelectionUI(); openSlotModal(); }
 
-function updateSelectionUI() {
-  if (!selStart || !selEnd) return;
-  const a = selStart < selEnd ? selStart : selEnd;
-  const b = selStart < selEnd ? selEnd : selStart;
-  const da = keyToDate(a), db = keyToDate(b);
-  
-  // highlight cells
-  document.querySelectorAll('.cal-cell, .week-cell').forEach(el => {
-    const k = el.dataset.key;
-    if (k && k >= a && k <= b) el.classList.add('selecting');
+function updateSelectionUI(){
+  if(!selStart||!selEnd) return;
+  const a=selStart<selEnd?selStart:selEnd, b=selStart<selEnd?selEnd:selStart;
+  const da=keyToDate(a), db=keyToDate(b);
+  document.querySelectorAll('[data-key]').forEach(el=>{
+    const k=el.dataset.key;
+    if(k&&k>=a&&k<=b) el.classList.add('selecting');
     else el.classList.remove('selecting');
   });
-
-  const infoEl = document.getElementById('selection-info');
-  if (a === b) {
-    infoEl.style.display = 'none';
-  } else {
-    const n = Math.round((db - da) / 86400000) + 1;
-    infoEl.style.display = 'block';
-    infoEl.textContent = `${n} jour(s) sélectionné(s) : du ${formatDateFR(da)} au ${formatDateFR(db)}`;
+  const infoEl=document.getElementById('selection-info');
+  if(a===b){ infoEl.style.display='none'; }
+  else {
+    const n=Math.round((db-da)/86400000)+1;
+    infoEl.style.display='block';
+    infoEl.textContent=`${n} jour(s) sélectionné(s) : du ${formatDateFR(da)} au ${formatDateFR(db)}`;
   }
 }
-
-function clearSelection() {
-  selStart = null; selEnd = null;
-  document.querySelectorAll('.selecting').forEach(el => el.classList.remove('selecting'));
-  document.getElementById('selection-info').style.display = 'none';
+function clearSelection(){
+  selStart=null; selEnd=null;
+  document.querySelectorAll('.selecting').forEach(el=>el.classList.remove('selecting'));
+  document.getElementById('selection-info').style.display='none';
 }
 
-// ─── SLOT MODAL ────────────────────────────────────────────────────────────
-function openSlotModal(existingSlotId) {
-  if (!currentUser) {
+// ─── SLOT MODAL ───────────────────────────────────────────────────────
+function openSlotModal(){
+  if(!currentUser && !isAdmin){
+    if(data.membres.length>0){ openSwitchModal(); return; }
     showToast('Créez d\'abord votre étiquette');
-    openMemberModal(false);
-    return;
+    openMemberModal(false); return;
   }
-  editingSlotId = existingSlotId;
-  
-  const a = selStart < selEnd ? selStart : selEnd;
-  const b = selStart < selEnd ? selEnd : selStart;
-  const da = keyToDate(a), db = keyToDate(b);
+  if(!currentUser && isAdmin){ showToast('Connectez-vous sous une étiquette pour ajouter une permanence, ou ajoutez un événement.'); return; }
 
-  if (a === b) {
-    document.getElementById('modal-slot-title').textContent = 'Permanence';
-    document.getElementById('slot-date-display').textContent = formatDateFR(da);
-  } else {
-    const n = Math.round((db-da)/86400000)+1;
-    document.getElementById('modal-slot-title').textContent = `Permanence · ${n} jour(s)`;
-    document.getElementById('slot-date-display').textContent = `Du ${formatDateFR(da)} au ${formatDateFR(db)}`;
-  }
+  const a=selStart<=selEnd?selStart:selEnd, b=selStart<=selEnd?selEnd:selStart;
+  const da=keyToDate(a), db=keyToDate(b);
+  const n=Math.round((db-da)/86400000)+1;
+  document.getElementById('modal-slot-title').textContent=n>1?`Permanence · ${n} jours`:'Permanence';
+  document.getElementById('slot-date-display').textContent=n>1?`Du ${formatDateFR(da)} au ${formatDateFR(db)}`:formatDateFR(da);
 
-  // Populate member select (only current user's own)
-  const sel = document.getElementById('slot-member-select');
-  sel.innerHTML = `<option value="${currentUser.id}">${currentUser.name} (moi)</option>`;
+  const sel=document.getElementById('slot-member-select');
+  sel.innerHTML=`<option value="${currentUser.id}">${currentUser.name} (moi)</option>`;
 
-  // Pre-fill note if editing
-  document.getElementById('slot-note').value = '';
-  document.getElementById('btn-delete-slot').style.display = 'none';
-  if (existingSlotId) {
-    // find slot
-    const slots = data.creneaux[a] || [];
-    const s = slots.find(s => s.id === existingSlotId);
-    if (s) {
-      document.getElementById('slot-note').value = s.note || '';
-      document.getElementById('btn-delete-slot').style.display = 'inline-flex';
-    }
-  } else {
-    // Check if user already has a slot on start day
-    const existing = (data.creneaux[a] || []).find(s => s.memberId === currentUser.id);
-    if (existing) {
-      document.getElementById('slot-note').value = existing.note || '';
-      editingSlotId = existing.id;
-      document.getElementById('btn-delete-slot').style.display = 'inline-flex';
-    }
-  }
-
+  // Pre-fill if existing
+  const existing=(data.creneaux[a]||[]).find(s=>s.memberId===currentUser.id);
+  const noteVal=existing?existing.note||'':'';
+  document.getElementById('slot-note').value=noteVal;
+  document.getElementById('slot-note-counter').textContent=noteVal.length+' / 30';
+  document.getElementById('btn-delete-slot').style.display=existing?'inline-flex':'none';
   document.getElementById('modal-slot').classList.add('open');
 }
 
-async function saveSlot() {
-  if (!currentUser) return;
-  const note = document.getElementById('slot-note').value.trim();
-  const a = selStart <= selEnd ? selStart : selEnd;
-  const b = selStart <= selEnd ? selEnd : selStart;
-  
-  // Iterate over all selected days
-  let cur = new Date(keyToDate(a));
-  const endD = keyToDate(b);
-  while (cur <= endD) {
-    const k = dayKey(cur);
-    if (inRange(cur)) {
-      if (!data.creneaux[k]) data.creneaux[k] = [];
-      // Remove existing slot of this user on this day
-      data.creneaux[k] = data.creneaux[k].filter(s => s.memberId !== currentUser.id);
-      data.creneaux[k].push({ id: 'sl_'+Date.now()+'_'+k, memberId: currentUser.id, note });
+async function saveSlot(){
+  if(!currentUser) return;
+  const note=document.getElementById('slot-note').value.trim();
+  const a=selStart<=selEnd?selStart:selEnd, b=selStart<=selEnd?selEnd:selStart;
+  let cur=new Date(keyToDate(a)); const endD=keyToDate(b);
+  while(cur<=endD){
+    const k=dayKey(cur);
+    if(inRange(cur)){
+      if(!data.creneaux[k]) data.creneaux[k]=[];
+      data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==currentUser.id);
+      data.creneaux[k].push({id:'sl_'+Date.now()+'_'+k, memberId:currentUser.id, note});
     }
     cur.setDate(cur.getDate()+1);
   }
-
-  closeModal('modal-slot');
-  clearSelection();
-  await saveData();
-  render();
+  closeModal('modal-slot'); clearSelection();
+  await saveData(); render();
   showToast('Permanence enregistrée ✓');
 }
 
-async function deleteSlot() {
-  if (!currentUser || !selStart) return;
-  const a = selStart <= selEnd ? selStart : selEnd;
-  const b = selStart <= selEnd ? selEnd : selStart;
-  let cur = new Date(keyToDate(a));
-  const endD = keyToDate(b);
-  while (cur <= endD) {
-    const k = dayKey(cur);
-    if (data.creneaux[k]) {
-      data.creneaux[k] = data.creneaux[k].filter(s => s.memberId !== currentUser.id);
-      if (data.creneaux[k].length === 0) delete data.creneaux[k];
+async function deleteSlot(){
+  if(!currentUser&&!isAdmin) return;
+  const a=selStart<=selEnd?selStart:selEnd, b=selStart<=selEnd?selEnd:selStart;
+  let cur=new Date(keyToDate(a)); const endD=keyToDate(b);
+  while(cur<=endD){
+    const k=dayKey(cur);
+    if(data.creneaux[k]){
+      if(isAdmin) data.creneaux[k]=[];
+      else data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==currentUser.id);
+      if(data.creneaux[k].length===0) delete data.creneaux[k];
     }
     cur.setDate(cur.getDate()+1);
   }
-  closeModal('modal-slot');
-  clearSelection();
-  await saveData();
-  render();
+  closeModal('modal-slot'); clearSelection();
+  await saveData(); render();
   showToast('Permanence supprimée');
 }
 
-// ─── VIEW SLOT ─────────────────────────────────────────────────────────────
-function viewSlot(k) {
-  viewSlotDayKey = k;
-  const d = keyToDate(k);
-  document.getElementById('view-slot-title').textContent = formatDateFR(d);
-  const slots = data.creneaux[k] || [];
-  let html = '';
-  slots.forEach(s => {
-    const mem = data.membres.find(m => m.id === s.memberId);
-    if (!mem) return;
-    const c = COLORS[mem.color];
-    html += `<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;">`;
-    html += `<span style="background:${c.bg};color:${c.text};border:1.5px solid ${c.border};border-radius:99px;padding:2px 10px;font-size:13px;font-weight:500;white-space:nowrap;">${mem.name}</span>`;
-    if (s.note) html += `<span style="font-size:13px;color:var(--text-soft);padding-top:2px;">${s.note}</span>`;
-    html += `</div>`;
+// ─── EVENT MODAL (admin) ──────────────────────────────────────────────
+function openEventModal(k, idx){
+  if(!isAdmin) return;
+  editingEventKey=k;
+  const a=selStart<=selEnd?selStart:selEnd, b=selStart<=selEnd?selEnd:selStart;
+  const usedKey=k||a;
+  const da=keyToDate(usedKey);
+  const db=b?keyToDate(b):da;
+  const n=k?1:Math.round((db-da)/86400000)+1;
+
+  document.getElementById('modal-event-title').textContent=idx!==undefined?'Modifier l\'événement':'Ajouter un événement';
+  document.getElementById('event-date-display').textContent=n>1?`Du ${formatDateFR(da)} au ${formatDateFR(db)}`:formatDateFR(da);
+
+  let title='', note='';
+  if(k!==null && idx!==undefined && data.evenements[k]&&data.evenements[k][idx]){
+    title=data.evenements[k][idx].title||'';
+    note=data.evenements[k][idx].note||'';
+    editingEventKey={k,idx};
+  } else {
+    editingEventKey={k:null,idx:null};
+  }
+  document.getElementById('event-title-input').value=title;
+  document.getElementById('event-note-input').value=note;
+  document.getElementById('event-title-counter').textContent=title.length+' / 30';
+  document.getElementById('btn-delete-event').style.display=(idx!==undefined&&k)?'inline-flex':'none';
+  document.getElementById('modal-event').classList.add('open');
+}
+
+async function saveEvent(){
+  if(!isAdmin) return;
+  const title=document.getElementById('event-title-input').value.trim();
+  if(!title){ showToast('Ajoutez un titre'); return; }
+  const note=document.getElementById('event-note-input').value.trim();
+  const a=selStart&&selEnd?(selStart<=selEnd?selStart:selEnd):null;
+  const b=selStart&&selEnd?(selStart<=selEnd?selEnd:selStart):null;
+
+  if(editingEventKey&&editingEventKey.k!==null){
+    // Edit existing
+    const k=editingEventKey.k, idx=editingEventKey.idx;
+    if(data.evenements[k]&&data.evenements[k][idx]) data.evenements[k][idx]={title,note};
+  } else if(a) {
+    // New event over range
+    let cur=new Date(keyToDate(a)); const endD=b?keyToDate(b):keyToDate(a);
+    while(cur<=endD){
+      const k=dayKey(cur);
+      if(inRange(cur)){
+        if(!data.evenements[k]) data.evenements[k]=[];
+        data.evenements[k].push({id:'ev_'+Date.now()+'_'+k,title,note});
+      }
+      cur.setDate(cur.getDate()+1);
+    }
+  }
+  closeModal('modal-event'); clearSelection();
+  await saveData(); render();
+  showToast('Événement enregistré ✓');
+}
+
+async function deleteEvent(){
+  if(!isAdmin||!editingEventKey||!editingEventKey.k) return;
+  const k=editingEventKey.k, idx=editingEventKey.idx;
+  if(data.evenements[k]) data.evenements[k].splice(idx,1);
+  if(data.evenements[k]&&data.evenements[k].length===0) delete data.evenements[k];
+  closeModal('modal-event');
+  await saveData(); render();
+  showToast('Événement supprimé');
+}
+
+// ─── VIEW SLOT ────────────────────────────────────────────────────────
+function viewSlot(k){
+  viewSlotDayKey=k;
+  const d=keyToDate(k);
+  document.getElementById('view-slot-title').textContent=formatDateFR(d);
+  const slots=data.creneaux[k]||[], events=data.evenements[k]||[];
+  let html='';
+  events.forEach(ev=>{
+    html+=`<div style="display:flex;flex-direction:column;gap:2px;margin-bottom:10px;padding:8px;background:var(--event-bg);border-left:3px solid var(--event-border);border-radius:4px;">`;
+    html+=`<span style="font-size:13px;font-weight:700;color:var(--event-text);">📅 ${ev.title}</span>`;
+    if(ev.note) html+=`<span style="font-size:12px;color:var(--text-soft);">${ev.note}</span>`;
+    html+=`</div>`;
   });
-  if (!html) html = '<p style="color:var(--text-muted);font-size:13px;">Aucune permanence ce jour.</p>';
-  document.getElementById('view-slot-content').innerHTML = html;
-  
-  const canEdit = currentUser && slots.some(s => s.memberId === currentUser.id);
-  document.getElementById('btn-edit-my-slot').style.display = canEdit ? 'inline-flex' : 'none';
+  slots.forEach(s=>{
+    const mem=data.membres.find(m=>m.id===s.memberId); if(!mem) return;
+    const c=COLORS[mem.color]||COLORS[0];
+    html+=`<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;">`;
+    html+=`<span style="background:${c.bg};color:${c.text};border:1.5px solid ${c.border};border-radius:99px;padding:2px 10px;font-size:13px;font-weight:600;white-space:nowrap;">${mem.name}</span>`;
+    if(s.note) html+=`<span style="font-size:13px;color:var(--text-soft);padding-top:2px;">${s.note}</span>`;
+    if(isAdmin) html+=`<span style="margin-left:auto;font-size:11px;color:#B71C1C;cursor:pointer;" onclick="adminDeleteSlotOnDay('${k}','${s.memberId}')">🗑 suppr.</span>`;
+    html+=`</div>`;
+  });
+  if(!html) html='<p style="color:var(--text-muted);font-size:13px;">Aucune permanence ni événement ce jour.</p>';
+  document.getElementById('view-slot-content').innerHTML=html;
+  const canEdit=currentUser&&slots.some(s=>s.memberId===currentUser.id);
+  document.getElementById('btn-edit-my-slot').style.display=canEdit?'inline-flex':'none';
   document.getElementById('modal-view-slot').classList.add('open');
 }
 
-function editMySlotFromView() {
+async function adminDeleteSlotOnDay(k, memberId){
+  if(!isAdmin) return;
+  if(!confirm('Supprimer la permanence de ce membre pour ce jour ?')) return;
+  if(data.creneaux[k]){ data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==memberId); if(data.creneaux[k].length===0) delete data.creneaux[k]; }
   closeModal('modal-view-slot');
-  selStart = viewSlotDayKey;
-  selEnd = viewSlotDayKey;
-  openSlotModal(null);
+  await saveData(); render();
+  showToast('Permanence supprimée (admin)');
 }
 
-// ─── MODAL HELPERS ─────────────────────────────────────────────────────────
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-  if (id === 'modal-slot') clearSelection();
+function editMySlotFromView(){
+  closeModal('modal-view-slot');
+  selStart=viewSlotDayKey; selEnd=viewSlotDayKey;
+  openSlotModal();
 }
-document.querySelectorAll('.modal-overlay').forEach(ov => {
-  ov.addEventListener('click', e => { if (e.target === ov) { closeModal(ov.id); } });
-});
-document.addEventListener('mouseup', () => { if (selecting) { selecting = false; } });
 
-// ─── INIT ──────────────────────────────────────────────────────────────────
-// Prevent text selection during drag
-document.addEventListener('selectstart', e => { if (selecting) e.preventDefault(); });
+// ─── MODAL HELPERS ────────────────────────────────────────────────────
+function closeModal(id){ document.getElementById(id).classList.remove('open'); if(id==='modal-slot'||id==='modal-event') clearSelection(); }
+document.querySelectorAll('.modal-overlay').forEach(ov=>{ ov.addEventListener('click',e=>{ if(e.target===ov) closeModal(ov.id); }); });
+document.addEventListener('mouseup',()=>{ if(selecting) selecting=false; });
+document.addEventListener('selectstart',e=>{ if(selecting) e.preventDefault(); });
 </script>
 </body>
 </html>
