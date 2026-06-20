@@ -704,11 +704,48 @@ function renderWeek(){
   document.getElementById('cal-wrap').innerHTML=html;
 }
 
-// ─── SELECTION ────────────────────────────────────────────────────────
+// ─── SELECTION (deux clics : 1er=début, 2e=fin) ───────────────────────
+let waitingForEnd = false; // true après le 1er clic, attend le 2e
+
 function startSelect(k){ if(!inRange(keyToDate(k))) return; selecting=true; selStart=k; selEnd=k; updateSelectionUI(); }
 function updateSelect(k){ if(!selecting||!inRange(keyToDate(k))) return; selEnd=k; updateSelectionUI(); }
-function endSelect(k){ if(!selecting) return; selecting=false; selEnd=k; updateSelectionUI(); if(selStart&&selEnd&&selStart!==selEnd){ if(isAdmin) openAdminChoice(); else openSlotModal(); } }
-function cellClick(k){ if(!inRange(keyToDate(k))) return; selStart=k; selEnd=k; updateSelectionUI(); if(isAdmin) openAdminChoice(); else openSlotModal(); }
+function endSelect(k){
+  if(!selecting) return;
+  selecting=false; selEnd=k; updateSelectionUI();
+  // Glisser sur plusieurs jours → ouvrir directement
+  if(selStart && selEnd && selStart!==selEnd){
+    waitingForEnd=false;
+    if(isAdmin) openAdminChoice(); else openSlotModal();
+  }
+}
+
+function cellClick(k){
+  if(!inRange(keyToDate(k))) return;
+
+  if(waitingForEnd){
+    // 2e clic : on fixe la fin
+    selEnd=k;
+    waitingForEnd=false;
+    updateSelectionUI();
+    if(isAdmin) openAdminChoice(); else openSlotModal();
+  } else {
+    // 1er clic : on fixe le début
+    selStart=k; selEnd=k;
+    updateSelectionUI();
+    waitingForEnd=true;
+    // Mettre à jour le message d'info
+    const infoEl=document.getElementById('selection-info');
+    infoEl.style.display='block';
+    infoEl.textContent='1er jour sélectionné : '+formatDateFR(keyToDate(k))+' — cliquez sur le dernier jour ou validez ici';
+    // Ajouter bouton "Valider ce jour seul"
+    const btn=document.createElement('button');
+    btn.textContent='Valider ce jour seul';
+    btn.style.cssText='margin-left:12px;padding:3px 10px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:white;font-size:12px;cursor:pointer;';
+    btn.onclick=(e)=>{ e.stopPropagation(); waitingForEnd=false; selEnd=k; updateSelectionUI(); if(isAdmin) openAdminChoice(); else openSlotModal(); };
+    infoEl.appendChild(btn);
+  }
+}
+
 function openAdminChoice(){ const a=selStart<=selEnd?selStart:selEnd; const da=keyToDate(a); const choice=confirm('Que voulez-vous ajouter ?\n\nOK  →  Événement (gris)\nAnnuler  →  Permanence'); if(choice) openEventModal(null,undefined); else openSlotModal(); }
 
 function updateSelectionUI(){
@@ -729,7 +766,7 @@ function updateSelectionUI(){
   }
 }
 function clearSelection(){
-  selStart=null; selEnd=null;
+  selStart=null; selEnd=null; waitingForEnd=false;
   document.querySelectorAll('.selecting').forEach(el=>el.classList.remove('selecting'));
   document.getElementById('selection-info').style.display='none';
 }
