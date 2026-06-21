@@ -974,39 +974,49 @@ function openDayPopup(k){
   viewSlotDayKey=k;
   const d=keyToDate(k);
   const slots=data.creneaux[k]||[], events=data.evenements[k]||[];
-
-  // Titre
   document.getElementById('popup-title').textContent=formatDateFR(d);
 
-  // Contenu existant
   let html='';
+  // Événements
   events.forEach((ev,i)=>{
-    html+=`<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;padding:8px;background:var(--event-bg);border-left:3px solid var(--event-border);border-radius:6px;">`;
-    html+=`<div><div style="font-size:13px;font-weight:700;color:var(--event-text);">📅 ${ev.title}</div>`;
-    if(ev.note) html+=`<div style="font-size:12px;color:var(--text-soft);margin-top:2px;">${ev.note}</div>`;
-    html+=`</div>`;
-    if(isAdmin) html+=`<span style="font-size:12px;color:#B71C1C;cursor:pointer;white-space:nowrap;" onclick="adminDeleteEventInPopup('${k}',${i})">🗑</span>`;
+    const canEdit=isAdmin;
+    html+=`<div style="padding:10px;background:var(--event-bg);border-left:3px solid var(--event-border);border-radius:6px;margin-bottom:10px;">`;
+    html+=`<div style="font-size:13px;font-weight:700;color:var(--event-text);margin-bottom:2px;">📅 ${ev.title}</div>`;
+    if(ev.note) html+=`<div style="font-size:12px;color:var(--text-soft);margin-bottom:6px;">${ev.note}</div>`;
+    if(canEdit){
+      html+=`<div style="display:flex;gap:8px;margin-top:6px;">`;
+      html+=`<button class="btn btn-danger" style="font-size:12px;padding:4px 10px;" onclick="actionEvent('delete','${k}',${i})">🗑 Supprimer</button>`;
+      html+=`<button class="btn btn-secondary" style="font-size:12px;padding:4px 10px;" onclick="actionEvent('edit','${k}',${i})">✏️ Modifier</button>`;
+      html+=`</div>`;
+    }
     html+=`</div>`;
   });
+
+  // Permanences
   slots.forEach(s=>{
     const mem=data.membres.find(m=>m.id===s.memberId); if(!mem) return;
     const c=COLORS[mem.color]||COLORS[0];
-    html+=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">`;
-    html+=`<span style="background:${c.bg};color:${c.text};border:1.5px solid ${c.border};border-radius:99px;padding:3px 12px;font-size:13px;font-weight:600;white-space:nowrap;">${mem.name}</span>`;
-    if(s.note) html+=`<span style="font-size:13px;color:var(--text-soft);">${s.note}</span>`;
     const isMe=currentUser&&s.memberId===currentUser.id;
-    if(isMe) html+=`<span style="margin-left:auto;font-size:12px;color:var(--accent);cursor:pointer;white-space:nowrap;" onclick="editMySlotInPopup('${k}')">✏️ modifier</span>`;
-    if(isAdmin&&!isMe) html+=`<span style="margin-left:auto;font-size:12px;color:#B71C1C;cursor:pointer;white-space:nowrap;" onclick="adminDeleteSlotInPopup('${k}','${s.memberId}')">🗑</span>`;
+    const canEdit=isMe||isAdmin;
+    html+=`<div style="padding:10px;background:${c.bg};border-left:3px solid ${c.border};border-radius:6px;margin-bottom:10px;">`;
+    html+=`<div style="font-size:13px;font-weight:700;color:${c.text};margin-bottom:2px;">${mem.name}</div>`;
+    if(s.note) html+=`<div style="font-size:12px;color:${c.text};opacity:0.8;margin-bottom:6px;">${s.note}</div>`;
+    if(canEdit){
+      html+=`<div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;">`;
+      html+=`<button class="btn btn-danger" style="font-size:12px;padding:4px 10px;" onclick="actionSlot('delete','${k}','${s.memberId}')">🗑 Supprimer</button>`;
+      html+=`<button class="btn btn-secondary" style="font-size:12px;padding:4px 10px;" onclick="actionSlot('editNote','${k}','${s.memberId}')">✏️ Modifier note</button>`;
+      html+=`<button class="btn btn-secondary" style="font-size:12px;padding:4px 10px;" onclick="actionSlot('editPeriod','${k}','${s.memberId}')">📅 Modifier période</button>`;
+      html+=`</div>`;
+    }
     html+=`</div>`;
   });
-  if(!html) html='<p style="color:var(--text-muted);font-size:13px;margin-bottom:12px;">Aucune permanence ni événement ce jour.</p>';
 
+  if(!html) html='<p style="color:var(--text-muted);font-size:13px;margin-bottom:12px;">Aucune permanence ni événement ce jour.</p>';
   document.getElementById('popup-content').innerHTML=html;
 
-  // Boutons d'action en bas
+  // Boutons bas
   const actionsEl=document.getElementById('popup-actions');
   actionsEl.innerHTML='';
-
   const btnClose=document.createElement('button');
   btnClose.className='btn btn-secondary'; btnClose.textContent='Fermer';
   btnClose.onclick=()=>closeModal('modal-day-popup');
@@ -1014,25 +1024,23 @@ function openDayPopup(k){
 
   if(currentUser){
     const alreadyHas=slots.some(s=>s.memberId===currentUser.id);
-    const btnSlot=document.createElement('button');
-    btnSlot.className='btn btn-primary';
-    btnSlot.textContent=alreadyHas?'Modifier ma permanence':'+ Ma permanence';
-    btnSlot.onclick=()=>{ closeModal('modal-day-popup'); selStart=k; selEnd=k; openSlotModal(); };
-    actionsEl.appendChild(btnSlot);
-    // Bouton période
-    const btnPeriod=document.createElement('button');
-    btnPeriod.className='btn btn-secondary';
-    btnPeriod.textContent='📅 Période (plusieurs jours)';
-    btnPeriod.onclick=()=>{
-      closeModal('modal-day-popup');
-      selStart=k; selEnd=k; waitingForEnd=true;
-      updateSelectionUI();
-      const infoEl=document.getElementById('selection-info');
-      infoEl.style.display='block';
-      infoEl.textContent='Début : '+formatDateFR(keyToDate(k))+' — cliquez maintenant sur le dernier jour';
-    };
-    actionsEl.appendChild(btnPeriod);
-  } else if(!isAdmin) {
+    if(!alreadyHas){
+      const btnSlot=document.createElement('button');
+      btnSlot.className='btn btn-primary'; btnSlot.textContent='+ Ma permanence';
+      btnSlot.onclick=()=>{ closeModal('modal-day-popup'); selStart=k; selEnd=k; openSlotModal(); };
+      actionsEl.appendChild(btnSlot);
+      const btnPeriod=document.createElement('button');
+      btnPeriod.className='btn btn-secondary'; btnPeriod.textContent='📅 Plusieurs jours';
+      btnPeriod.onclick=()=>{
+        closeModal('modal-day-popup');
+        selStart=k; selEnd=k; waitingForEnd=true;
+        const infoEl=document.getElementById('selection-info');
+        infoEl.style.display='block';
+        infoEl.textContent='Début : '+formatDateFR(keyToDate(k))+' — cliquez sur le dernier jour';
+      };
+      actionsEl.appendChild(btnPeriod);
+    }
+  } else if(!isAdmin){
     const btnNew=document.createElement('button');
     btnNew.className='btn btn-primary'; btnNew.textContent='+ Créer mon étiquette';
     btnNew.onclick=()=>{ closeModal('modal-day-popup'); openMemberModal(false); };
@@ -1049,30 +1057,50 @@ function openDayPopup(k){
   document.getElementById('modal-day-popup').classList.add('open');
 }
 
-async function adminDeleteEventInPopup(k,idx){
-  if(!isAdmin) return;
-  if(!confirm('Supprimer cet événement ?')) return;
-  if(data.evenements[k]){ data.evenements[k].splice(idx,1); if(data.evenements[k].length===0) delete data.evenements[k]; }
-  await saveData();
-  closeModal('modal-day-popup');
-  render();
-  showToast('Événement supprimé');
+// ─── ACTIONS PERMANENCE ───────────────────────────────────────────────
+async function actionSlot(action, k, memberId){
+  if(action==='delete'){
+    if(!confirm('Supprimer cette permanence pour ce jour ?')) return;
+    if(data.creneaux[k]){ data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==memberId); if(data.creneaux[k].length===0) delete data.creneaux[k]; }
+    await saveData(); closeModal('modal-day-popup'); render(); showToast('Permanence supprimée');
+  } else if(action==='editNote'){
+    closeModal('modal-day-popup');
+    selStart=k; selEnd=k;
+    openSlotModal();
+  } else if(action==='editPeriod'){
+    closeModal('modal-day-popup');
+    // Supprimer ce jour, puis lancer sélection nouvelle période
+    if(data.creneaux[k]){ data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==memberId); if(data.creneaux[k].length===0) delete data.creneaux[k]; }
+    await saveData(); render();
+    // Stocker la note existante pour la réutiliser
+    selStart=k; selEnd=k; waitingForEnd=true;
+    const infoEl=document.getElementById('selection-info');
+    infoEl.style.display='block';
+    infoEl.textContent='Nouvelle période — cliquez sur le 1er jour puis le dernier jour';
+    showToast('Cliquez sur le 1er jour de la nouvelle période');
+  }
 }
 
-async function adminDeleteSlotInPopup(k,memberId){
-  if(!isAdmin) return;
-  if(!confirm('Supprimer cette permanence ?')) return;
-  if(data.creneaux[k]){ data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==memberId); if(data.creneaux[k].length===0) delete data.creneaux[k]; }
-  await saveData();
-  closeModal('modal-day-popup');
-  render();
-  showToast('Permanence supprimée');
-}
-
-function editMySlotInPopup(k){
-  closeModal('modal-day-popup');
-  selStart=k; selEnd=k;
-  openSlotModal();
+// ─── ACTIONS ÉVÉNEMENT (admin) ────────────────────────────────────────
+async function actionEvent(action, k, idx){
+  if(action==='delete'){
+    if(!confirm('Supprimer cet événement ?')) return;
+    if(data.evenements[k]){ data.evenements[k].splice(idx,1); if(data.evenements[k].length===0) delete data.evenements[k]; }
+    await saveData(); closeModal('modal-day-popup'); render(); showToast('Événement supprimé');
+  } else if(action==='edit'){
+    closeModal('modal-day-popup');
+    editingEventKey={k,idx};
+    const ev=data.evenements[k][idx];
+    document.getElementById('modal-event-title').textContent='Modifier l\'événement';
+    document.getElementById('event-date-display').textContent=formatDateFR(keyToDate(k));
+    document.getElementById('event-title-input').value=ev.title||'';
+    document.getElementById('event-note-input').value=ev.note||'';
+    document.getElementById('event-title-counter').textContent=(ev.title||'').length+' / 30';
+    document.getElementById('btn-delete-event').style.display='inline-flex';
+    // Bouton supprimer dans la modale event pointe vers actionEvent delete
+    document.getElementById('btn-delete-event').onclick=()=>actionEvent('delete',k,idx);
+    document.getElementById('modal-event').classList.add('open');
+  }
 }
 </script>
 </body>
