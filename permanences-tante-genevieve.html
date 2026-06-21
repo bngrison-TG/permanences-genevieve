@@ -5,159 +5,155 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Permanences – Tante Geneviève</title>
 <style>
-  :root {
-    --bg: #FAFAF8;
-    --surface: #FFFFFF;
-    --border: #B0ADA6;
-    --border-strong: #8A877F;
-    --text: #1A1916;
-    --text-soft: #6B6860;
-    --text-muted: #A09E99;
-    --accent: #5B4A9C;
-    --accent-light: #EEECf8;
-    --weekend: #F0EEE8;
-    --ferie: #FFF3E0;
-    --radius: 8px;
-    --radius-lg: 12px;
-    --shadow: 0 1px 4px rgba(0,0,0,0.08);
-    --today-red: #D32F2F;
-    --event-bg: #EEEEEE;
-    --event-border: #9E9E9E;
-    --event-text: #424242;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 15px; min-height: 100vh; }
+:root {
+  --bg:#FAFAF8; --surface:#FFF; --border:#B0ADA6; --border-strong:#8A877F;
+  --text:#1A1916; --text-soft:#6B6860; --text-muted:#A09E99;
+  --accent:#5B4A9C; --accent-light:#EEEDFE;
+  --weekend:#F0EEE8; --ferie:#FFF3E0;
+  --today-red:#D32F2F;
+  --event-bg:#EEEEEE; --event-border:#9E9E9E; --event-text:#424242;
+  --radius:8px; --radius-lg:12px; --shadow:0 2px 8px rgba(0,0,0,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;min-height:100vh;}
 
-  /* AUTH */
-  #auth-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-  .auth-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem 2rem; width: 320px; text-align: center; box-shadow: var(--shadow); }
-  .auth-card h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
-  .auth-card p { font-size: 13px; color: var(--text-soft); margin-bottom: 1.5rem; }
-  .auth-card input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 15px; text-align: center; letter-spacing: 4px; margin-bottom: 12px; outline: none; }
-  .auth-card input:focus { border-color: var(--accent); }
-  .auth-card button { width: 100%; padding: 10px; background: var(--accent); color: white; border: none; border-radius: var(--radius); font-size: 15px; cursor: pointer; font-weight: 500; }
-  .auth-card button:hover { opacity: 0.9; }
-  .auth-error { color: #E24B4A; font-size: 13px; margin-top: 8px; }
+/* AUTH */
+#auth-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000;}
+.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem 2rem;width:320px;text-align:center;box-shadow:var(--shadow);}
+.auth-card h1{font-size:20px;font-weight:600;margin-bottom:4px;}
+.auth-card p{font-size:13px;color:var(--text-soft);margin-bottom:1.5rem;}
+.auth-card input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius);font-size:16px;text-align:center;letter-spacing:4px;margin-bottom:12px;outline:none;}
+.auth-card input:focus{border-color:var(--accent);}
+.auth-card button{width:100%;padding:10px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:15px;cursor:pointer;font-weight:500;}
+.auth-error{color:#E24B4A;font-size:13px;margin-top:8px;}
 
-  /* LAYOUT */
-  #app { display: none; max-width: 1100px; margin: 0 auto; padding: 1rem; }
-  .app-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0 1.25rem; flex-wrap: wrap; gap: 8px; }
-  .app-title { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-  .app-title span { color: var(--accent); }
-  .admin-badge { background: #B71C1C; color: white; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px; letter-spacing: 0.05em; }
+/* APP */
+#app{display:none;max-width:1100px;margin:0 auto;padding:1rem;}
+.app-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0 1rem;flex-wrap:wrap;gap:8px;}
+.app-title{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.app-title span{color:var(--accent);}
+.admin-badge{background:#B71C1C;color:white;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;}
 
-  /* MEMBER SECTION */
-  .members-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
-  .members-section h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 10px; }
-  .members-list { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .member-chip { display: flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 99px; font-size: 13px; font-weight: 500; border: 1.5px solid; cursor: default; }
-  .member-chip .chip-edit { font-size: 11px; opacity: 0.7; cursor: pointer; margin-left: 2px; }
-  .member-chip .chip-edit:hover { opacity: 1; }
-  .member-chip .chip-admin-del { font-size: 10px; opacity: 0.6; cursor: pointer; margin-left: 2px; color: #B71C1C; }
-  .member-chip .chip-admin-del:hover { opacity: 1; }
-  .btn-add-member { padding: 5px 12px; border: 1.5px dashed var(--border-strong); border-radius: 99px; font-size: 13px; color: var(--text-soft); background: none; cursor: pointer; }
-  .btn-add-member:hover { border-color: var(--accent); color: var(--accent); }
-  .btn-switch-user { padding: 5px 12px; border: 1.5px dashed var(--border-strong); border-radius: 99px; font-size: 13px; color: var(--text-soft); background: none; cursor: pointer; margin-left: 4px; }
-  .btn-switch-user:hover { border-color: var(--accent); color: var(--accent); }
-  .current-user-note { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+/* MEMBERS */
+.members-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1rem;}
+.members-section h2{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:10px;}
+.members-list{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.member-chip{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid;cursor:default;}
+.chip-btn{font-size:11px;opacity:.65;cursor:pointer;margin-left:2px;background:none;border:none;padding:0;}
+.chip-btn:hover{opacity:1;}
+.btn-add-member,.btn-switch-user{padding:5px 12px;border:1.5px dashed var(--border-strong);border-radius:99px;font-size:13px;color:var(--text-soft);background:none;cursor:pointer;}
+.btn-add-member:hover,.btn-switch-user:hover{border-color:var(--accent);color:var(--accent);}
+.current-user-note{font-size:12px;color:var(--text-muted);margin-top:8px;}
 
-  /* VIEW TOGGLE */
-  .view-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .view-toggle { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-  .view-toggle button { padding: 6px 14px; border: none; background: none; font-size: 13px; cursor: pointer; color: var(--text-soft); }
-  .view-toggle button.active { background: var(--accent); color: white; }
-  .nav-btn { padding: 6px 12px; border: 1px solid var(--border); border-radius: var(--radius); background: none; cursor: pointer; font-size: 14px; color: var(--text); }
-  .nav-btn:hover { background: var(--accent-light); }
-  .period-label { font-size: 24px; font-weight: 800; min-width: 220px; text-align: center; color: var(--text); }
+/* NAV */
+.view-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.view-toggle{display:flex;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.view-toggle button{padding:6px 14px;border:none;background:none;font-size:13px;cursor:pointer;color:var(--text-soft);}
+.view-toggle button.active{background:var(--accent);color:white;}
+.nav-btn{padding:6px 14px;border:1px solid var(--border);border-radius:var(--radius);background:none;cursor:pointer;font-size:16px;font-weight:700;color:var(--text);}
+.nav-btn:hover{background:var(--accent-light);}
+.period-label{font-size:24px;font-weight:800;min-width:220px;text-align:center;color:var(--text);}
 
-  /* CALENDAR */
-  .cal-wrap { background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-  .cal-grid-header { display: grid; grid-template-columns: repeat(7, 1fr); background: var(--bg); border-bottom: 2px solid var(--border); }
-  .cal-day-name { text-align: center; padding: 8px 4px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
-  .cal-day-name.we { color: var(--accent); }
-  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
-  .cal-cell { min-height: 88px; border-right: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); padding: 4px; position: relative; cursor: pointer; transition: background 0.1s; }
-  .cal-cell:nth-child(7n) { border-right: none; }
-  .cal-cell.we { background: var(--weekend); }
-  .cal-cell.ferie { background: var(--ferie); }
-  .cal-cell.other-month { opacity: 0.25; pointer-events: none; }
-  .cal-cell.out-of-range { opacity: 0.15; pointer-events: none; }
-  .cal-cell:hover:not(.out-of-range):not(.other-month) { background: var(--accent-light); }
-  .cal-cell.selecting { background: #DDD9F5 !important; }
-  .cal-cell.today-cell { border-left: 4px solid var(--today-red) !important; }
-  .day-num { font-size: 12px; font-weight: 600; color: var(--text-soft); margin-bottom: 2px; }
-  .day-num.today-num { background: var(--today-red); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
-  .ferie-label { font-size: 9px; color: #E65100; font-weight: 600; line-height: 1.1; margin-bottom: 2px; }
+/* ADMIN BAR */
+.admin-bar{background:#FFEBEE;border:1px solid #FFCDD2;border-radius:var(--radius);padding:8px 14px;margin-bottom:10px;font-size:13px;color:#B71C1C;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 
-  /* SLOT TAGS */
-  .slot-tag { font-size: 11px; font-weight: 600; padding: 3px 6px; border-radius: 4px; margin-bottom: 3px; border-left: 3px solid; cursor: pointer; display: flex; flex-direction: column; gap: 1px; line-height: 1.3; filter: brightness(0.80); }
-  .slot-tag:hover { filter: brightness(0.70); }
-  .slot-tag .slot-name { font-size: 11px; font-weight: 700; }
-  .slot-tag .slot-note-text { font-size: 10px; font-weight: 500; opacity: 0.9; word-break: break-word; white-space: normal; }
-  .event-tag { font-size: 11px; font-weight: 600; padding: 3px 6px; border-radius: 4px; margin-bottom: 3px; border-left: 3px solid var(--event-border); background: var(--event-bg); color: var(--event-text); cursor: pointer; display: flex; flex-direction: column; gap: 1px; line-height: 1.3; }
-  .event-tag:hover { filter: brightness(0.93); }
-  .event-tag .event-title { font-size: 11px; font-weight: 700; }
-  .event-tag .event-note-text { font-size: 10px; font-weight: 500; opacity: 0.85; }
+/* CALENDAR */
+.cal-wrap{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;user-select:none;}
+.cal-grid-header{display:grid;grid-template-columns:repeat(7,1fr);background:var(--bg);border-bottom:2px solid var(--border);}
+.cal-day-name{text-align:center;padding:8px 4px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);}
+.cal-day-name.we{color:var(--accent);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);}
+.cal-cell{min-height:88px;border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border);padding:4px;position:relative;cursor:pointer;transition:background .1s;}
+.cal-cell:nth-child(7n){border-right:none;}
+.cal-cell.we{background:var(--weekend);}
+.cal-cell.ferie{background:var(--ferie);}
+.cal-cell.other-month{opacity:.2;pointer-events:none;}
+.cal-cell.out-of-range{opacity:.12;pointer-events:none;}
+.cal-cell:hover:not(.out-of-range):not(.other-month){background:var(--accent-light);}
+.cal-cell.today-cell{border-left:4px solid var(--today-red)!important;}
+.cal-cell.highlight-period{background:#DDD9F5!important;outline:2px solid var(--accent);z-index:1;}
+.day-num{font-size:12px;font-weight:600;color:var(--text-soft);margin-bottom:2px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
+.day-num.today-num{background:var(--today-red);color:white;font-weight:800;}
+.ferie-label{font-size:9px;color:#E65100;font-weight:600;margin-bottom:2px;}
 
-  /* WEEK VIEW */
-  .week-grid { display: grid; grid-template-columns: 60px repeat(7, 1fr); border-top: 1px solid var(--border); }
-  .week-day-header { text-align: center; padding: 8px 4px; border-right: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); }
-  .week-day-header.today-wh { border-left: 4px solid var(--today-red); }
-  .week-day-header .wd-name { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
-  .week-day-header .wd-date { font-size: 16px; font-weight: 700; }
-  .week-day-header.we { background: var(--weekend); }
-  .week-day-header.ferie { background: var(--ferie); }
-  .week-col-label { padding: 8px 4px; border-right: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); background: var(--bg); }
-  .week-cell { min-height: 70px; border-right: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); padding: 4px; cursor: pointer; }
-  .week-cell:last-child { border-right: none; }
-  .week-cell.we { background: var(--weekend); }
-  .week-cell.ferie { background: var(--ferie); }
-  .week-cell:hover { background: var(--accent-light); }
-  .week-cell.out-of-range { opacity: 0.15; pointer-events: none; }
+/* TAGS */
+.slot-tag,.event-tag{font-size:11px;font-weight:600;padding:3px 6px;border-radius:4px;margin-bottom:2px;border-left:3px solid;display:flex;flex-direction:column;gap:1px;line-height:1.3;filter:brightness(.80);}
+.slot-tag:hover,.event-tag:hover{filter:brightness(.70);}
+.tag-name{font-size:11px;font-weight:700;}
+.tag-note{font-size:10px;font-weight:500;opacity:.9;}
+.event-tag{filter:none;background:var(--event-bg);border-color:var(--event-border);color:var(--event-text);}
+.event-tag:hover{filter:brightness(.93);}
 
-  /* LEGEND */
-  .legend { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-top: 10px; font-size: 12px; color: var(--text-soft); }
-  .legend-item { display: flex; align-items: center; gap: 5px; }
-  .legend-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; border: 1px solid var(--border); }
+/* WEEK */
+.week-grid{display:grid;grid-template-columns:50px repeat(7,1fr);}
+.week-day-header{text-align:center;padding:8px 4px;border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border);}
+.week-day-header.we{background:var(--weekend);}
+.week-day-header.ferie{background:var(--ferie);}
+.week-day-header.today-wh{border-left:4px solid var(--today-red);}
+.wd-name{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text-muted);}
+.wd-date{font-size:16px;font-weight:700;}
+.week-corner{border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border);background:var(--bg);}
+.week-cell{min-height:70px;border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border);padding:4px;cursor:pointer;}
+.week-cell:hover{background:var(--accent-light);}
+.week-cell.we{background:var(--weekend);}
+.week-cell.ferie{background:var(--ferie);}
+.week-cell.out-of-range{opacity:.12;pointer-events:none;}
+.week-cell.highlight-period{background:#DDD9F5!important;outline:2px solid var(--accent);}
 
-  /* SELECTION INFO */
-  .selection-info { background: var(--accent-light); border: 1px solid var(--accent); border-radius: var(--radius); padding: 8px 12px; font-size: 13px; margin-bottom: 10px; color: var(--accent); display: none; }
+/* SELECTION INFO */
+.sel-info{background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--radius);padding:8px 12px;font-size:13px;margin-bottom:10px;color:var(--accent);display:none;}
 
-  /* MODALS */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 500; align-items: center; justify-content: center; padding: 1rem; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: var(--surface); border-radius: var(--radius-lg); padding: 1.5rem; width: 100%; max-width: 380px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; }
-  .modal h3 { font-size: 16px; font-weight: 600; margin-bottom: 1rem; }
-  .modal label { font-size: 13px; color: var(--text-soft); display: block; margin-bottom: 4px; margin-top: 12px; }
-  .modal input[type=text], .modal textarea, .modal select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; font-family: inherit; outline: none; }
-  .modal input:focus, .modal textarea:focus, .modal select:focus { border-color: var(--accent); }
-  .modal textarea { resize: vertical; min-height: 60px; }
-  .modal-actions { display: flex; gap: 8px; margin-top: 1.25rem; justify-content: flex-end; flex-wrap: wrap; }
-  .btn { padding: 8px 16px; border-radius: var(--radius); font-size: 13px; cursor: pointer; font-weight: 500; border: none; }
-  .btn-primary { background: var(--accent); color: white; }
-  .btn-primary:hover { opacity: 0.9; }
-  .btn-secondary { background: none; border: 1px solid var(--border-strong); color: var(--text-soft); }
-  .btn-secondary:hover { background: var(--bg); }
-  .btn-danger { background: none; border: 1px solid #F09595; color: #A32D2D; margin-right: auto; }
-  .btn-danger:hover { background: #FCEBEB; }
-  .btn-event { background: #616161; color: white; }
-  .btn-event:hover { opacity: 0.9; }
-  .char-counter { font-size: 11px; color: var(--text-muted); text-align: right; margin-top: 2px; }
+/* LEGEND */
+.legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:12px;color:var(--text-soft);}
+.legend-item{display:flex;align-items:center;gap:5px;}
+.ldot{width:13px;height:13px;border-radius:3px;border:1px solid var(--border);}
 
-  /* TOAST */
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #1A1916; color: white; padding: 10px 20px; border-radius: 99px; font-size: 13px; z-index: 9999; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
-  .toast.show { opacity: 1; }
+/* MODALS */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border-radius:var(--radius-lg);padding:1.5rem;width:100%;max-width:400px;box-shadow:0 8px 32px rgba(0,0,0,.18);max-height:92vh;overflow-y:auto;}
+.modal h3{font-size:16px;font-weight:700;margin-bottom:.75rem;}
+.modal-sub{font-size:13px;color:var(--text-soft);margin-bottom:1rem;}
+.modal label{font-size:13px;color:var(--text-soft);display:block;margin-bottom:4px;margin-top:12px;}
+.modal input[type=text],.modal textarea,.modal select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;font-family:inherit;outline:none;}
+.modal input:focus,.modal textarea:focus,.modal select:focus{border-color:var(--accent);}
+.modal textarea{resize:vertical;min-height:56px;}
+.char-c{font-size:11px;color:var(--text-muted);text-align:right;margin-top:2px;}
+.modal-actions{display:flex;gap:8px;margin-top:1.25rem;justify-content:flex-end;flex-wrap:wrap;}
+.btn{padding:8px 16px;border-radius:var(--radius);font-size:13px;cursor:pointer;font-weight:600;border:none;}
+.btn-primary{background:var(--accent);color:white;}
+.btn-primary:hover{opacity:.9;}
+.btn-secondary{background:none;border:1px solid var(--border-strong);color:var(--text-soft);}
+.btn-secondary:hover{background:var(--bg);}
+.btn-danger{background:none;border:1px solid #F09595;color:#A32D2D;margin-right:auto;}
+.btn-danger:hover{background:#FCEBEB;}
+.btn-event{background:#616161;color:white;}
+.btn-event:hover{opacity:.9;}
 
-  /* ADMIN BAR */
-  .admin-bar { background: #FFEBEE; border: 1px solid #FFCDD2; border-radius: var(--radius); padding: 8px 14px; margin-bottom: 10px; font-size: 13px; color: #B71C1C; display: flex; align-items: center; gap: 8px; }
+/* POPUP JOUR */
+.day-item{padding:10px;border-radius:6px;margin-bottom:10px;border-left:4px solid;}
+.day-item-title{font-size:13px;font-weight:700;margin-bottom:2px;}
+.day-item-note{font-size:12px;opacity:.8;margin-bottom:6px;}
+.day-item-dates{font-size:11px;opacity:.7;margin-bottom:6px;}
+.day-item-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.dia-btn{padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;}
+.dia-del{background:#FFEBEE;color:#B71C1C;border:1px solid #FFCDD2;}
+.dia-del:hover{background:#FFCDD2;}
+.dia-edit{background:var(--accent-light);color:var(--accent);border:1px solid #C5C0F0;}
+.dia-edit:hover{background:#D8D5F8;}
+.dia-cancel{background:var(--bg);color:var(--text-soft);border:1px solid var(--border);}
 
-  @media (max-width: 600px) {
-    .cal-cell { min-height: 60px; padding: 2px; }
-    .slot-tag, .event-tag { font-size: 9px; padding: 2px 3px; }
-    .period-label { font-size: 18px; min-width: 150px; }
-    .week-grid { grid-template-columns: 40px repeat(7, 1fr); }
-    .week-day-header .wd-date { font-size: 13px; }
-  }
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1A1916;color:white;padding:10px 20px;border-radius:99px;font-size:13px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;}
+
+@media(max-width:600px){
+  .cal-cell{min-height:58px;padding:2px;}
+  .slot-tag,.event-tag{font-size:9px;padding:2px 3px;}
+  .period-label{font-size:18px;min-width:140px;}
+  .week-grid{grid-template-columns:36px repeat(7,1fr);}
+  .wd-date{font-size:13px;}
+}
 </style>
 </head>
 <body>
@@ -165,7 +161,7 @@
 <!-- AUTH -->
 <div id="auth-screen">
   <div class="auth-card">
-    <div style="font-size:32px;margin-bottom:8px;">💜</div>
+    <div style="font-size:36px;margin-bottom:8px;">💜</div>
     <h1>Permanences</h1>
     <p>Tante Geneviève · 2026–2027</p>
     <input type="password" id="auth-input" placeholder="Mot de passe" autofocus />
@@ -177,8 +173,7 @@
 <!-- APP -->
 <div id="app">
   <div class="app-header">
-    <div class="app-title">
-      💜 Permanences <span>Tante Geneviève</span>
+    <div class="app-title">💜 Permanences <span>Tante Geneviève</span>
       <span class="admin-badge" id="admin-badge" style="display:none">ADMIN</span>
     </div>
     <div class="view-controls">
@@ -193,52 +188,46 @@
   </div>
 
   <div class="admin-bar" id="admin-bar" style="display:none">
-    🔐 Mode administrateur — vous pouvez supprimer tous les créneaux et étiquettes, et ajouter des événements.
-    <button class="btn btn-event" style="margin-left:auto;font-size:12px;" onclick="openEventModal(null)">+ Ajouter un événement</button>
+    🔐 Mode administrateur — vous pouvez tout gérer et ajouter des événements.
+    <button class="btn btn-event" style="margin-left:auto;font-size:12px;" onclick="startAddEvent()">+ Ajouter un événement</button>
   </div>
 
-  <!-- MEMBERS -->
   <div class="members-section">
     <h2>Membres de la famille</h2>
     <div class="members-list" id="members-list"></div>
     <div class="current-user-note" id="current-user-note"></div>
   </div>
 
-  <div class="selection-info" id="selection-info"></div>
-
+  <div class="sel-info" id="sel-info"></div>
   <div class="cal-wrap" id="cal-wrap"></div>
 
   <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:var(--weekend);"></div>Week-end</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--ferie);border-color:#FFB74D;"></div>Jour férié</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--event-bg);border-color:var(--event-border);"></div>Événement</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--weekend);"></div>Week-end</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--ferie);border-color:#FFB74D;"></div>Jour férié</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--event-bg);border-color:var(--event-border);"></div>Événement</div>
     <div class="legend-item"><div style="width:4px;height:14px;background:var(--today-red);border-radius:2px;"></div>Aujourd'hui</div>
-    <div style="color:#A09E99;font-size:11px;margin-left:auto;">Cliquez ou glissez pour sélectionner</div>
+    <span style="color:#A09E99;font-size:11px;margin-left:auto;">Cliquez sur un jour pour voir ou ajouter</span>
   </div>
 </div>
 
-<!-- MODAL: CRÉER/MODIFIER MEMBRE -->
+<!-- MODAL: AUTH MEMBER -->
 <div class="modal-overlay" id="modal-member">
   <div class="modal">
     <h3 id="modal-member-title">Mon étiquette</h3>
     <label>Mon prénom</label>
-    <input type="text" id="member-name" placeholder="Votre prénom" maxlength="20" />
+    <input type="text" id="member-name" placeholder="Votre prénom" maxlength="20" oninput="updateColorPreview()" />
     <label>Couleur</label>
     <select id="member-color" onchange="updateColorPreview()">
-      <option value="0">Violet</option>
-      <option value="1">Vert forêt</option>
-      <option value="2">Corail</option>
-      <option value="3">Rose</option>
-      <option value="4">Bleu</option>
-      <option value="5">Ambre</option>
-      <option value="6">Vert sauge</option>
-      <option value="7">Terracotta</option>
-      <option value="8">Indigo</option>
-      <option value="9">Bordeaux</option>
-      <option value="10">Cyan</option>
-      <option value="11">Olive</option>
+      <option value="0">Violet</option><option value="1">Vert forêt</option>
+      <option value="2">Corail</option><option value="3">Rose</option>
+      <option value="4">Bleu</option><option value="5">Ambre</option>
+      <option value="6">Vert sauge</option><option value="7">Terracotta</option>
+      <option value="8">Indigo</option><option value="9">Bordeaux</option>
+      <option value="10">Cyan</option><option value="11">Olive</option>
     </select>
-    <div style="margin-top:10px;font-size:13px;color:var(--text-soft);">Aperçu : <span id="color-preview-chip" style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:500;border:1.5px solid;">Prénom</span></div>
+    <div style="margin-top:10px;font-size:13px;color:var(--text-soft);">Aperçu :
+      <span id="color-preview-chip" style="display:inline-flex;align-items:center;padding:3px 12px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid;">Prénom</span>
+    </div>
     <div class="modal-actions">
       <button class="btn btn-danger" id="btn-delete-member" onclick="deleteMember()" style="display:none">Supprimer mon étiquette</button>
       <button class="btn btn-secondary" onclick="closeModal('modal-member')">Annuler</button>
@@ -247,13 +236,13 @@
   </div>
 </div>
 
-<!-- MODAL: CHOISIR ÉTIQUETTE EXISTANTE -->
+<!-- MODAL: SWITCH USER -->
 <div class="modal-overlay" id="modal-switch">
   <div class="modal">
-    <h3>Me connecter sous une étiquette existante</h3>
-    <p style="font-size:13px;color:var(--text-soft);margin-bottom:12px;">Choisissez votre prénom si vous avez déjà une étiquette créée (depuis un autre appareil par exemple).</p>
+    <h3>Rejoindre une étiquette existante</h3>
+    <p class="modal-sub">Vous utilisez un autre appareil ? Choisissez votre prénom.</p>
     <label>Mon étiquette</label>
-    <select id="switch-member-select"></select>
+    <select id="switch-select"></select>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal('modal-switch')">Annuler</button>
       <button class="btn btn-primary" onclick="switchMember()">Me connecter</button>
@@ -261,60 +250,60 @@
   </div>
 </div>
 
-<!-- MODAL: AJOUTER CRÉNEAU -->
+<!-- MODAL: POPUP JOUR -->
+<div class="modal-overlay" id="modal-day">
+  <div class="modal" style="max-width:460px;">
+    <h3 id="day-title"></h3>
+    <div id="day-content"></div>
+    <div class="modal-actions" id="day-actions"></div>
+  </div>
+</div>
+
+<!-- MODAL: SAISIE PERMANENCE -->
 <div class="modal-overlay" id="modal-slot">
   <div class="modal">
-    <h3 id="modal-slot-title">Ajouter une permanence</h3>
-    <div id="slot-date-display" style="font-size:13px;color:var(--text-soft);margin-bottom:8px;"></div>
-    <label>Qui prend en charge ?</label>
-    <select id="slot-member-select"></select>
-    <label>Note (max 30 caractères, optionnel)</label>
-    <input type="text" id="slot-note" placeholder="ex : apporter médicaments…" maxlength="30" oninput="updateNoteCounter('slot-note','slot-note-counter')" />
-    <div class="char-counter" id="slot-note-counter">0 / 30</div>
+    <h3 id="slot-title">Ma permanence</h3>
+    <div class="modal-sub" id="slot-period-display"></div>
+    <label>Note (optionnel, max 30 car.)</label>
+    <input type="text" id="slot-note" maxlength="30" placeholder="ex : apporter médicaments…" oninput="cc('slot-note','slot-cc')" />
+    <div class="char-c" id="slot-cc">0 / 30</div>
     <div class="modal-actions">
-      <button class="btn btn-danger" id="btn-delete-slot" onclick="deleteSlot()" style="display:none">Supprimer</button>
       <button class="btn btn-secondary" onclick="closeModal('modal-slot')">Annuler</button>
       <button class="btn btn-primary" onclick="saveSlot()">Enregistrer</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL: ÉVÉNEMENT (admin) -->
+<!-- MODAL: SAISIE ÉVÉNEMENT (admin) -->
 <div class="modal-overlay" id="modal-event">
   <div class="modal">
-    <h3 id="modal-event-title">Ajouter un événement</h3>
-    <div id="event-date-display" style="font-size:13px;color:var(--text-soft);margin-bottom:8px;"></div>
-    <label>Titre de l'événement (max 30 car.)</label>
-    <input type="text" id="event-title-input" placeholder="ex : Visite infirmière" maxlength="30" oninput="updateNoteCounter('event-title-input','event-title-counter')" />
-    <div class="char-counter" id="event-title-counter">0 / 30</div>
+    <h3 id="event-title-h">Ajouter un événement</h3>
+    <div class="modal-sub" id="event-period-display"></div>
+    <label>Titre (max 30 car.)</label>
+    <input type="text" id="event-title" maxlength="30" placeholder="ex : Visite infirmière" oninput="cc('event-title','event-cc')" />
+    <div class="char-c" id="event-cc">0 / 30</div>
     <label>Note complémentaire (optionnel)</label>
-    <textarea id="event-note-input" placeholder="Détails supplémentaires…" maxlength="200"></textarea>
+    <textarea id="event-note" maxlength="200" placeholder="Détails…"></textarea>
     <div class="modal-actions">
-      <button class="btn btn-danger" id="btn-delete-event" onclick="deleteEvent()" style="display:none">Supprimer</button>
       <button class="btn btn-secondary" onclick="closeModal('modal-event')">Annuler</button>
       <button class="btn btn-event" onclick="saveEvent()">Enregistrer</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL: VOIR JOUR -->
-<div class="modal-overlay" id="modal-view-slot">
+<!-- MODAL: SÉLECTION PÉRIODE -->
+<div class="modal-overlay" id="modal-period">
   <div class="modal">
-    <h3 id="view-slot-title"></h3>
-    <div id="view-slot-content" style="font-size:14px;color:var(--text-soft);line-height:1.6;"></div>
+    <h3 id="period-modal-title">Sélectionner la période</h3>
+    <p class="modal-sub" id="period-modal-sub"></p>
+    <label>Date de début</label>
+    <input type="date" id="period-start" min="2026-06-01" max="2027-12-31" />
+    <label>Date de fin</label>
+    <input type="date" id="period-end" min="2026-06-01" max="2027-12-31" />
     <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal('modal-view-slot')">Fermer</button>
-      <button class="btn btn-primary" id="btn-edit-my-slot" onclick="editMySlotFromView()" style="display:none">Modifier ma permanence</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-period')">Annuler</button>
+      <button class="btn btn-primary" id="period-confirm-btn" onclick="confirmPeriod()">Confirmer</button>
     </div>
-  </div>
-</div>
-
-<!-- MODAL: POPUP JOUR AGRANDI -->
-<div class="modal-overlay" id="modal-day-popup">
-  <div class="modal" style="max-width:440px;">
-    <h3 id="popup-title" style="font-size:17px;margin-bottom:14px;"></h3>
-    <div id="popup-content"></div>
-    <div class="modal-actions" id="popup-actions" style="flex-wrap:wrap;gap:8px;"></div>
   </div>
 </div>
 
@@ -322,348 +311,237 @@
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────────────
-const BIN_ID     = '6a36b196f5f4af5e2914b464';
-const MASTER_KEY = '$2a$10$Sfj0pRzTS02qhP.FJ3xz5uITBzc1HHWsH9A64h6a658oF1mFLdxY.';
-const API        = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
-const PASSWORD   = 'TG';
-const ADMIN_PW   = 'TG-admin';
-const START_DATE = new Date(2026, 5, 1);   // 1 juin 2026
-const END_DATE   = new Date(2027, 11, 31); // 31 déc 2027
+const BIN_ID='6a36b196f5f4af5e2914b464';
+const MASTER_KEY='$2a$10$Sfj0pRzTS02qhP.FJ3xz5uITBzc1HHWsH9A64h6a658oF1mFLdxY.';
+const API=`https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const PASSWORD='TG', ADMIN_PW='TG-admin';
+const START='2026-06-01', END='2027-12-31';
+const START_D=new Date(2026,5,1), END_D=new Date(2027,11,31);
 
-const COLORS = [
-  { name:'Violet',      bg:'#EEEDFE', border:'#534AB7', text:'#3C3489' },
-  { name:'Vert forêt',  bg:'#E1F5EE', border:'#0F6E56', text:'#085041' },
-  { name:'Corail',      bg:'#FAECE7', border:'#993C1D', text:'#712B13' },
-  { name:'Rose',        bg:'#FBEAF0', border:'#993556', text:'#72243E' },
-  { name:'Bleu',        bg:'#E6F1FB', border:'#185FA5', text:'#0C447C' },
-  { name:'Ambre',       bg:'#FAEEDA', border:'#854F0B', text:'#633806' },
-  { name:'Vert sauge',  bg:'#EAF3DE', border:'#3B6D11', text:'#27500A' },
-  { name:'Terracotta',  bg:'#FFF0E6', border:'#A0522D', text:'#7B3F1E' },
-  { name:'Indigo',      bg:'#E8EAF6', border:'#3949AB', text:'#1A237E' },
-  { name:'Bordeaux',    bg:'#FCE4EC', border:'#880E4F', text:'#560027' },
-  { name:'Cyan',        bg:'#E0F7FA', border:'#00838F', text:'#004D40' },
-  { name:'Olive',       bg:'#F9FBE7', border:'#827717', text:'#524B00' },
+// Chaque permanence : {id, memberId, debut:'YYYY-MM-DD', fin:'YYYY-MM-DD', note:''}
+// Chaque événement  : {id, titre, debut, fin, note}
+// data = { membres:[], permanences:[], evenements:[] }
+
+const COLORS=[
+  {bg:'#EEEDFE',border:'#534AB7',text:'#3C3489'},
+  {bg:'#E1F5EE',border:'#0F6E56',text:'#085041'},
+  {bg:'#FAECE7',border:'#993C1D',text:'#712B13'},
+  {bg:'#FBEAF0',border:'#993556',text:'#72243E'},
+  {bg:'#E6F1FB',border:'#185FA5',text:'#0C447C'},
+  {bg:'#FAEEDA',border:'#854F0B',text:'#633806'},
+  {bg:'#EAF3DE',border:'#3B6D11',text:'#27500A'},
+  {bg:'#FFF0E6',border:'#A0522D',text:'#7B3F1E'},
+  {bg:'#E8EAF6',border:'#3949AB',text:'#1A237E'},
+  {bg:'#FCE4EC',border:'#880E4F',text:'#560027'},
+  {bg:'#E0F7FA',border:'#00838F',text:'#004D40'},
+  {bg:'#F9FBE7',border:'#827717',text:'#524B00'},
 ];
 
-// Jours fériés France 2026 et 2027 (dans la période)
-const FERIES = {
-  '2026-07-14':'Fête Nationale',
-  '2026-08-15':'Assomption',
-  '2026-11-01':'Toussaint',
-  '2026-11-11':'Armistice',
-  '2026-12-25':'Noël',
-  '2027-01-01':'Jour de l\'An',
-  '2027-04-05':'Lundi de Pâques',
-  '2027-05-01':'Fête du Travail',
-  '2027-05-08':'Victoire 1945',
-  '2027-05-13':'Ascension',
-  '2027-05-24':'Lundi de Pentecôte',
-  '2027-07-14':'Fête Nationale',
-  '2027-08-15':'Assomption',
-  '2027-11-01':'Toussaint',
-  '2027-11-11':'Armistice',
-  '2027-12-25':'Noël',
+const FERIES={
+  '2026-07-14':'Fête Nationale','2026-08-15':'Assomption',
+  '2026-11-01':'Toussaint','2026-11-11':'Armistice','2026-12-25':'Noël',
+  '2027-01-01':'Jour de l\'An','2027-04-05':'Lundi de Pâques',
+  '2027-05-01':'Fête du Travail','2027-05-08':'Victoire 1945',
+  '2027-05-13':'Ascension','2027-05-24':'Lundi de Pentecôte',
+  '2027-07-14':'Fête Nationale','2027-08-15':'Assomption',
+  '2027-11-01':'Toussaint','2027-11-11':'Armistice','2027-12-25':'Noël',
 };
-
-const DAYS_FR   = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-const MONTHS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const DAYS_FR=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+const MONTHS_FR=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
 // ─── STATE ────────────────────────────────────────────────────────────
-let data = { membres: [], creneaux: {}, evenements: {} };
-let currentUser = null;
-let isAdmin = false;
-let view = 'month';
-let viewDate = new Date(2026, 5, 1);
-let selecting = false;
-let selStart = null, selEnd = null;
-let viewSlotDayKey = null;
-let editingEventKey = null; // dayKey for event being edited
-let saving = false;
-
-// ─── AUTH ─────────────────────────────────────────────────────────────
-function checkAuth() {
-  const v = document.getElementById('auth-input').value.trim();
-  if (v === ADMIN_PW) {
-    isAdmin = true;
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    document.getElementById('admin-badge').style.display = 'inline-flex';
-    document.getElementById('admin-bar').style.display = 'flex';
-    loadData();
-  } else if (v.toUpperCase() === PASSWORD) {
-    isAdmin = false;
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    loadData();
-  } else {
-    document.getElementById('auth-error').textContent = 'Mot de passe incorrect.';
-  }
-}
-document.getElementById('auth-input').addEventListener('keydown', e => { if (e.key==='Enter') checkAuth(); });
-
-// ─── DATA ─────────────────────────────────────────────────────────────
-async function loadData() {
-  try {
-    const r = await fetch(API+'/latest', { headers:{'X-Master-Key':MASTER_KEY} });
-    const j = await r.json();
-    data = j.record || { membres:[], creneaux:{}, evenements:{} };
-    if (!data.membres)    data.membres = [];
-    if (!data.creneaux)   data.creneaux = {};
-    if (!data.evenements) data.evenements = {};
-  } catch(e) { data = { membres:[], creneaux:{}, evenements:{} }; }
-  checkCurrentUser();
-  render();
-}
-
-async function saveData() {
-  if (saving) return;
-  saving = true;
-  try {
-    await fetch(API, {
-      method:'PUT',
-      headers:{'Content-Type':'application/json','X-Master-Key':MASTER_KEY},
-      body: JSON.stringify(data)
-    });
-  } catch(e) { showToast('Erreur de sauvegarde'); }
-  saving = false;
-}
-
-// ─── CURRENT USER ─────────────────────────────────────────────────────
-function checkCurrentUser() {
-  const stored = localStorage.getItem('tg_user_id');
-  if (stored) currentUser = data.membres.find(m => m.id === stored) || null;
-}
+let data={membres:[],permanences:[],evenements:[]};
+let currentUser=null, isAdmin=false;
+let view='month';
+let viewDate=new Date(2026,5,1);
+let saving=false;
+// Pour la sélection de période via inputs date
+let periodContext=null; // {type:'slot'|'event', editId:null|id}
 
 // ─── UTILS ────────────────────────────────────────────────────────────
-function dayKey(d)   { return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-function keyToDate(k){ const [y,m,d]=k.split('-').map(Number); return new Date(y,m-1,d); }
-function inRange(d)  { const t=new Date(d.getFullYear(),d.getMonth(),d.getDate()); return t>=START_DATE && t<=END_DATE; }
-function isWeekend(d){ const dw=d.getDay(); return dw===0||dw===6; }
-function isFerie(d)  { return !!FERIES[dayKey(d)]; }
-function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
-function formatDateFR(d){ return d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}); }
-function updateNoteCounter(inputId, counterId){
-  const el=document.getElementById(inputId), co=document.getElementById(counterId);
-  if(el&&co) co.textContent=el.value.length+' / 30';
+function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function kd(k){const[y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d);}
+function inRange(k){return k>=START&&k<=END;}
+function isWE(d){const w=d.getDay();return w===0||w===6;}
+function isFerie(k){return!!FERIES[k];}
+function today(){return dk(new Date());}
+function fmtFR(k){return kd(k).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});}
+function fmtShort(k){return kd(k).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});}
+function periodLabel(debut,fin){return debut===fin?fmtFR(debut):`Du ${fmtShort(debut)} au ${fmtShort(fin)}`;}
+function cc(inId,ccId){const v=document.getElementById(inId).value;document.getElementById(ccId).textContent=v.length+' / 30';}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+function uid(){return 'id_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);}
+
+// permanences/events qui couvrent un jour donné
+function slotsOnDay(k){return data.permanences.filter(p=>p.debut<=k&&p.fin>=k);}
+function eventsOnDay(k){return data.evenements.filter(e=>e.debut<=k&&e.fin>=k);}
+
+// ─── AUTH ─────────────────────────────────────────────────────────────
+function checkAuth(){
+  const v=document.getElementById('auth-input').value.trim();
+  if(v===ADMIN_PW){isAdmin=true;}
+  else if(v.toUpperCase()===PASSWORD){isAdmin=false;}
+  else{document.getElementById('auth-error').textContent='Mot de passe incorrect.';return;}
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  if(isAdmin){document.getElementById('admin-badge').style.display='inline-flex';document.getElementById('admin-bar').style.display='flex';}
+  loadData();
+}
+document.getElementById('auth-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkAuth();});
+
+// ─── DATA ─────────────────────────────────────────────────────────────
+async function loadData(){
+  try{
+    const r=await fetch(API+'/latest',{headers:{'X-Master-Key':MASTER_KEY}});
+    const j=await r.json();
+    data=j.record||{membres:[],permanences:[],evenements:[]};
+    if(!data.membres)data.membres=[];
+    if(!data.permanences)data.permanences=[];
+    if(!data.evenements)data.evenements=[];
+  }catch(e){data={membres:[],permanences:[],evenements:[]};}
+  const stored=localStorage.getItem('tg_user_id');
+  if(stored)currentUser=data.membres.find(m=>m.id===stored)||null;
+  render();
+}
+async function saveData(){
+  if(saving)return;saving=true;
+  try{await fetch(API,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':MASTER_KEY},body:JSON.stringify(data)});}
+  catch(e){showToast('Erreur de sauvegarde ⚠️');}
+  saving=false;
 }
 
-// ─── COLOR PREVIEW ────────────────────────────────────────────────────
+// ─── MEMBERS ──────────────────────────────────────────────────────────
 function updateColorPreview(){
-  const idx=parseInt(document.getElementById('member-color').value);
+  const idx=parseInt(document.getElementById('member-color').value)||0;
   const c=COLORS[idx];
   const name=document.getElementById('member-name').value||'Prénom';
   const chip=document.getElementById('color-preview-chip');
-  chip.style.background=c.bg; chip.style.borderColor=c.border; chip.style.color=c.text;
+  chip.style.background=c.bg;chip.style.borderColor=c.border;chip.style.color=c.text;
   chip.textContent=name;
 }
-document.getElementById('member-name').addEventListener('input',updateColorPreview);
 
-// ─── MEMBERS ──────────────────────────────────────────────────────────
 function renderMembers(){
-  const list=document.getElementById('members-list');
-  list.innerHTML='';
+  const list=document.getElementById('members-list');list.innerHTML='';
   data.membres.forEach(m=>{
     const c=COLORS[m.color]||COLORS[0];
-    const chip=document.createElement('div');
-    chip.className='member-chip';
-    chip.style.background=c.bg; chip.style.borderColor=c.border; chip.style.color=c.text;
     const isMe=currentUser&&currentUser.id===m.id;
-    let inner=`<span style="width:8px;height:8px;border-radius:50%;background:${c.border};flex-shrink:0;"></span>${m.name}`;
-    if(isMe) inner+=` <span class="chip-edit" title="Modifier mon étiquette" onclick="openMemberModal(true)">✏️</span>`;
-    if(isAdmin) inner+=` <span class="chip-admin-del" title="Supprimer cette étiquette (admin)" onclick="adminDeleteMember('${m.id}')">🗑</span>`;
-    chip.innerHTML=inner;
-    list.appendChild(chip);
+    const div=document.createElement('div');div.className='member-chip';
+    div.style.background=c.bg;div.style.borderColor=c.border;div.style.color=c.text;
+    div.innerHTML=`<span style="width:8px;height:8px;border-radius:50%;background:${c.border};flex-shrink:0;"></span>${m.name}`;
+    if(isMe){const b=document.createElement('button');b.className='chip-btn';b.title='Modifier mon étiquette';b.textContent='✏️';b.onclick=()=>openMemberModal(true);div.appendChild(b);}
+    if(isAdmin){const b=document.createElement('button');b.className='chip-btn';b.title='Supprimer (admin)';b.textContent='🗑';b.style.color='#B71C1C';b.onclick=()=>adminDelMember(m.id);div.appendChild(b);}
+    list.appendChild(div);
   });
-
   if(!currentUser){
-    const addBtn=document.createElement('button');
-    addBtn.className='btn-add-member';
-    addBtn.textContent='+ Créer mon étiquette';
-    addBtn.onclick=()=>openMemberModal(false);
-    list.appendChild(addBtn);
-
-    if(data.membres.length>0){
-      const switchBtn=document.createElement('button');
-      switchBtn.className='btn-switch-user';
-      switchBtn.textContent='↩ Rejoindre une étiquette existante';
-      switchBtn.onclick=openSwitchModal;
-      list.appendChild(switchBtn);
-    }
+    const a=document.createElement('button');a.className='btn-add-member';a.textContent='+ Créer mon étiquette';a.onclick=()=>openMemberModal(false);list.appendChild(a);
+    if(data.membres.length>0){const s=document.createElement('button');s.className='btn-switch-user';s.textContent='↩ Rejoindre une étiquette';s.onclick=openSwitchModal;list.appendChild(s);}
   }
-
   const note=document.getElementById('current-user-note');
-  if(isAdmin && !currentUser){
-    note.textContent='Connecté en mode administrateur.';
-  } else if(currentUser){
-    const c=COLORS[currentUser.color]||COLORS[0];
-    note.innerHTML=`Connecté(e) en tant que <span style="font-weight:600;color:${c.text}">${currentUser.name}</span>. <span style="cursor:pointer;color:var(--text-muted);font-size:11px;" onclick="logout()">[ changer ]</span>`;
-  } else {
-    note.textContent='Créez votre étiquette pour ajouter des permanences.';
-  }
-}
-
-function logout(){
-  currentUser=null;
-  localStorage.removeItem('tg_user_id');
-  render();
+  if(currentUser){const c=COLORS[currentUser.color]||COLORS[0];note.innerHTML=`Connecté(e) en tant que <strong style="color:${c.text}">${currentUser.name}</strong> <span style="cursor:pointer;color:var(--text-muted);font-size:11px;" onclick="logout()">[ changer ]</span>`;}
+  else if(isAdmin){note.textContent='Mode administrateur.';}
+  else{note.textContent='Créez votre étiquette pour ajouter des permanences.';}
 }
 
 function openMemberModal(editing){
   document.getElementById('modal-member-title').textContent=editing?'Mon étiquette':'Créer mon étiquette';
   document.getElementById('btn-delete-member').style.display=editing?'inline-flex':'none';
-  if(editing&&currentUser){
-    document.getElementById('member-name').value=currentUser.name;
-    document.getElementById('member-color').value=currentUser.color;
-  } else {
-    document.getElementById('member-name').value='';
-    // Auto-assign next color
-    document.getElementById('member-color').value=data.membres.length%COLORS.length;
-  }
+  document.getElementById('member-name').value=editing&&currentUser?currentUser.name:'';
+  document.getElementById('member-color').value=editing&&currentUser?currentUser.color:data.membres.length%COLORS.length;
   updateColorPreview();
   document.getElementById('modal-member').classList.add('open');
 }
-
 async function saveMember(){
   const name=document.getElementById('member-name').value.trim();
-  if(!name){ showToast('Entrez votre prénom'); return; }
-  if(data.membres.length>=30&&!currentUser){ showToast('Maximum 30 membres atteint'); return; }
+  if(!name){showToast('Entrez votre prénom');return;}
+  if(data.membres.length>=30&&!currentUser){showToast('Maximum 30 membres atteint');return;}
   const color=parseInt(document.getElementById('member-color').value);
-  if(currentUser){
-    currentUser.name=name; currentUser.color=color;
-    const idx=data.membres.findIndex(m=>m.id===currentUser.id);
-    if(idx>=0) data.membres[idx]={...currentUser};
-  } else {
-    const newM={id:'u_'+Date.now(),name,color};
-    data.membres.push(newM);
-    currentUser=newM;
-    localStorage.setItem('tg_user_id',newM.id);
-  }
-  closeModal('modal-member');
-  await saveData(); render();
-  showToast('Étiquette enregistrée ✓');
+  if(currentUser){currentUser.name=name;currentUser.color=color;const i=data.membres.findIndex(m=>m.id===currentUser.id);if(i>=0)data.membres[i]={...currentUser};}
+  else{const nm={id:uid(),name,color};data.membres.push(nm);currentUser=nm;localStorage.setItem('tg_user_id',nm.id);}
+  closeModal('modal-member');await saveData();render();showToast('Étiquette enregistrée ✓');
 }
-
 async function deleteMember(){
-  if(!currentUser) return;
-  if(!confirm('Supprimer votre étiquette et toutes vos permanences ?')) return;
-  await removeMemberById(currentUser.id);
-  currentUser=null; localStorage.removeItem('tg_user_id');
-  closeModal('modal-member');
-  await saveData(); render();
-  showToast('Étiquette supprimée');
+  if(!currentUser||!confirm('Supprimer votre étiquette et toutes vos permanences ?'))return;
+  doDelMember(currentUser.id);currentUser=null;localStorage.removeItem('tg_user_id');
+  closeModal('modal-member');await saveData();render();showToast('Étiquette supprimée');
 }
-
-async function adminDeleteMember(id){
-  if(!isAdmin) return;
-  if(!confirm('Supprimer cette étiquette et toutes ses permanences ?')) return;
-  await removeMemberById(id);
-  if(currentUser&&currentUser.id===id){ currentUser=null; localStorage.removeItem('tg_user_id'); }
-  await saveData(); render();
-  showToast('Étiquette supprimée (admin)');
+async function adminDelMember(id){
+  if(!isAdmin||!confirm('Supprimer cette étiquette et toutes ses permanences ?'))return;
+  doDelMember(id);if(currentUser&&currentUser.id===id){currentUser=null;localStorage.removeItem('tg_user_id');}
+  await saveData();render();showToast('Étiquette supprimée (admin)');
 }
+function doDelMember(id){data.membres=data.membres.filter(m=>m.id!==id);data.permanences=data.permanences.filter(p=>p.memberId!==id);}
+function logout(){currentUser=null;localStorage.removeItem('tg_user_id');render();}
 
-function removeMemberById(id){
-  data.membres=data.membres.filter(m=>m.id!==id);
-  Object.keys(data.creneaux).forEach(k=>{
-    data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==id);
-    if(data.creneaux[k].length===0) delete data.creneaux[k];
-  });
-}
-
-// ─── SWITCH MODAL ─────────────────────────────────────────────────────
 function openSwitchModal(){
-  const sel=document.getElementById('switch-member-select');
-  sel.innerHTML=data.membres.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+  document.getElementById('switch-select').innerHTML=data.membres.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
   document.getElementById('modal-switch').classList.add('open');
 }
 function switchMember(){
-  const id=document.getElementById('switch-member-select').value;
+  const id=document.getElementById('switch-select').value;
   const m=data.membres.find(m=>m.id===id);
-  if(m){ currentUser=m; localStorage.setItem('tg_user_id',m.id); }
-  closeModal('modal-switch');
-  render();
-  showToast(`Connecté(e) en tant que ${m.name}`);
+  if(m){currentUser=m;localStorage.setItem('tg_user_id',m.id);}
+  closeModal('modal-switch');render();showToast(`Connecté(e) en tant que ${m.name}`);
 }
 
 // ─── RENDER ───────────────────────────────────────────────────────────
-function render(){
-  renderMembers();
-  if(view==='month') renderMonth(); else renderWeek();
-  document.getElementById('btn-month').className=view==='month'?'active':'';
-  document.getElementById('btn-week').className =view==='week' ?'active':'';
-}
-function setView(v){ view=v; render(); }
-function navigate(delta){
-  if(view==='month'){ viewDate.setMonth(viewDate.getMonth()+delta); }
-  else { viewDate.setDate(viewDate.getDate()+delta*7); }
-  render();
-}
+function render(){renderMembers();view==='month'?renderMonth():renderWeek();document.getElementById('btn-month').className=view==='month'?'active':'';document.getElementById('btn-week').className=view==='week'?'active':'';}
+function setView(v){view=v;viewDate=new Date(viewDate);render();}
+function navigate(d){if(view==='month'){viewDate.setMonth(viewDate.getMonth()+d);}else{viewDate.setDate(viewDate.getDate()+d*7);}render();}
 
-// ─── SLOT TAG HTML ────────────────────────────────────────────────────
-function slotTagHTML(s, k){
-  const mem=data.membres.find(m=>m.id===s.memberId);
-  if(!mem) return '';
-  const c=COLORS[mem.color]||COLORS[0];
-  const note=s.note?s.note.substring(0,30)+(s.note.length>30?'…':''):'';
-  let h=`<div class="slot-tag" style="background:${c.bg};border-color:${c.border};color:${c.text}" onclick="event.stopPropagation();viewSlot('${k}')" title="${mem.name}${s.note?' · '+s.note:''}">`;
-  h+=`<span class="slot-name">${mem.name}</span>`;
-  if(note) h+=`<span class="slot-note-text">${note}</span>`;
-  h+=`</div>`;
-  return h;
+function slotTagHTML(p,k){
+  const m=data.membres.find(m=>m.id===p.memberId);if(!m)return'';
+  const c=COLORS[m.color]||COLORS[0];
+  const note=p.note?p.note.substring(0,30):'';
+  return `<div class="slot-tag" style="background:${c.bg};border-color:${c.border};color:${c.text}" onclick="event.stopPropagation();openDayModal('${k}')">
+    <span class="tag-name">${m.name}</span>${note?`<span class="tag-note">${note}</span>`:''}
+  </div>`;
 }
-
-function eventTagHTML(ev, k, idx){
-  const title=ev.title?ev.title.substring(0,30)+(ev.title.length>30?'…':''):'Événement';
-  const note=ev.note?ev.note.substring(0,30)+(ev.note.length>30?'…':''):'';
-  let h=`<div class="event-tag" onclick="event.stopPropagation();${isAdmin?`openEventModal('${k}',${idx})`:`viewSlot('${k}')`}" title="${title}${ev.note?' · '+ev.note:''}">`;
-  h+=`<span class="event-title">📅 ${title}</span>`;
-  if(note) h+=`<span class="event-note-text">${note}</span>`;
-  h+=`</div>`;
-  return h;
+function eventTagHTML(ev,k){
+  const t=ev.titre.substring(0,30);
+  const note=ev.note?ev.note.substring(0,30):'';
+  return `<div class="event-tag" onclick="event.stopPropagation();openDayModal('${k}')">
+    <span class="tag-name">📅 ${t}</span>${note?`<span class="tag-note">${note}</span>`:''}
+  </div>`;
 }
 
 // ─── MONTH VIEW ───────────────────────────────────────────────────────
 function renderMonth(){
-  const y=viewDate.getFullYear(), m=viewDate.getMonth();
+  const y=viewDate.getFullYear(),m=viewDate.getMonth();
   document.getElementById('period-label').textContent=MONTHS_FR[m]+' '+y;
   const wrap=document.getElementById('cal-wrap');
-  const today=dayKey(new Date());
+  const tod=today();
 
   let html='<div class="cal-grid-header">';
-  DAYS_FR.forEach((d,i)=>{ html+=`<div class="cal-day-name${i>=5?' we':''}">${d}</div>`; });
+  DAYS_FR.forEach((d,i)=>html+=`<div class="cal-day-name${i>=5?' we':''}">${d}</div>`);
   html+='</div><div class="cal-grid">';
 
   const first=new Date(y,m,1);
-  let startDow=first.getDay(); startDow=startDow===0?6:startDow-1;
-  const daysInMonth=new Date(y,m+1,0).getDate();
-  const prevDays=new Date(y,m,0).getDate();
+  let sdow=first.getDay();sdow=sdow===0?6:sdow-1;
+  const dim=new Date(y,m+1,0).getDate();
+  const pd=new Date(y,m,0).getDate();
 
   let cells=[];
-  for(let i=startDow-1;i>=0;i--) cells.push({d:new Date(y,m-1,prevDays-i),other:true});
-  for(let d=1;d<=daysInMonth;d++) cells.push({d:new Date(y,m,d),other:false});
-  while(cells.length%7!==0) cells.push({d:new Date(y,m+1,cells.length-daysInMonth-startDow+1),other:true});
+  for(let i=sdow-1;i>=0;i--)cells.push({d:new Date(y,m-1,pd-i),other:true});
+  for(let d=1;d<=dim;d++)cells.push({d:new Date(y,m,d),other:false});
+  while(cells.length%7!==0)cells.push({d:new Date(y,m+1,cells.length-dim-sdow+1),other:true});
 
   cells.forEach(cell=>{
-    const k=dayKey(cell.d);
-    const we=isWeekend(cell.d), fe=isFerie(cell.d), oor=!inRange(cell.d);
-    const isToday=k===today;
+    const k=dk(cell.d);
+    const we=isWE(cell.d),fe=isFerie(k),oor=!inRange(k),isT=k===tod;
     let cls='cal-cell';
-    if(cell.other) cls+=' other-month';
-    else if(oor) cls+=' out-of-range';
-    else if(fe) cls+=' ferie';
-    else if(we) cls+=' we';
-    if(isToday&&!cell.other) cls+=' today-cell';
-
-    const slots=(!cell.other&&!oor)?(data.creneaux[k]||[]):[];
-    const events=(!cell.other&&!oor)?(data.evenements[k]||[]):[];
-    const numCls=isToday?'day-num today-num':'day-num';
-
-    html+=`<div class="${cls}" data-key="${k}" onmousedown="startSelect('${k}')" onmouseenter="updateSelect('${k}')" onmouseup="endSelect('${k}')" onclick="cellClick('${k}')">`;
-    html+=`<div class="${numCls}">${cell.other?'':cell.d.getDate()}</div>`;
-    if(fe&&!cell.other) html+=`<div class="ferie-label">${FERIES[k]}</div>`;
-    events.forEach((ev,i)=>{ html+=eventTagHTML(ev,k,i); });
-    slots.forEach(s=>{ html+=slotTagHTML(s,k); });
-    html+=`</div>`;
+    if(cell.other)cls+=' other-month';
+    else if(oor)cls+=' out-of-range';
+    else if(fe)cls+=' ferie';
+    else if(we)cls+=' we';
+    if(isT&&!cell.other)cls+=' today-cell';
+    const slots=(!cell.other&&!oor)?slotsOnDay(k):[];
+    const evts=(!cell.other&&!oor)?eventsOnDay(k):[];
+    html+=`<div class="${cls}" data-k="${k}" onclick="openDayModal('${k}')">`;
+    html+=`<div class="${isT?'day-num today-num':'day-num'}">${cell.other?'':cell.d.getDate()}</div>`;
+    if(fe&&!cell.other)html+=`<div class="ferie-label">${FERIES[k]}</div>`;
+    evts.forEach(ev=>html+=eventTagHTML(ev,k));
+    slots.forEach(p=>html+=slotTagHTML(p,k));
+    html+='</div>';
   });
   html+='</div>';
   wrap.innerHTML=html;
@@ -672,436 +550,270 @@ function renderMonth(){
 // ─── WEEK VIEW ────────────────────────────────────────────────────────
 function renderWeek(){
   const d=new Date(viewDate);
-  const dow=d.getDay();
-  d.setDate(d.getDate()-(dow===0?6:dow-1));
-  const weekDays=[];
-  for(let i=0;i<7;i++) weekDays.push(new Date(d.getFullYear(),d.getMonth(),d.getDate()+i));
-
-  const label=weekDays[0].toLocaleDateString('fr-FR',{day:'numeric',month:'long'})+' – '+weekDays[6].toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('period-label').textContent=label;
-
-  const today=dayKey(new Date());
-  let html='<div class="week-grid">';
-  html+='<div class="week-col-label" style="border-bottom:1.5px solid var(--border);"></div>';
+  const dow=d.getDay();d.setDate(d.getDate()-(dow===0?6:dow-1));
+  const wdays=[];for(let i=0;i<7;i++)wdays.push(new Date(d.getFullYear(),d.getMonth(),d.getDate()+i));
+  document.getElementById('period-label').textContent=wdays[0].toLocaleDateString('fr-FR',{day:'numeric',month:'long'})+' – '+wdays[6].toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  const tod=today();
+  let html='<div class="week-grid"><div class="week-corner"></div>';
   DAYS_FR.forEach((dn,i)=>{
-    const dd=weekDays[i]; const k=dayKey(dd);
-    const we=isWeekend(dd), fe=isFerie(dd), isToday=k===today;
-    let cls='week-day-header';
-    if(fe) cls+=' ferie'; else if(we) cls+=' we';
-    if(isToday) cls+=' today-wh';
-    html+=`<div class="${cls}">`;
-    html+=`<div class="wd-name" style="${we?'color:var(--accent)':''}">${dn}</div>`;
-    html+=`<div class="wd-date" style="${isToday?'color:var(--today-red);font-weight:800;':''}">${dd.getDate()} ${MONTHS_FR[dd.getMonth()].substring(0,3)}</div>`;
-    if(fe) html+=`<div style="font-size:9px;color:#E65100;font-weight:600;">${FERIES[k]}</div>`;
+    const dd=wdays[i],k=dk(dd),we=isWE(dd),fe=isFerie(k),isT=k===tod;
+    let cls='week-day-header';if(fe)cls+=' ferie';else if(we)cls+=' we';if(isT)cls+=' today-wh';
+    html+=`<div class="${cls}"><div class="wd-name" style="${we?'color:var(--accent)':''}">${dn}</div>`;
+    html+=`<div class="wd-date" style="${isT?'color:var(--today-red);':''}">${dd.getDate()} ${MONTHS_FR[dd.getMonth()].substring(0,3)}</div>`;
+    if(fe)html+=`<div style="font-size:9px;color:#E65100;font-weight:600;">${FERIES[k]}</div>`;
     html+=`</div>`;
   });
-  html+='<div class="week-col-label" style="font-size:11px;color:var(--text-muted);font-weight:600;padding-top:12px;">Présences</div>';
-  weekDays.forEach(dd=>{
-    const k=dayKey(dd); const oor=!inRange(dd);
-    const we=isWeekend(dd), fe=isFerie(dd);
-    let cls='week-cell';
-    if(oor) cls+=' out-of-range'; else if(fe) cls+=' ferie'; else if(we) cls+=' we';
-    const slots=!oor?(data.creneaux[k]||[]):[];
-    const events=!oor?(data.evenements[k]||[]):[];
-    html+=`<div class="${cls}" onclick="cellClick('${k}')">`;
-    events.forEach((ev,i)=>{ html+=eventTagHTML(ev,k,i); });
-    slots.forEach(s=>{ html+=slotTagHTML(s,k); });
-    if(!oor&&slots.length===0&&events.length===0) html+=`<div style="font-size:11px;color:var(--text-muted);padding:4px;">–</div>`;
+  html+='<div class="week-corner" style="font-size:11px;color:var(--text-muted);font-weight:600;padding:8px 4px;"></div>';
+  wdays.forEach(dd=>{
+    const k=dk(dd),oor=!inRange(k),we=isWE(dd),fe=isFerie(k);
+    let cls='week-cell';if(oor)cls+=' out-of-range';else if(fe)cls+=' ferie';else if(we)cls+=' we';
+    const slots=!oor?slotsOnDay(k):[];const evts=!oor?eventsOnDay(k):[];
+    html+=`<div class="${cls}" onclick="openDayModal('${k}')">`;
+    evts.forEach(ev=>html+=eventTagHTML(ev,k));
+    slots.forEach(p=>html+=slotTagHTML(p,k));
+    if(!oor&&slots.length===0&&evts.length===0)html+=`<div style="font-size:11px;color:var(--text-muted);padding:4px;">–</div>`;
     html+=`</div>`;
   });
   html+='</div>';
   document.getElementById('cal-wrap').innerHTML=html;
 }
 
-// ─── SELECTION (deux clics : 1er=début, 2e=fin) ───────────────────────
-let waitingForEnd = false; // true après le 1er clic, attend le 2e
-
-function startSelect(k){ if(!inRange(keyToDate(k))) return; selecting=true; selStart=k; selEnd=k; updateSelectionUI(); }
-function updateSelect(k){ if(!selecting||!inRange(keyToDate(k))) return; selEnd=k; updateSelectionUI(); }
-function endSelect(k){
-  if(!selecting) return;
-  selecting=false; selEnd=k; updateSelectionUI();
-  // Glisser sur plusieurs jours → ouvrir directement
-  if(selStart && selEnd && selStart!==selEnd){
-    waitingForEnd=false;
-    if(isAdmin) openAdminChoice(); else openSlotModal();
-  }
-}
-
-function cellClick(k){
-  if(!inRange(keyToDate(k))) return;
-  // Si on est en train de sélectionner une période (2e clic)
-  if(waitingForEnd){
-    selEnd=k; waitingForEnd=false;
-    updateSelectionUI();
-    if(isAdmin) openAdminChoice(); else openSlotModal();
-  } else {
-    // Sinon : ouvrir le popup agrandi du jour
-    openDayPopup(k);
-  }
-}
-
-function openAdminChoice(){ const a=selStart<=selEnd?selStart:selEnd; const da=keyToDate(a); const choice=confirm('Que voulez-vous ajouter ?\n\nOK  →  Événement (gris)\nAnnuler  →  Permanence'); if(choice) openEventModal(null,undefined); else openSlotModal(); }
-
-function updateSelectionUI(){
-  if(!selStart||!selEnd) return;
-  const a=selStart<selEnd?selStart:selEnd, b=selStart<selEnd?selEnd:selStart;
-  const da=keyToDate(a), db=keyToDate(b);
-  document.querySelectorAll('[data-key]').forEach(el=>{
-    const k=el.dataset.key;
-    if(k&&k>=a&&k<=b) el.classList.add('selecting');
-    else el.classList.remove('selecting');
-  });
-  const infoEl=document.getElementById('selection-info');
-  if(a===b){ infoEl.style.display='none'; }
-  else {
-    const n=Math.round((db-da)/86400000)+1;
-    infoEl.style.display='block';
-    infoEl.textContent=`${n} jour(s) sélectionné(s) : du ${formatDateFR(da)} au ${formatDateFR(db)}`;
-  }
-}
-function clearSelection(){
-  selStart=null; selEnd=null; waitingForEnd=false;
-  document.querySelectorAll('.selecting').forEach(el=>el.classList.remove('selecting'));
-  document.getElementById('selection-info').style.display='none';
-}
-
-// ─── SLOT MODAL ───────────────────────────────────────────────────────
-function openSlotModal(){
-  if(!currentUser && !isAdmin){
-    if(data.membres.length>0){ openSwitchModal(); return; }
-    showToast('Créez d\'abord votre étiquette');
-    openMemberModal(false); return;
-  }
-  if(!currentUser && isAdmin){ showToast('Connectez-vous sous une étiquette pour ajouter une permanence, ou ajoutez un événement.'); return; }
-
-  const a=selStart<=selEnd?selStart:selEnd, b=selStart<=selEnd?selEnd:selStart;
-  const da=keyToDate(a), db=keyToDate(b);
-  const n=Math.round((db-da)/86400000)+1;
-  document.getElementById('modal-slot-title').textContent=n>1?`Permanence · ${n} jours`:'Permanence';
-  document.getElementById('slot-date-display').textContent=n>1?`Du ${formatDateFR(da)} au ${formatDateFR(db)}`:formatDateFR(da);
-
-  const sel=document.getElementById('slot-member-select');
-  sel.innerHTML=`<option value="${currentUser.id}">${currentUser.name} (moi)</option>`;
-
-  // Pre-fill if existing
-  const existing=(data.creneaux[a]||[]).find(s=>s.memberId===currentUser.id);
-  const noteVal=existing?existing.note||'':'';
-  document.getElementById('slot-note').value=noteVal;
-  document.getElementById('slot-note-counter').textContent=noteVal.length+' / 30';
-  document.getElementById('btn-delete-slot').style.display=existing?'inline-flex':'none';
-  document.getElementById('modal-slot').classList.add('open');
-}
-
-async function saveSlot(){
-  if(!currentUser) return;
-  const note=document.getElementById('slot-note').value.trim();
-  const a=selStart<=selEnd?selStart:selEnd, b=selStart<=selEnd?selEnd:selStart;
-  let cur=new Date(keyToDate(a)); const endD=keyToDate(b);
-  while(cur<=endD){
-    const k=dayKey(cur);
-    if(inRange(cur)){
-      if(!data.creneaux[k]) data.creneaux[k]=[];
-      data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==currentUser.id);
-      data.creneaux[k].push({id:'sl_'+Date.now()+'_'+k, memberId:currentUser.id, note});
-    }
-    cur.setDate(cur.getDate()+1);
-  }
-  closeModal('modal-slot'); clearSelection();
-  await saveData(); render();
-  showToast('Permanence enregistrée ✓');
-}
-
-async function deleteSlot(){
-  if(!currentUser&&!isAdmin) return;
-  const a=selStart<=selEnd?selStart:selEnd, b=selStart<=selEnd?selEnd:selStart;
-  let cur=new Date(keyToDate(a)); const endD=keyToDate(b);
-  while(cur<=endD){
-    const k=dayKey(cur);
-    if(data.creneaux[k]){
-      if(isAdmin) data.creneaux[k]=[];
-      else data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==currentUser.id);
-      if(data.creneaux[k].length===0) delete data.creneaux[k];
-    }
-    cur.setDate(cur.getDate()+1);
-  }
-  closeModal('modal-slot'); clearSelection();
-  await saveData(); render();
-  showToast('Permanence supprimée');
-}
-
-// ─── EVENT MODAL (admin) ──────────────────────────────────────────────
-function openEventModal(k, idx){
-  if(!isAdmin) return;
-  // Si pas de sélection et pas de jour précis, demander de cliquer sur un jour
-  if(!k && !selStart){
-    showToast('Cliquez d\'abord sur un jour du calendrier');
-    return;
-  }
-  editingEventKey=k;
-  const a=k||(selStart<=selEnd?selStart:selEnd);
-  const b=k?k:(selStart<=selEnd?selEnd:selStart);
-  const da=keyToDate(a);
-  const db=keyToDate(b);
-  const n=Math.round((db-da)/86400000)+1;
-
-  document.getElementById('modal-event-title').textContent=idx!==undefined?'Modifier l\'événement':'Ajouter un événement';
-  document.getElementById('event-date-display').textContent=n>1?`Du ${formatDateFR(da)} au ${formatDateFR(db)}`:formatDateFR(da);
-
-  let title='', note='';
-  if(k!==null && idx!==undefined && data.evenements[k]&&data.evenements[k][idx]){
-    title=data.evenements[k][idx].title||'';
-    note=data.evenements[k][idx].note||'';
-    editingEventKey={k,idx};
-  } else {
-    editingEventKey={k:null,idx:null};
-  }
-  document.getElementById('event-title-input').value=title;
-  document.getElementById('event-note-input').value=note;
-  document.getElementById('event-title-counter').textContent=title.length+' / 30';
-  document.getElementById('btn-delete-event').style.display=(idx!==undefined&&k)?'inline-flex':'none';
-  document.getElementById('modal-event').classList.add('open');
-}
-
-async function saveEvent(){
-  if(!isAdmin) return;
-  const title=document.getElementById('event-title-input').value.trim();
-  if(!title){ showToast('Ajoutez un titre'); return; }
-  const note=document.getElementById('event-note-input').value.trim();
-  const a=selStart&&selEnd?(selStart<=selEnd?selStart:selEnd):null;
-  const b=selStart&&selEnd?(selStart<=selEnd?selEnd:selStart):null;
-
-  if(editingEventKey&&editingEventKey.k!==null){
-    // Edit existing
-    const k=editingEventKey.k, idx=editingEventKey.idx;
-    if(data.evenements[k]&&data.evenements[k][idx]) data.evenements[k][idx]={title,note};
-  } else if(a) {
-    // New event over range
-    let cur=new Date(keyToDate(a)); const endD=b?keyToDate(b):keyToDate(a);
-    while(cur<=endD){
-      const k=dayKey(cur);
-      if(inRange(cur)){
-        if(!data.evenements[k]) data.evenements[k]=[];
-        data.evenements[k].push({id:'ev_'+Date.now()+'_'+k,title,note});
-      }
-      cur.setDate(cur.getDate()+1);
-    }
-  }
-  closeModal('modal-event'); clearSelection();
-  await saveData(); render();
-  showToast('Événement enregistré ✓');
-}
-
-async function deleteEvent(){
-  if(!isAdmin||!editingEventKey||!editingEventKey.k) return;
-  const k=editingEventKey.k, idx=editingEventKey.idx;
-  if(data.evenements[k]) data.evenements[k].splice(idx,1);
-  if(data.evenements[k]&&data.evenements[k].length===0) delete data.evenements[k];
-  closeModal('modal-event');
-  await saveData(); render();
-  showToast('Événement supprimé');
-}
-
-// ─── VIEW SLOT ────────────────────────────────────────────────────────
-function viewSlot(k){
-  viewSlotDayKey=k;
-  const d=keyToDate(k);
-  document.getElementById('view-slot-title').textContent=formatDateFR(d);
-  const slots=data.creneaux[k]||[], events=data.evenements[k]||[];
+// ─── POPUP JOUR ───────────────────────────────────────────────────────
+function openDayModal(k){
+  if(!inRange(k))return;
+  document.getElementById('day-title').textContent=fmtFR(k);
+  const slots=slotsOnDay(k),evts=eventsOnDay(k);
   let html='';
-  events.forEach(ev=>{
-    html+=`<div style="display:flex;flex-direction:column;gap:2px;margin-bottom:10px;padding:8px;background:var(--event-bg);border-left:3px solid var(--event-border);border-radius:4px;">`;
-    html+=`<span style="font-size:13px;font-weight:700;color:var(--event-text);">📅 ${ev.title}</span>`;
-    if(ev.note) html+=`<span style="font-size:12px;color:var(--text-soft);">${ev.note}</span>`;
-    html+=`</div>`;
-  });
-  slots.forEach(s=>{
-    const mem=data.membres.find(m=>m.id===s.memberId); if(!mem) return;
-    const c=COLORS[mem.color]||COLORS[0];
-    html+=`<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;">`;
-    html+=`<span style="background:${c.bg};color:${c.text};border:1.5px solid ${c.border};border-radius:99px;padding:2px 10px;font-size:13px;font-weight:600;white-space:nowrap;">${mem.name}</span>`;
-    if(s.note) html+=`<span style="font-size:13px;color:var(--text-soft);padding-top:2px;">${s.note}</span>`;
-    if(isAdmin) html+=`<span style="margin-left:auto;font-size:11px;color:#B71C1C;cursor:pointer;" onclick="adminDeleteSlotOnDay('${k}','${s.memberId}')">🗑 suppr.</span>`;
-    html+=`</div>`;
-  });
-  if(!html) html='<p style="color:var(--text-muted);font-size:13px;">Aucune permanence ni événement ce jour.</p>';
-  document.getElementById('view-slot-content').innerHTML=html;
-  const canEdit=currentUser&&slots.some(s=>s.memberId===currentUser.id);
-  document.getElementById('btn-edit-my-slot').style.display=canEdit?'inline-flex':'none';
-  document.getElementById('modal-view-slot').classList.add('open');
-}
 
-async function adminDeleteSlotOnDay(k, memberId){
-  if(!isAdmin) return;
-  if(!confirm('Supprimer la permanence de ce membre pour ce jour ?')) return;
-  if(data.creneaux[k]){ data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==memberId); if(data.creneaux[k].length===0) delete data.creneaux[k]; }
-  closeModal('modal-view-slot');
-  await saveData(); render();
-  showToast('Permanence supprimée (admin)');
-}
-
-function editMySlotFromView(){
-  closeModal('modal-view-slot');
-  selStart=viewSlotDayKey; selEnd=viewSlotDayKey;
-  openSlotModal();
-}
-
-// ─── MODAL HELPERS ────────────────────────────────────────────────────
-function closeModal(id){ document.getElementById(id).classList.remove('open'); if(id==='modal-slot'||id==='modal-event') clearSelection(); }
-document.querySelectorAll('.modal-overlay').forEach(ov=>{ ov.addEventListener('click',e=>{ if(e.target===ov) closeModal(ov.id); }); });
-document.addEventListener('mouseup',()=>{ if(selecting) selecting=false; });
-document.addEventListener('selectstart',e=>{ if(selecting) e.preventDefault(); });
-
-// ─── SWIPE NAVIGATION (mobile) ────────────────────────────────────────
-(function(){
-  let tx=0, ty=0, moved=false;
-  const wrap=document.getElementById('cal-wrap');
-  wrap.addEventListener('touchstart',e=>{ tx=e.touches[0].clientX; ty=e.touches[0].clientY; moved=false; },{passive:true});
-  wrap.addEventListener('touchmove',e=>{ moved=true; },{passive:true});
-  wrap.addEventListener('touchend',e=>{
-    if(!moved) return;
-    const dx=e.changedTouches[0].clientX-tx;
-    const dy=e.changedTouches[0].clientY-ty;
-    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){
-      navigate(dx<0?1:-1);
-    }
-  },{passive:true});
-})();
-
-// ─── POPUP JOUR (case agrandie) ───────────────────────────────────────
-function openDayPopup(k){
-  if(!inRange(keyToDate(k))) return;
-  viewSlotDayKey=k;
-  const d=keyToDate(k);
-  const slots=data.creneaux[k]||[], events=data.evenements[k]||[];
-  document.getElementById('popup-title').textContent=formatDateFR(d);
-
-  let html='';
   // Événements
-  events.forEach((ev,i)=>{
-    const canEdit=isAdmin;
-    html+=`<div style="padding:10px;background:var(--event-bg);border-left:3px solid var(--event-border);border-radius:6px;margin-bottom:10px;">`;
-    html+=`<div style="font-size:13px;font-weight:700;color:var(--event-text);margin-bottom:2px;">📅 ${ev.title}</div>`;
-    if(ev.note) html+=`<div style="font-size:12px;color:var(--text-soft);margin-bottom:6px;">${ev.note}</div>`;
-    if(canEdit){
-      html+=`<div style="display:flex;gap:8px;margin-top:6px;">`;
-      html+=`<button class="btn btn-danger" style="font-size:12px;padding:4px 10px;" onclick="actionEvent('delete','${k}',${i})">🗑 Supprimer</button>`;
-      html+=`<button class="btn btn-secondary" style="font-size:12px;padding:4px 10px;" onclick="actionEvent('edit','${k}',${i})">✏️ Modifier</button>`;
+  evts.forEach(ev=>{
+    html+=`<div class="day-item" style="background:var(--event-bg);border-color:var(--event-border);">`;
+    html+=`<div class="day-item-title" style="color:var(--event-text);">📅 ${ev.titre}</div>`;
+    html+=`<div class="day-item-dates" style="color:var(--event-text);">${periodLabel(ev.debut,ev.fin)}</div>`;
+    if(ev.note)html+=`<div class="day-item-note" style="color:var(--event-text);">${ev.note}</div>`;
+    if(isAdmin){
+      html+=`<div class="day-item-actions">`;
+      html+=`<button class="dia-btn dia-del" onclick="delEvent('${ev.id}')">🗑 Supprimer</button>`;
+      html+=`<button class="dia-btn dia-edit" onclick="editEventPeriod('${ev.id}')">📅 Modifier période</button>`;
+      html+=`<button class="dia-btn dia-edit" onclick="editEventNote('${ev.id}')">✏️ Modifier</button>`;
+      html+=`<button class="dia-btn dia-cancel" onclick="closeModal('modal-day')">Annuler</button>`;
       html+=`</div>`;
     }
     html+=`</div>`;
   });
 
   // Permanences
-  slots.forEach(s=>{
-    const mem=data.membres.find(m=>m.id===s.memberId); if(!mem) return;
+  slots.forEach(p=>{
+    const mem=data.membres.find(m=>m.id===p.memberId);if(!mem)return;
     const c=COLORS[mem.color]||COLORS[0];
-    const isMe=currentUser&&s.memberId===currentUser.id;
+    const isMe=currentUser&&p.memberId===currentUser.id;
     const canEdit=isMe||isAdmin;
-    html+=`<div style="padding:10px;background:${c.bg};border-left:3px solid ${c.border};border-radius:6px;margin-bottom:10px;">`;
-    html+=`<div style="font-size:13px;font-weight:700;color:${c.text};margin-bottom:2px;">${mem.name}</div>`;
-    if(s.note) html+=`<div style="font-size:12px;color:${c.text};opacity:0.8;margin-bottom:6px;">${s.note}</div>`;
+    html+=`<div class="day-item" style="background:${c.bg};border-color:${c.border};">`;
+    html+=`<div class="day-item-title" style="color:${c.text};">${mem.name}</div>`;
+    html+=`<div class="day-item-dates" style="color:${c.text};">${periodLabel(p.debut,p.fin)}</div>`;
+    if(p.note)html+=`<div class="day-item-note" style="color:${c.text};">${p.note}</div>`;
     if(canEdit){
-      html+=`<div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;">`;
-      html+=`<button class="btn btn-danger" style="font-size:12px;padding:4px 10px;" onclick="actionSlot('delete','${k}','${s.memberId}')">🗑 Supprimer</button>`;
-      html+=`<button class="btn btn-secondary" style="font-size:12px;padding:4px 10px;" onclick="actionSlot('editNote','${k}','${s.memberId}')">✏️ Modifier note</button>`;
-      html+=`<button class="btn btn-secondary" style="font-size:12px;padding:4px 10px;" onclick="actionSlot('editPeriod','${k}','${s.memberId}')">📅 Modifier période</button>`;
+      html+=`<div class="day-item-actions">`;
+      html+=`<button class="dia-btn dia-del" onclick="delSlot('${p.id}')">🗑 Supprimer</button>`;
+      html+=`<button class="dia-btn dia-edit" onclick="editSlotPeriod('${p.id}')">📅 Modifier période</button>`;
+      html+=`<button class="dia-btn dia-edit" onclick="editSlotNote('${p.id}')">✏️ Modifier note</button>`;
+      html+=`<button class="dia-btn dia-cancel" onclick="closeModal('modal-day')">Annuler</button>`;
       html+=`</div>`;
     }
     html+=`</div>`;
   });
 
-  if(!html) html='<p style="color:var(--text-muted);font-size:13px;margin-bottom:12px;">Aucune permanence ni événement ce jour.</p>';
-  document.getElementById('popup-content').innerHTML=html;
+  if(!html)html='<p style="color:var(--text-muted);font-size:13px;margin-bottom:14px;">Aucune permanence ni événement ce jour.</p>';
+  document.getElementById('day-content').innerHTML=html;
 
   // Boutons bas
-  const actionsEl=document.getElementById('popup-actions');
-  actionsEl.innerHTML='';
-  const btnClose=document.createElement('button');
-  btnClose.className='btn btn-secondary'; btnClose.textContent='Fermer';
-  btnClose.onclick=()=>closeModal('modal-day-popup');
-  actionsEl.appendChild(btnClose);
+  const acts=document.getElementById('day-actions');acts.innerHTML='';
+  const btnClose=document.createElement('button');btnClose.className='btn btn-secondary';btnClose.textContent='Fermer';btnClose.onclick=()=>closeModal('modal-day');acts.appendChild(btnClose);
 
-  if(currentUser){
-    const alreadyHas=slots.some(s=>s.memberId===currentUser.id);
-    if(!alreadyHas){
-      const btnSlot=document.createElement('button');
-      btnSlot.className='btn btn-primary'; btnSlot.textContent='+ Ma permanence';
-      btnSlot.onclick=()=>{ closeModal('modal-day-popup'); selStart=k; selEnd=k; openSlotModal(); };
-      actionsEl.appendChild(btnSlot);
-      const btnPeriod=document.createElement('button');
-      btnPeriod.className='btn btn-secondary'; btnPeriod.textContent='📅 Plusieurs jours';
-      btnPeriod.onclick=()=>{
-        closeModal('modal-day-popup');
-        selStart=k; selEnd=k; waitingForEnd=true;
-        const infoEl=document.getElementById('selection-info');
-        infoEl.style.display='block';
-        infoEl.textContent='Début : '+formatDateFR(keyToDate(k))+' — cliquez sur le dernier jour';
-      };
-      actionsEl.appendChild(btnPeriod);
-    }
-  } else if(!isAdmin){
-    const btnNew=document.createElement('button');
-    btnNew.className='btn btn-primary'; btnNew.textContent='+ Créer mon étiquette';
-    btnNew.onclick=()=>{ closeModal('modal-day-popup'); openMemberModal(false); };
-    actionsEl.appendChild(btnNew);
+  if(currentUser&&!slots.some(p=>p.memberId===currentUser.id)){
+    const b=document.createElement('button');b.className='btn btn-primary';b.textContent='+ Ma permanence';
+    b.onclick=()=>{closeModal('modal-day');startAddSlot(k);};acts.appendChild(b);
   }
-
   if(isAdmin){
-    const btnEv=document.createElement('button');
-    btnEv.className='btn btn-event'; btnEv.textContent='+ Événement';
-    btnEv.onclick=()=>{ closeModal('modal-day-popup'); selStart=k; selEnd=k; openEventModal(null,undefined); };
-    actionsEl.appendChild(btnEv);
+    const b=document.createElement('button');b.className='btn btn-event';b.textContent='+ Événement';
+    b.onclick=()=>{closeModal('modal-day');startAddEventFromDay(k);};acts.appendChild(b);
+  }
+  if(!currentUser&&!isAdmin){
+    const b=document.createElement('button');b.className='btn btn-primary';b.textContent='+ Créer mon étiquette';
+    b.onclick=()=>{closeModal('modal-day');openMemberModal(false);};acts.appendChild(b);
   }
 
-  document.getElementById('modal-day-popup').classList.add('open');
+  document.getElementById('modal-day').classList.add('open');
+  highlightPeriod(null);
 }
 
-// ─── ACTIONS PERMANENCE ───────────────────────────────────────────────
-async function actionSlot(action, k, memberId){
-  if(action==='delete'){
-    if(!confirm('Supprimer cette permanence pour ce jour ?')) return;
-    if(data.creneaux[k]){ data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==memberId); if(data.creneaux[k].length===0) delete data.creneaux[k]; }
-    await saveData(); closeModal('modal-day-popup'); render(); showToast('Permanence supprimée');
-  } else if(action==='editNote'){
-    closeModal('modal-day-popup');
-    selStart=k; selEnd=k;
-    openSlotModal();
-  } else if(action==='editPeriod'){
-    closeModal('modal-day-popup');
-    // Supprimer ce jour, puis lancer sélection nouvelle période
-    if(data.creneaux[k]){ data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==memberId); if(data.creneaux[k].length===0) delete data.creneaux[k]; }
-    await saveData(); render();
-    // Stocker la note existante pour la réutiliser
-    selStart=k; selEnd=k; waitingForEnd=true;
-    const infoEl=document.getElementById('selection-info');
-    infoEl.style.display='block';
-    infoEl.textContent='Nouvelle période — cliquez sur le 1er jour puis le dernier jour';
-    showToast('Cliquez sur le 1er jour de la nouvelle période');
+// Surligner toute la période d'un élément au survol (optionnel, déjà visible dans la popup)
+function highlightPeriod(debut,fin){
+  document.querySelectorAll('.highlight-period').forEach(el=>el.classList.remove('highlight-period'));
+  if(!debut||!fin)return;
+  document.querySelectorAll('[data-k]').forEach(el=>{const k=el.dataset.k;if(k&&k>=debut&&k<=fin)el.classList.add('highlight-period');});
+}
+
+// ─── PERMANENCES ──────────────────────────────────────────────────────
+function startAddSlot(k){
+  if(!currentUser){openMemberModal(false);return;}
+  periodContext={type:'slot',editId:null,defaultDay:k};
+  openPeriodModal('Choisir la période de permanence','Sélectionnez le début et la fin.',k,k);
+}
+
+function editSlotPeriod(id){
+  const p=data.permanences.find(p=>p.id===id);if(!p)return;
+  closeModal('modal-day');
+  periodContext={type:'slot',editId:id};
+  openPeriodModal('Modifier la période','Nouvelle période pour cette permanence.',p.debut,p.fin);
+}
+
+function editSlotNote(id){
+  const p=data.permanences.find(p=>p.id===id);if(!p)return;
+  closeModal('modal-day');
+  document.getElementById('slot-title').textContent='Modifier la note';
+  document.getElementById('slot-period-display').textContent=periodLabel(p.debut,p.fin);
+  document.getElementById('slot-note').value=p.note||'';
+  cc('slot-note','slot-cc');
+  periodContext={type:'slot-note',editId:id};
+  document.getElementById('modal-slot').classList.add('open');
+}
+
+async function delSlot(id){
+  if(!confirm('Supprimer cette permanence ?'))return;
+  data.permanences=data.permanences.filter(p=>p.id!==id);
+  closeModal('modal-day');await saveData();render();showToast('Permanence supprimée');
+}
+
+function openSlotNoteModal(debut,fin){
+  document.getElementById('slot-title').textContent='Ma permanence';
+  document.getElementById('slot-period-display').textContent=periodLabel(debut,fin);
+  document.getElementById('slot-note').value='';
+  cc('slot-note','slot-cc');
+  document.getElementById('modal-slot').classList.add('open');
+}
+
+async function saveSlot(){
+  if(!currentUser)return;
+  const note=document.getElementById('slot-note').value.trim();
+  const ctx=periodContext;
+  if(ctx&&ctx.type==='slot-note'&&ctx.editId){
+    // Modifier note seulement
+    const p=data.permanences.find(p=>p.id===ctx.editId);
+    if(p)p.note=note;
+  } else if(ctx&&ctx.type==='slot'&&ctx.debut&&ctx.fin){
+    if(ctx.editId){
+      // Modifier période
+      const p=data.permanences.find(p=>p.id===ctx.editId);
+      if(p){p.debut=ctx.debut;p.fin=ctx.fin;p.note=note;}
+    } else {
+      data.permanences.push({id:uid(),memberId:currentUser.id,debut:ctx.debut,fin:ctx.fin,note});
+    }
   }
+  closeModal('modal-slot');await saveData();render();showToast('Permanence enregistrée ✓');
 }
 
-// ─── ACTIONS ÉVÉNEMENT (admin) ────────────────────────────────────────
-async function actionEvent(action, k, idx){
-  if(action==='delete'){
-    if(!confirm('Supprimer cet événement ?')) return;
-    if(data.evenements[k]){ data.evenements[k].splice(idx,1); if(data.evenements[k].length===0) delete data.evenements[k]; }
-    await saveData(); closeModal('modal-day-popup'); render(); showToast('Événement supprimé');
-  } else if(action==='edit'){
-    closeModal('modal-day-popup');
-    editingEventKey={k,idx};
-    const ev=data.evenements[k][idx];
-    document.getElementById('modal-event-title').textContent='Modifier l\'événement';
-    document.getElementById('event-date-display').textContent=formatDateFR(keyToDate(k));
-    document.getElementById('event-title-input').value=ev.title||'';
-    document.getElementById('event-note-input').value=ev.note||'';
-    document.getElementById('event-title-counter').textContent=(ev.title||'').length+' / 30';
-    document.getElementById('btn-delete-event').style.display='inline-flex';
-    // Bouton supprimer dans la modale event pointe vers actionEvent delete
-    document.getElementById('btn-delete-event').onclick=()=>actionEvent('delete',k,idx);
+// ─── ÉVÉNEMENTS ───────────────────────────────────────────────────────
+function startAddEvent(){
+  // Depuis bouton admin bar : période à saisir
+  periodContext={type:'event',editId:null};
+  openPeriodModal('Choisir la période de l\'événement','Sélectionnez le début et la fin.',today(),today());
+}
+function startAddEventFromDay(k){
+  periodContext={type:'event',editId:null};
+  openPeriodModal('Choisir la période de l\'événement','',k,k);
+}
+function editEventPeriod(id){
+  const ev=data.evenements.find(e=>e.id===id);if(!ev)return;
+  closeModal('modal-day');
+  periodContext={type:'event',editId:id};
+  openPeriodModal('Modifier la période','Nouvelle période pour cet événement.',ev.debut,ev.fin);
+}
+function editEventNote(id){
+  const ev=data.evenements.find(e=>e.id===id);if(!ev)return;
+  closeModal('modal-day');
+  document.getElementById('event-title-h').textContent='Modifier l\'événement';
+  document.getElementById('event-period-display').textContent=periodLabel(ev.debut,ev.fin);
+  document.getElementById('event-title').value=ev.titre||'';
+  document.getElementById('event-note').value=ev.note||'';
+  cc('event-title','event-cc');
+  periodContext={type:'event-note',editId:id};
+  document.getElementById('modal-event').classList.add('open');
+}
+async function delEvent(id){
+  if(!confirm('Supprimer cet événement ?'))return;
+  data.evenements=data.evenements.filter(e=>e.id!==id);
+  closeModal('modal-day');await saveData();render();showToast('Événement supprimé');
+}
+async function saveEvent(){
+  if(!isAdmin)return;
+  const titre=document.getElementById('event-title').value.trim();
+  if(!titre){showToast('Ajoutez un titre');return;}
+  const note=document.getElementById('event-note').value.trim();
+  const ctx=periodContext;
+  if(ctx&&ctx.type==='event-note'&&ctx.editId){
+    const ev=data.evenements.find(e=>e.id===ctx.editId);
+    if(ev){ev.titre=titre;ev.note=note;}
+  } else if(ctx&&ctx.type==='event'&&ctx.debut&&ctx.fin){
+    if(ctx.editId){
+      const ev=data.evenements.find(e=>e.id===ctx.editId);
+      if(ev){ev.debut=ctx.debut;ev.fin=ctx.fin;ev.titre=titre;ev.note=note;}
+    } else {
+      data.evenements.push({id:uid(),titre,debut:ctx.debut,fin:ctx.fin,note});
+    }
+  }
+  closeModal('modal-event');await saveData();render();showToast('Événement enregistré ✓');
+}
+
+// ─── MODAL PÉRIODE (sélecteur date) ──────────────────────────────────
+function openPeriodModal(title,sub,debut,fin){
+  document.getElementById('period-modal-title').textContent=title;
+  document.getElementById('period-modal-sub').textContent=sub;
+  document.getElementById('period-start').value=debut;
+  document.getElementById('period-end').value=fin;
+  document.getElementById('modal-period').classList.add('open');
+}
+
+function confirmPeriod(){
+  const debut=document.getElementById('period-start').value;
+  const fin=document.getElementById('period-end').value;
+  if(!debut||!fin){showToast('Choisissez début et fin');return;}
+  if(fin<debut){showToast('La fin doit être après le début');return;}
+  if(!inRange(debut)||!inRange(fin)){showToast('Les dates doivent être entre juin 2026 et déc. 2027');return;}
+  periodContext.debut=debut;periodContext.fin=fin;
+  closeModal('modal-period');
+
+  const ctx=periodContext;
+  if(ctx.type==='slot'){
+    // Ouvrir saisie note
+    openSlotNoteModal(debut,fin);
+  } else if(ctx.type==='event'){
+    // Ouvrir saisie événement
+    document.getElementById('event-title-h').textContent=ctx.editId?'Modifier l\'événement':'Ajouter un événement';
+    document.getElementById('event-period-display').textContent=periodLabel(debut,fin);
+    const existing=ctx.editId?data.evenements.find(e=>e.id===ctx.editId):null;
+    document.getElementById('event-title').value=existing?existing.titre:'';
+    document.getElementById('event-note').value=existing?existing.note:'';
+    cc('event-title','event-cc');
     document.getElementById('modal-event').classList.add('open');
   }
 }
+
+// ─── MODAL HELPERS ────────────────────────────────────────────────────
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(ov=>{ov.addEventListener('click',e=>{if(e.target===ov)closeModal(ov.id);});});
+
+// ─── SWIPE (mobile) ───────────────────────────────────────────────────
+(function(){
+  let tx=0,ty=0,moved=false;
+  document.getElementById('cal-wrap').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;moved=false;},{passive:true});
+  document.getElementById('cal-wrap').addEventListener('touchmove',e=>{moved=true;},{passive:true});
+  document.getElementById('cal-wrap').addEventListener('touchend',e=>{
+    if(!moved)return;
+    const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50)navigate(dx<0?1:-1);
+  },{passive:true});
+})();
 </script>
 </body>
 </html>
