@@ -2,17 +2,17 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Permanences – Tante Geneviève</title>
 <style>
-:root {
-  --bg:#FAFAF8; --surface:#FFF; --border:#B0ADA6; --border-strong:#8A877F;
-  --text:#1A1916; --text-soft:#6B6860; --text-muted:#A09E99;
-  --accent:#5B4A9C; --accent-light:#EEEDFE;
-  --weekend:#F0EEE8; --ferie:#FFF3E0;
+:root{
+  --bg:#FAFAF8;--surface:#FFF;--border:#B0ADA6;--border-strong:#8A877F;
+  --text:#1A1916;--text-soft:#6B6860;--text-muted:#A09E99;
+  --accent:#5B4A9C;--accent-light:#EEEDFE;
+  --weekend:#F0EEE8;--ferie:#FFF3E0;
   --today-red:#D32F2F;
-  --event-bg:#EEEEEE; --event-border:#9E9E9E; --event-text:#424242;
-  --radius:8px; --radius-lg:12px; --shadow:0 2px 8px rgba(0,0,0,0.10);
+  --event-bg:#EEEEEE;--event-border:#9E9E9E;--event-text:#424242;
+  --radius:8px;--radius-lg:12px;--shadow:0 2px 8px rgba(0,0,0,.10);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;min-height:100vh;}
@@ -28,42 +28,46 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .auth-error{color:#E24B4A;font-size:13px;margin-top:8px;}
 
 /* APP */
-#app{display:none;max-width:1100px;margin:0 auto;padding:1rem;}
-.app-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0 1rem;flex-wrap:wrap;gap:8px;}
-.app-title{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px;}
+#app{display:none;max-width:1100px;margin:0 auto;padding:.75rem 1rem;}
+.app-header{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0 .75rem;flex-wrap:wrap;gap:6px;}
+.app-title{font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px;}
 .app-title span{color:var(--accent);}
 .admin-badge{background:#B71C1C;color:white;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;}
 
 /* MEMBERS */
-.members-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1rem;}
-.members-section h2{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:10px;}
-.members-list{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
-.member-chip{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid;cursor:default;}
-.chip-btn{font-size:11px;opacity:.65;cursor:pointer;margin-left:2px;background:none;border:none;padding:0;}
+.members-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.75rem 1rem;margin-bottom:.75rem;}
+.members-section h2{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:8px;}
+.members-list{display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
+.member-chip{display:flex;align-items:center;gap:5px;padding:4px 9px;border-radius:99px;font-size:12px;font-weight:600;border:1.5px solid;}
+.chip-btn{font-size:11px;opacity:.65;cursor:pointer;margin-left:1px;background:none;border:none;padding:0;}
 .chip-btn:hover{opacity:1;}
-.btn-add-member,.btn-switch-user{padding:5px 12px;border:1.5px dashed var(--border-strong);border-radius:99px;font-size:13px;color:var(--text-soft);background:none;cursor:pointer;}
+.btn-add-member,.btn-switch-user{padding:4px 10px;border:1.5px dashed var(--border-strong);border-radius:99px;font-size:12px;color:var(--text-soft);background:none;cursor:pointer;}
 .btn-add-member:hover,.btn-switch-user:hover{border-color:var(--accent);color:var(--accent);}
-.current-user-note{font-size:12px;color:var(--text-muted);margin-top:8px;}
+.current-user-note{font-size:12px;color:var(--text-muted);margin-top:6px;}
 
 /* NAV */
-.view-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;flex-wrap:wrap;gap:6px;}
+.view-controls{display:flex;align-items:center;gap:6px;}
 .view-toggle{display:flex;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
-.view-toggle button{padding:6px 14px;border:none;background:none;font-size:13px;cursor:pointer;color:var(--text-soft);}
+.view-toggle button{padding:5px 12px;border:none;background:none;font-size:13px;cursor:pointer;color:var(--text-soft);}
 .view-toggle button.active{background:var(--accent);color:white;}
-.nav-btn{padding:6px 14px;border:1px solid var(--border);border-radius:var(--radius);background:none;cursor:pointer;font-size:16px;font-weight:700;color:var(--text);}
+.nav-btn{padding:5px 13px;border:1px solid var(--border);border-radius:var(--radius);background:none;cursor:pointer;font-size:17px;font-weight:700;color:var(--text);line-height:1;}
 .nav-btn:hover{background:var(--accent-light);}
-.period-label{font-size:24px;font-weight:800;min-width:220px;text-align:center;color:var(--text);}
+.period-label{font-size:22px;font-weight:800;min-width:200px;text-align:center;color:var(--text);}
 
 /* ADMIN BAR */
-.admin-bar{background:#FFEBEE;border:1px solid #FFCDD2;border-radius:var(--radius);padding:8px 14px;margin-bottom:10px;font-size:13px;color:#B71C1C;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.admin-bar{background:#FFEBEE;border:1px solid #FFCDD2;border-radius:var(--radius);padding:7px 12px;margin-bottom:.6rem;font-size:13px;color:#B71C1C;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+
+/* CALENDAR WRAP — scrollable on mobile */
+.cal-outer{width:100%;overflow:auto;-webkit-overflow-scrolling:touch;border:2px solid var(--border);border-radius:var(--radius-lg);}
+.cal-wrap{background:var(--surface);min-width:420px;}
 
 /* CALENDAR */
-.cal-wrap{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;user-select:none;}
 .cal-grid-header{display:grid;grid-template-columns:repeat(7,1fr);background:var(--bg);border-bottom:2px solid var(--border);}
-.cal-day-name{text-align:center;padding:8px 4px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);}
+.cal-day-name{text-align:center;padding:7px 2px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);}
 .cal-day-name.we{color:var(--accent);}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);}
-.cal-cell{min-height:88px;border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border);padding:4px;position:relative;cursor:pointer;transition:background .1s;}
+.cal-cell{min-height:86px;border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border);padding:3px;position:relative;cursor:pointer;transition:background .1s;}
 .cal-cell:nth-child(7n){border-right:none;}
 .cal-cell.we{background:var(--weekend);}
 .cal-cell.ferie{background:var(--ferie);}
@@ -71,87 +75,75 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .cal-cell.out-of-range{opacity:.12;pointer-events:none;}
 .cal-cell:hover:not(.out-of-range):not(.other-month){background:var(--accent-light);}
 .cal-cell.today-cell{border-left:4px solid var(--today-red)!important;}
-.cal-cell.highlight-period{background:#DDD9F5!important;outline:2px solid var(--accent);z-index:1;}
-.day-num{font-size:12px;font-weight:600;color:var(--text-soft);margin-bottom:2px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
-.day-num.today-num{background:var(--today-red);color:white;font-weight:800;}
-.ferie-label{font-size:9px;color:#E65100;font-weight:600;margin-bottom:2px;}
+.day-num{font-size:11px;font-weight:700;color:var(--text-soft);margin-bottom:2px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
+.day-num.today-num{background:var(--today-red);color:white;}
+.ferie-label{font-size:8px;color:#E65100;font-weight:700;margin-bottom:2px;line-height:1.2;}
 
 /* TAGS */
-.slot-tag,.event-tag{font-size:11px;font-weight:600;padding:3px 6px;border-radius:4px;margin-bottom:2px;border-left:3px solid;display:flex;flex-direction:column;gap:1px;line-height:1.3;filter:brightness(.80);}
-.slot-tag:hover,.event-tag:hover{filter:brightness(.70);}
-.tag-name{font-size:11px;font-weight:700;}
-.tag-note{font-size:10px;font-weight:500;opacity:.9;}
-.event-tag{filter:none;background:var(--event-bg);border-color:var(--event-border);color:var(--event-text);}
+.slot-tag{font-size:10px;font-weight:700;padding:2px 5px;border-radius:4px;margin-bottom:2px;border-left:3px solid;display:flex;flex-direction:column;gap:1px;line-height:1.3;filter:brightness(.80);cursor:pointer;}
+.slot-tag:hover{filter:brightness(.70);}
+.tag-name{font-size:10px;font-weight:700;}
+.tag-note{font-size:9px;font-weight:500;opacity:.9;}
+.event-tag{font-size:10px;font-weight:600;padding:2px 5px;border-radius:4px;margin-bottom:2px;border-left:3px solid var(--event-border);background:var(--event-bg);color:var(--event-text);display:flex;flex-direction:column;gap:1px;line-height:1.3;cursor:pointer;}
 .event-tag:hover{filter:brightness(.93);}
 
 /* WEEK */
-.week-grid{display:grid;grid-template-columns:50px repeat(7,1fr);}
-.week-day-header{text-align:center;padding:8px 4px;border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border);}
+.week-grid{display:grid;grid-template-columns:44px repeat(7,1fr);}
+.week-day-header{text-align:center;padding:7px 2px;border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border);}
 .week-day-header.we{background:var(--weekend);}
 .week-day-header.ferie{background:var(--ferie);}
 .week-day-header.today-wh{border-left:4px solid var(--today-red);}
-.wd-name{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text-muted);}
-.wd-date{font-size:16px;font-weight:700;}
+.wd-name{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--text-muted);}
+.wd-date{font-size:15px;font-weight:700;}
 .week-corner{border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border);background:var(--bg);}
-.week-cell{min-height:70px;border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border);padding:4px;cursor:pointer;}
+.week-cell{min-height:70px;border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border);padding:3px;cursor:pointer;}
 .week-cell:hover{background:var(--accent-light);}
 .week-cell.we{background:var(--weekend);}
 .week-cell.ferie{background:var(--ferie);}
 .week-cell.out-of-range{opacity:.12;pointer-events:none;}
-.week-cell.highlight-period{background:#DDD9F5!important;outline:2px solid var(--accent);}
-
-/* SELECTION INFO */
-.sel-info{background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--radius);padding:8px 12px;font-size:13px;margin-bottom:10px;color:var(--accent);display:none;}
 
 /* LEGEND */
-.legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:12px;color:var(--text-soft);}
-.legend-item{display:flex;align-items:center;gap:5px;}
-.ldot{width:13px;height:13px;border-radius:3px;border:1px solid var(--border);}
+.legend{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:8px;font-size:11px;color:var(--text-soft);}
+.legend-item{display:flex;align-items:center;gap:4px;}
+.ldot{width:12px;height:12px;border-radius:3px;border:1px solid var(--border);}
 
 /* MODALS */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center;padding:1rem;}
 .modal-overlay.open{display:flex;}
-.modal{background:var(--surface);border-radius:var(--radius-lg);padding:1.5rem;width:100%;max-width:400px;box-shadow:0 8px 32px rgba(0,0,0,.18);max-height:92vh;overflow-y:auto;}
-.modal h3{font-size:16px;font-weight:700;margin-bottom:.75rem;}
-.modal-sub{font-size:13px;color:var(--text-soft);margin-bottom:1rem;}
-.modal label{font-size:13px;color:var(--text-soft);display:block;margin-bottom:4px;margin-top:12px;}
-.modal input[type=text],.modal textarea,.modal select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;font-family:inherit;outline:none;}
+.modal{background:var(--surface);border-radius:var(--radius-lg);padding:1.5rem;width:100%;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,.18);max-height:90vh;overflow-y:auto;}
+.modal h3{font-size:16px;font-weight:700;margin-bottom:.5rem;}
+.modal-sub{font-size:13px;color:var(--text-soft);margin-bottom:.75rem;}
+.modal label{font-size:13px;color:var(--text-soft);display:block;margin-bottom:3px;margin-top:10px;}
+.modal input[type=text],.modal input[type=date],.modal textarea,.modal select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;font-family:inherit;outline:none;}
 .modal input:focus,.modal textarea:focus,.modal select:focus{border-color:var(--accent);}
-.modal textarea{resize:vertical;min-height:56px;}
+.modal textarea{resize:vertical;min-height:54px;}
 .char-c{font-size:11px;color:var(--text-muted);text-align:right;margin-top:2px;}
-.modal-actions{display:flex;gap:8px;margin-top:1.25rem;justify-content:flex-end;flex-wrap:wrap;}
+.modal-actions{display:flex;gap:8px;margin-top:1.1rem;justify-content:flex-end;flex-wrap:wrap;}
 .btn{padding:8px 16px;border-radius:var(--radius);font-size:13px;cursor:pointer;font-weight:600;border:none;}
-.btn-primary{background:var(--accent);color:white;}
-.btn-primary:hover{opacity:.9;}
-.btn-secondary{background:none;border:1px solid var(--border-strong);color:var(--text-soft);}
-.btn-secondary:hover{background:var(--bg);}
-.btn-danger{background:none;border:1px solid #F09595;color:#A32D2D;margin-right:auto;}
-.btn-danger:hover{background:#FCEBEB;}
-.btn-event{background:#616161;color:white;}
-.btn-event:hover{opacity:.9;}
+.btn-primary{background:var(--accent);color:white;}.btn-primary:hover{opacity:.9;}
+.btn-secondary{background:none;border:1px solid var(--border-strong);color:var(--text-soft);}.btn-secondary:hover{background:var(--bg);}
+.btn-danger{background:none;border:1px solid #F09595;color:#A32D2D;margin-right:auto;}.btn-danger:hover{background:#FCEBEB;}
+.btn-event{background:#616161;color:white;}.btn-event:hover{opacity:.9;}
 
 /* POPUP JOUR */
 .day-item{padding:10px;border-radius:6px;margin-bottom:10px;border-left:4px solid;}
 .day-item-title{font-size:13px;font-weight:700;margin-bottom:2px;}
-.day-item-note{font-size:12px;opacity:.8;margin-bottom:6px;}
-.day-item-dates{font-size:11px;opacity:.7;margin-bottom:6px;}
-.day-item-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.day-item-dates{font-size:11px;opacity:.75;margin-bottom:4px;}
+.day-item-note{font-size:12px;opacity:.85;margin-bottom:6px;}
+.day-item-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
 .dia-btn{padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;}
-.dia-del{background:#FFEBEE;color:#B71C1C;border:1px solid #FFCDD2;}
-.dia-del:hover{background:#FFCDD2;}
-.dia-edit{background:var(--accent-light);color:var(--accent);border:1px solid #C5C0F0;}
-.dia-edit:hover{background:#D8D5F8;}
-.dia-cancel{background:var(--bg);color:var(--text-soft);border:1px solid var(--border);}
+.dia-del{background:#FFEBEE;color:#B71C1C;border:1px solid #FFCDD2;}.dia-del:hover{background:#FFCDD2;}
+.dia-edit{background:var(--accent-light);color:var(--accent);border:1px solid #C5C0F0;}.dia-edit:hover{background:#D8D5F8;}
 
 /* TOAST */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1A1916;color:white;padding:10px 20px;border-radius:99px;font-size:13px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;}
 
 @media(max-width:600px){
-  .cal-cell{min-height:58px;padding:2px;}
-  .slot-tag,.event-tag{font-size:9px;padding:2px 3px;}
   .period-label{font-size:18px;min-width:140px;}
-  .week-grid{grid-template-columns:36px repeat(7,1fr);}
+  .cal-cell{min-height:64px;padding:2px;}
+  .slot-tag,.event-tag{font-size:9px;padding:1px 3px;}
+  .week-grid{grid-template-columns:32px repeat(7,1fr);}
   .wd-date{font-size:13px;}
 }
 </style>
@@ -164,7 +156,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
     <div style="font-size:36px;margin-bottom:8px;">💜</div>
     <h1>Permanences</h1>
     <p>Tante Geneviève · 2026–2027</p>
-    <input type="password" id="auth-input" placeholder="Mot de passe" autofocus />
+    <input type="password" id="auth-input" placeholder="Mot de passe" autofocus/>
     <button onclick="checkAuth()">Accéder</button>
     <div class="auth-error" id="auth-error"></div>
   </div>
@@ -177,9 +169,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
       <span class="admin-badge" id="admin-badge" style="display:none">ADMIN</span>
     </div>
     <div class="view-controls">
-      <button class="nav-btn" onclick="navigate(-1)">‹</button>
-      <span class="period-label" id="period-label"></span>
-      <button class="nav-btn" onclick="navigate(1)">›</button>
       <div class="view-toggle">
         <button onclick="setView('month')" id="btn-month" class="active">Mois</button>
         <button onclick="setView('week')" id="btn-week">Semaine</button>
@@ -188,8 +177,9 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   </div>
 
   <div class="admin-bar" id="admin-bar" style="display:none">
-    🔐 Mode administrateur — vous pouvez tout gérer et ajouter des événements.
-    <button class="btn btn-event" style="margin-left:auto;font-size:12px;" onclick="startAddEvent()">+ Ajouter un événement</button>
+    🔐 Mode administrateur
+    <button class="btn btn-event" style="margin-left:auto;font-size:12px;padding:5px 12px;" onclick="adminAddSlot()">+ Permanence</button>
+    <button class="btn btn-event" style="font-size:12px;padding:5px 12px;" onclick="startAddEvent()">+ Événement</button>
   </div>
 
   <div class="members-section">
@@ -198,24 +188,32 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
     <div class="current-user-note" id="current-user-note"></div>
   </div>
 
-  <div class="sel-info" id="sel-info"></div>
-  <div class="cal-wrap" id="cal-wrap"></div>
+  <!-- NAV + période -->
+  <div class="nav-row">
+    <button class="nav-btn" onclick="navigate(-1)">‹</button>
+    <span class="period-label" id="period-label"></span>
+    <button class="nav-btn" onclick="navigate(1)">›</button>
+  </div>
 
-  <div class="legend">
+  <div class="cal-outer" id="cal-outer">
+    <div class="cal-wrap" id="cal-wrap"></div>
+  </div>
+
+  <div class="legend" style="margin-top:8px;">
     <div class="legend-item"><div class="ldot" style="background:var(--weekend);"></div>Week-end</div>
     <div class="legend-item"><div class="ldot" style="background:var(--ferie);border-color:#FFB74D;"></div>Jour férié</div>
     <div class="legend-item"><div class="ldot" style="background:var(--event-bg);border-color:var(--event-border);"></div>Événement</div>
-    <div class="legend-item"><div style="width:4px;height:14px;background:var(--today-red);border-radius:2px;"></div>Aujourd'hui</div>
-    <span style="color:#A09E99;font-size:11px;margin-left:auto;">Cliquez sur un jour pour voir ou ajouter</span>
+    <div class="legend-item"><div style="width:4px;height:13px;background:var(--today-red);border-radius:2px;"></div>Aujourd'hui</div>
+    <span style="color:#A09E99;font-size:11px;margin-left:auto;">Cliquez sur un jour</span>
   </div>
 </div>
 
-<!-- MODAL: AUTH MEMBER -->
+<!-- MODAL: MEMBER -->
 <div class="modal-overlay" id="modal-member">
   <div class="modal">
     <h3 id="modal-member-title">Mon étiquette</h3>
     <label>Mon prénom</label>
-    <input type="text" id="member-name" placeholder="Votre prénom" maxlength="20" oninput="updateColorPreview()" />
+    <input type="text" id="member-name" placeholder="Votre prénom" maxlength="20" oninput="updateColorPreview()"/>
     <label>Couleur</label>
     <select id="member-color" onchange="updateColorPreview()">
       <option value="0">Violet</option><option value="1">Vert forêt</option>
@@ -229,18 +227,18 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
       <span id="color-preview-chip" style="display:inline-flex;align-items:center;padding:3px 12px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid;">Prénom</span>
     </div>
     <div class="modal-actions">
-      <button class="btn btn-danger" id="btn-delete-member" onclick="deleteMember()" style="display:none">Supprimer mon étiquette</button>
+      <button class="btn btn-danger" id="btn-delete-member" onclick="deleteMember()" style="display:none">Supprimer</button>
       <button class="btn btn-secondary" onclick="closeModal('modal-member')">Annuler</button>
       <button class="btn btn-primary" onclick="saveMember()">Enregistrer</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL: SWITCH USER -->
+<!-- MODAL: SWITCH -->
 <div class="modal-overlay" id="modal-switch">
   <div class="modal">
-    <h3>Rejoindre une étiquette existante</h3>
-    <p class="modal-sub">Vous utilisez un autre appareil ? Choisissez votre prénom.</p>
+    <h3>Rejoindre une étiquette</h3>
+    <p class="modal-sub">Autre appareil ? Choisissez votre prénom.</p>
     <label>Mon étiquette</label>
     <select id="switch-select"></select>
     <div class="modal-actions">
@@ -262,10 +260,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 <!-- MODAL: SAISIE PERMANENCE -->
 <div class="modal-overlay" id="modal-slot">
   <div class="modal">
-    <h3 id="slot-title">Ma permanence</h3>
+    <h3 id="slot-title-h">Ma permanence</h3>
     <div class="modal-sub" id="slot-period-display"></div>
+    <label id="slot-member-label" style="display:none">Membre</label>
+    <select id="slot-member-select" style="display:none"></select>
     <label>Note (optionnel, max 30 car.)</label>
-    <input type="text" id="slot-note" maxlength="30" placeholder="ex : apporter médicaments…" oninput="cc('slot-note','slot-cc')" />
+    <input type="text" id="slot-note" maxlength="30" placeholder="ex : apporter médicaments…" oninput="cc('slot-note','slot-cc')"/>
     <div class="char-c" id="slot-cc">0 / 30</div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal('modal-slot')">Annuler</button>
@@ -274,13 +274,13 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   </div>
 </div>
 
-<!-- MODAL: SAISIE ÉVÉNEMENT (admin) -->
+<!-- MODAL: SAISIE ÉVÉNEMENT -->
 <div class="modal-overlay" id="modal-event">
   <div class="modal">
     <h3 id="event-title-h">Ajouter un événement</h3>
     <div class="modal-sub" id="event-period-display"></div>
     <label>Titre (max 30 car.)</label>
-    <input type="text" id="event-title" maxlength="30" placeholder="ex : Visite infirmière" oninput="cc('event-title','event-cc')" />
+    <input type="text" id="event-title" maxlength="30" placeholder="ex : Visite infirmière" oninput="cc('event-title','event-cc')"/>
     <div class="char-c" id="event-cc">0 / 30</div>
     <label>Note complémentaire (optionnel)</label>
     <textarea id="event-note" maxlength="200" placeholder="Détails…"></textarea>
@@ -291,18 +291,18 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   </div>
 </div>
 
-<!-- MODAL: SÉLECTION PÉRIODE -->
+<!-- MODAL: PÉRIODE -->
 <div class="modal-overlay" id="modal-period">
   <div class="modal">
     <h3 id="period-modal-title">Sélectionner la période</h3>
     <p class="modal-sub" id="period-modal-sub"></p>
     <label>Date de début</label>
-    <input type="date" id="period-start" min="2026-06-01" max="2027-12-31" />
+    <input type="date" id="period-start" min="2026-06-01" max="2027-12-31"/>
     <label>Date de fin</label>
-    <input type="date" id="period-end" min="2026-06-01" max="2027-12-31" />
+    <input type="date" id="period-end" min="2026-06-01" max="2027-12-31"/>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal('modal-period')">Annuler</button>
-      <button class="btn btn-primary" id="period-confirm-btn" onclick="confirmPeriod()">Confirmer</button>
+      <button class="btn btn-primary" onclick="confirmPeriod()">Confirmer</button>
     </div>
   </div>
 </div>
@@ -310,17 +310,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────────────────
 const BIN_ID='6a36b196f5f4af5e2914b464';
 const MASTER_KEY='$2a$10$Sfj0pRzTS02qhP.FJ3xz5uITBzc1HHWsH9A64h6a658oF1mFLdxY.';
 const API=`https://api.jsonbin.io/v3/b/${BIN_ID}`;
-const PASSWORD='TG', ADMIN_PW='TG-admin';
-const START='2026-06-01', END='2027-12-31';
-const START_D=new Date(2026,5,1), END_D=new Date(2027,11,31);
-
-// Chaque permanence : {id, memberId, debut:'YYYY-MM-DD', fin:'YYYY-MM-DD', note:''}
-// Chaque événement  : {id, titre, debut, fin, note}
-// data = { membres:[], permanences:[], evenements:[] }
+const PASSWORD='TG',ADMIN_PW='TG-admin';
+const START='2026-06-01',END='2027-12-31';
 
 const COLORS=[
   {bg:'#EEEDFE',border:'#534AB7',text:'#3C3489'},
@@ -336,7 +330,6 @@ const COLORS=[
   {bg:'#E0F7FA',border:'#00838F',text:'#004D40'},
   {bg:'#F9FBE7',border:'#827717',text:'#524B00'},
 ];
-
 const FERIES={
   '2026-07-14':'Fête Nationale','2026-08-15':'Assomption',
   '2026-11-01':'Toussaint','2026-11-11':'Armistice','2026-12-25':'Noël',
@@ -349,38 +342,33 @@ const FERIES={
 const DAYS_FR=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 const MONTHS_FR=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
-// ─── STATE ────────────────────────────────────────────────────────────
 let data={membres:[],permanences:[],evenements:[]};
-let currentUser=null, isAdmin=false;
+let currentUser=null,isAdmin=false;
 let view='month';
 let viewDate=new Date(2026,5,1);
 let saving=false;
-// Pour la sélection de période via inputs date
-let periodContext=null; // {type:'slot'|'event', editId:null|id}
+let periodContext=null;
 
-// ─── UTILS ────────────────────────────────────────────────────────────
+// ─── UTILS ───────────────────────────────────────────────────────────
 function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function kd(k){const[y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d);}
 function inRange(k){return k>=START&&k<=END;}
 function isWE(d){const w=d.getDay();return w===0||w===6;}
-function isFerie(k){return!!FERIES[k];}
 function today(){return dk(new Date());}
 function fmtFR(k){return kd(k).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});}
 function fmtShort(k){return kd(k).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});}
-function periodLabel(debut,fin){return debut===fin?fmtFR(debut):`Du ${fmtShort(debut)} au ${fmtShort(fin)}`;}
-function cc(inId,ccId){const v=document.getElementById(inId).value;document.getElementById(ccId).textContent=v.length+' / 30';}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+function pLabel(a,b){return a===b?fmtFR(a):`Du ${fmtShort(a)} au ${fmtShort(b)}`;}
+function cc(i,c){document.getElementById(c).textContent=document.getElementById(i).value.length+' / 30';}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 function uid(){return 'id_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);}
-
-// permanences/events qui couvrent un jour donné
 function slotsOnDay(k){return data.permanences.filter(p=>p.debut<=k&&p.fin>=k);}
 function eventsOnDay(k){return data.evenements.filter(e=>e.debut<=k&&e.fin>=k);}
 
-// ─── AUTH ─────────────────────────────────────────────────────────────
+// ─── AUTH ────────────────────────────────────────────────────────────
 function checkAuth(){
   const v=document.getElementById('auth-input').value.trim();
-  if(v===ADMIN_PW){isAdmin=true;}
-  else if(v.toUpperCase()===PASSWORD){isAdmin=false;}
+  if(v===ADMIN_PW)isAdmin=true;
+  else if(v.toUpperCase()===PASSWORD)isAdmin=false;
   else{document.getElementById('auth-error').textContent='Mot de passe incorrect.';return;}
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('app').style.display='block';
@@ -389,7 +377,7 @@ function checkAuth(){
 }
 document.getElementById('auth-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkAuth();});
 
-// ─── DATA ─────────────────────────────────────────────────────────────
+// ─── DATA ────────────────────────────────────────────────────────────
 async function loadData(){
   try{
     const r=await fetch(API+'/latest',{headers:{'X-Master-Key':MASTER_KEY}});
@@ -399,8 +387,8 @@ async function loadData(){
     if(!data.permanences)data.permanences=[];
     if(!data.evenements)data.evenements=[];
   }catch(e){data={membres:[],permanences:[],evenements:[]};}
-  const stored=localStorage.getItem('tg_user_id');
-  if(stored)currentUser=data.membres.find(m=>m.id===stored)||null;
+  const s=localStorage.getItem('tg_user_id');
+  if(s)currentUser=data.membres.find(m=>m.id===s)||null;
   render();
 }
 async function saveData(){
@@ -410,16 +398,14 @@ async function saveData(){
   saving=false;
 }
 
-// ─── MEMBERS ──────────────────────────────────────────────────────────
+// ─── MEMBERS ─────────────────────────────────────────────────────────
 function updateColorPreview(){
   const idx=parseInt(document.getElementById('member-color').value)||0;
   const c=COLORS[idx];
   const name=document.getElementById('member-name').value||'Prénom';
-  const chip=document.getElementById('color-preview-chip');
-  chip.style.background=c.bg;chip.style.borderColor=c.border;chip.style.color=c.text;
-  chip.textContent=name;
+  const ch=document.getElementById('color-preview-chip');
+  ch.style.background=c.bg;ch.style.borderColor=c.border;ch.style.color=c.text;ch.textContent=name;
 }
-
 function renderMembers(){
   const list=document.getElementById('members-list');list.innerHTML='';
   data.membres.forEach(m=>{
@@ -427,36 +413,40 @@ function renderMembers(){
     const isMe=currentUser&&currentUser.id===m.id;
     const div=document.createElement('div');div.className='member-chip';
     div.style.background=c.bg;div.style.borderColor=c.border;div.style.color=c.text;
-    div.innerHTML=`<span style="width:8px;height:8px;border-radius:50%;background:${c.border};flex-shrink:0;"></span>${m.name}`;
-    if(isMe){const b=document.createElement('button');b.className='chip-btn';b.title='Modifier mon étiquette';b.textContent='✏️';b.onclick=()=>openMemberModal(true);div.appendChild(b);}
+    div.innerHTML=`<span style="width:7px;height:7px;border-radius:50%;background:${c.border};flex-shrink:0;"></span>${m.name}`;
+    if(isMe){const b=document.createElement('button');b.className='chip-btn';b.title='Modifier';b.textContent='✏️';b.onclick=()=>openMemberModal(true);div.appendChild(b);}
     if(isAdmin){const b=document.createElement('button');b.className='chip-btn';b.title='Supprimer (admin)';b.textContent='🗑';b.style.color='#B71C1C';b.onclick=()=>adminDelMember(m.id);div.appendChild(b);}
     list.appendChild(div);
   });
   if(!currentUser){
     const a=document.createElement('button');a.className='btn-add-member';a.textContent='+ Créer mon étiquette';a.onclick=()=>openMemberModal(false);list.appendChild(a);
-    if(data.membres.length>0){const s=document.createElement('button');s.className='btn-switch-user';s.textContent='↩ Rejoindre une étiquette';s.onclick=openSwitchModal;list.appendChild(s);}
+    if(data.membres.length>0){const s=document.createElement('button');s.className='btn-switch-user';s.textContent='↩ Rejoindre';s.onclick=openSwitchModal;list.appendChild(s);}
   }
   const note=document.getElementById('current-user-note');
-  if(currentUser){const c=COLORS[currentUser.color]||COLORS[0];note.innerHTML=`Connecté(e) en tant que <strong style="color:${c.text}">${currentUser.name}</strong> <span style="cursor:pointer;color:var(--text-muted);font-size:11px;" onclick="logout()">[ changer ]</span>`;}
-  else if(isAdmin){note.textContent='Mode administrateur.';}
+  if(currentUser){
+    const c=COLORS[currentUser.color]||COLORS[0];
+    note.innerHTML=`Connecté(e) : <strong style="color:${c.text}">${currentUser.name}</strong> <span style="cursor:pointer;color:var(--text-muted);font-size:11px;" onclick="logout()">[ changer ]</span>`;
+  }else if(isAdmin){note.textContent='Mode administrateur — choisissez un membre pour agir en son nom.';}
   else{note.textContent='Créez votre étiquette pour ajouter des permanences.';}
 }
-
 function openMemberModal(editing){
   document.getElementById('modal-member-title').textContent=editing?'Mon étiquette':'Créer mon étiquette';
   document.getElementById('btn-delete-member').style.display=editing?'inline-flex':'none';
   document.getElementById('member-name').value=editing&&currentUser?currentUser.name:'';
   document.getElementById('member-color').value=editing&&currentUser?currentUser.color:data.membres.length%COLORS.length;
-  updateColorPreview();
-  document.getElementById('modal-member').classList.add('open');
+  updateColorPreview();document.getElementById('modal-member').classList.add('open');
 }
 async function saveMember(){
   const name=document.getElementById('member-name').value.trim();
   if(!name){showToast('Entrez votre prénom');return;}
   if(data.membres.length>=30&&!currentUser){showToast('Maximum 30 membres atteint');return;}
   const color=parseInt(document.getElementById('member-color').value);
-  if(currentUser){currentUser.name=name;currentUser.color=color;const i=data.membres.findIndex(m=>m.id===currentUser.id);if(i>=0)data.membres[i]={...currentUser};}
-  else{const nm={id:uid(),name,color};data.membres.push(nm);currentUser=nm;localStorage.setItem('tg_user_id',nm.id);}
+  if(currentUser){
+    currentUser.name=name;currentUser.color=color;
+    const i=data.membres.findIndex(m=>m.id===currentUser.id);if(i>=0)data.membres[i]={...currentUser};
+  }else{
+    const nm={id:uid(),name,color};data.membres.push(nm);currentUser=nm;localStorage.setItem('tg_user_id',nm.id);
+  }
   closeModal('modal-member');await saveData();render();showToast('Étiquette enregistrée ✓');
 }
 async function deleteMember(){
@@ -467,11 +457,10 @@ async function deleteMember(){
 async function adminDelMember(id){
   if(!isAdmin||!confirm('Supprimer cette étiquette et toutes ses permanences ?'))return;
   doDelMember(id);if(currentUser&&currentUser.id===id){currentUser=null;localStorage.removeItem('tg_user_id');}
-  await saveData();render();showToast('Étiquette supprimée (admin)');
+  await saveData();render();showToast('Étiquette supprimée');
 }
 function doDelMember(id){data.membres=data.membres.filter(m=>m.id!==id);data.permanences=data.permanences.filter(p=>p.memberId!==id);}
 function logout(){currentUser=null;localStorage.removeItem('tg_user_id');render();}
-
 function openSwitchModal(){
   document.getElementById('switch-select').innerHTML=data.membres.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
   document.getElementById('modal-switch').classList.add('open');
@@ -480,54 +469,40 @@ function switchMember(){
   const id=document.getElementById('switch-select').value;
   const m=data.membres.find(m=>m.id===id);
   if(m){currentUser=m;localStorage.setItem('tg_user_id',m.id);}
-  closeModal('modal-switch');render();showToast(`Connecté(e) en tant que ${m.name}`);
+  closeModal('modal-switch');render();if(m)showToast(`Connecté(e) : ${m.name}`);
 }
 
-// ─── RENDER ───────────────────────────────────────────────────────────
+// ─── RENDER ──────────────────────────────────────────────────────────
 function render(){renderMembers();view==='month'?renderMonth():renderWeek();document.getElementById('btn-month').className=view==='month'?'active':'';document.getElementById('btn-week').className=view==='week'?'active':'';}
-function setView(v){view=v;viewDate=new Date(viewDate);render();}
-function navigate(d){if(view==='month'){viewDate.setMonth(viewDate.getMonth()+d);}else{viewDate.setDate(viewDate.getDate()+d*7);}render();}
+function setView(v){view=v;render();}
+function navigate(d){if(view==='month')viewDate.setMonth(viewDate.getMonth()+d);else viewDate.setDate(viewDate.getDate()+d*7);render();}
 
 function slotTagHTML(p,k){
   const m=data.membres.find(m=>m.id===p.memberId);if(!m)return'';
   const c=COLORS[m.color]||COLORS[0];
-  const note=p.note?p.note.substring(0,30):'';
-  return `<div class="slot-tag" style="background:${c.bg};border-color:${c.border};color:${c.text}" onclick="event.stopPropagation();openDayModal('${k}')">
-    <span class="tag-name">${m.name}</span>${note?`<span class="tag-note">${note}</span>`:''}
-  </div>`;
+  return`<div class="slot-tag" style="background:${c.bg};border-color:${c.border};color:${c.text}" onclick="event.stopPropagation();openDayModal('${k}')"><span class="tag-name">${m.name}</span>${p.note?`<span class="tag-note">${p.note.substring(0,30)}</span>`:''}</div>`;
 }
 function eventTagHTML(ev,k){
-  const t=ev.titre.substring(0,30);
-  const note=ev.note?ev.note.substring(0,30):'';
-  return `<div class="event-tag" onclick="event.stopPropagation();openDayModal('${k}')">
-    <span class="tag-name">📅 ${t}</span>${note?`<span class="tag-note">${note}</span>`:''}
-  </div>`;
+  return`<div class="event-tag" onclick="event.stopPropagation();openDayModal('${k}')"><span class="tag-name">📅 ${ev.titre.substring(0,30)}</span>${ev.note?`<span class="tag-note">${ev.note.substring(0,30)}</span>`:''}</div>`;
 }
 
-// ─── MONTH VIEW ───────────────────────────────────────────────────────
+// ─── MONTH ───────────────────────────────────────────────────────────
 function renderMonth(){
   const y=viewDate.getFullYear(),m=viewDate.getMonth();
   document.getElementById('period-label').textContent=MONTHS_FR[m]+' '+y;
-  const wrap=document.getElementById('cal-wrap');
   const tod=today();
-
   let html='<div class="cal-grid-header">';
   DAYS_FR.forEach((d,i)=>html+=`<div class="cal-day-name${i>=5?' we':''}">${d}</div>`);
   html+='</div><div class="cal-grid">';
-
   const first=new Date(y,m,1);
   let sdow=first.getDay();sdow=sdow===0?6:sdow-1;
-  const dim=new Date(y,m+1,0).getDate();
-  const pd=new Date(y,m,0).getDate();
-
+  const dim=new Date(y,m+1,0).getDate(),pd=new Date(y,m,0).getDate();
   let cells=[];
   for(let i=sdow-1;i>=0;i--)cells.push({d:new Date(y,m-1,pd-i),other:true});
   for(let d=1;d<=dim;d++)cells.push({d:new Date(y,m,d),other:false});
   while(cells.length%7!==0)cells.push({d:new Date(y,m+1,cells.length-dim-sdow+1),other:true});
-
   cells.forEach(cell=>{
-    const k=dk(cell.d);
-    const we=isWE(cell.d),fe=isFerie(k),oor=!inRange(k),isT=k===tod;
+    const k=dk(cell.d),we=isWE(cell.d),fe=!!FERIES[k],oor=!inRange(k),isT=k===tod;
     let cls='cal-cell';
     if(cell.other)cls+=' other-month';
     else if(oor)cls+=' out-of-range';
@@ -536,42 +511,39 @@ function renderMonth(){
     if(isT&&!cell.other)cls+=' today-cell';
     const slots=(!cell.other&&!oor)?slotsOnDay(k):[];
     const evts=(!cell.other&&!oor)?eventsOnDay(k):[];
-    html+=`<div class="${cls}" data-k="${k}" onclick="openDayModal('${k}')">`;
+    html+=`<div class="${cls}" onclick="openDayModal('${k}')">`;
     html+=`<div class="${isT?'day-num today-num':'day-num'}">${cell.other?'':cell.d.getDate()}</div>`;
     if(fe&&!cell.other)html+=`<div class="ferie-label">${FERIES[k]}</div>`;
     evts.forEach(ev=>html+=eventTagHTML(ev,k));
     slots.forEach(p=>html+=slotTagHTML(p,k));
-    html+='</div>';
+    html+=`</div>`;
   });
   html+='</div>';
-  wrap.innerHTML=html;
+  document.getElementById('cal-wrap').innerHTML=html;
 }
 
-// ─── WEEK VIEW ────────────────────────────────────────────────────────
+// ─── WEEK ────────────────────────────────────────────────────────────
 function renderWeek(){
-  const d=new Date(viewDate);
-  const dow=d.getDay();d.setDate(d.getDate()-(dow===0?6:dow-1));
+  const d=new Date(viewDate),dow=d.getDay();
+  d.setDate(d.getDate()-(dow===0?6:dow-1));
   const wdays=[];for(let i=0;i<7;i++)wdays.push(new Date(d.getFullYear(),d.getMonth(),d.getDate()+i));
   document.getElementById('period-label').textContent=wdays[0].toLocaleDateString('fr-FR',{day:'numeric',month:'long'})+' – '+wdays[6].toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
   const tod=today();
   let html='<div class="week-grid"><div class="week-corner"></div>';
   DAYS_FR.forEach((dn,i)=>{
-    const dd=wdays[i],k=dk(dd),we=isWE(dd),fe=isFerie(k),isT=k===tod;
+    const dd=wdays[i],k=dk(dd),we=isWE(dd),fe=!!FERIES[k],isT=k===tod;
     let cls='week-day-header';if(fe)cls+=' ferie';else if(we)cls+=' we';if(isT)cls+=' today-wh';
-    html+=`<div class="${cls}"><div class="wd-name" style="${we?'color:var(--accent)':''}">${dn}</div>`;
-    html+=`<div class="wd-date" style="${isT?'color:var(--today-red);':''}">${dd.getDate()} ${MONTHS_FR[dd.getMonth()].substring(0,3)}</div>`;
-    if(fe)html+=`<div style="font-size:9px;color:#E65100;font-weight:600;">${FERIES[k]}</div>`;
-    html+=`</div>`;
+    html+=`<div class="${cls}"><div class="wd-name" style="${we?'color:var(--accent)':''}">${dn}</div><div class="wd-date" style="${isT?'color:var(--today-red);':''}">${dd.getDate()} ${MONTHS_FR[dd.getMonth()].substring(0,3)}</div>${fe?`<div style="font-size:8px;color:#E65100;font-weight:600;">${FERIES[k]}</div>`:''}</div>`;
   });
-  html+='<div class="week-corner" style="font-size:11px;color:var(--text-muted);font-weight:600;padding:8px 4px;"></div>';
+  html+='<div class="week-corner"></div>';
   wdays.forEach(dd=>{
-    const k=dk(dd),oor=!inRange(k),we=isWE(dd),fe=isFerie(k);
+    const k=dk(dd),oor=!inRange(k),we=isWE(dd),fe=!!FERIES[k];
     let cls='week-cell';if(oor)cls+=' out-of-range';else if(fe)cls+=' ferie';else if(we)cls+=' we';
     const slots=!oor?slotsOnDay(k):[];const evts=!oor?eventsOnDay(k):[];
     html+=`<div class="${cls}" onclick="openDayModal('${k}')">`;
     evts.forEach(ev=>html+=eventTagHTML(ev,k));
     slots.forEach(p=>html+=slotTagHTML(p,k));
-    if(!oor&&slots.length===0&&evts.length===0)html+=`<div style="font-size:11px;color:var(--text-muted);padding:4px;">–</div>`;
+    if(!oor&&!slots.length&&!evts.length)html+=`<div style="font-size:11px;color:var(--text-muted);padding:3px;">–</div>`;
     html+=`</div>`;
   });
   html+='</div>';
@@ -585,24 +557,19 @@ function openDayModal(k){
   const slots=slotsOnDay(k),evts=eventsOnDay(k);
   let html='';
 
-  // Événements
   evts.forEach(ev=>{
     html+=`<div class="day-item" style="background:var(--event-bg);border-color:var(--event-border);">`;
     html+=`<div class="day-item-title" style="color:var(--event-text);">📅 ${ev.titre}</div>`;
-    html+=`<div class="day-item-dates" style="color:var(--event-text);">${periodLabel(ev.debut,ev.fin)}</div>`;
+    html+=`<div class="day-item-dates" style="color:var(--event-text);">${pLabel(ev.debut,ev.fin)}</div>`;
     if(ev.note)html+=`<div class="day-item-note" style="color:var(--event-text);">${ev.note}</div>`;
-    if(isAdmin){
-      html+=`<div class="day-item-actions">`;
-      html+=`<button class="dia-btn dia-del" onclick="delEvent('${ev.id}')">🗑 Supprimer</button>`;
-      html+=`<button class="dia-btn dia-edit" onclick="editEventPeriod('${ev.id}')">📅 Modifier période</button>`;
-      html+=`<button class="dia-btn dia-edit" onclick="editEventNote('${ev.id}')">✏️ Modifier</button>`;
-      html+=`<button class="dia-btn dia-cancel" onclick="closeModal('modal-day')">Annuler</button>`;
-      html+=`</div>`;
-    }
+    if(isAdmin)html+=`<div class="day-item-actions">
+      <button class="dia-btn dia-del" onclick="delEvent('${ev.id}')">🗑 Supprimer</button>
+      <button class="dia-btn dia-edit" onclick="editEventPeriod('${ev.id}')">📅 Modifier période</button>
+      <button class="dia-btn dia-edit" onclick="editEventNote('${ev.id}')">✏️ Modifier</button>
+    </div>`;
     html+=`</div>`;
   });
 
-  // Permanences
   slots.forEach(p=>{
     const mem=data.membres.find(m=>m.id===p.memberId);if(!mem)return;
     const c=COLORS[mem.color]||COLORS[0];
@@ -610,135 +577,133 @@ function openDayModal(k){
     const canEdit=isMe||isAdmin;
     html+=`<div class="day-item" style="background:${c.bg};border-color:${c.border};">`;
     html+=`<div class="day-item-title" style="color:${c.text};">${mem.name}</div>`;
-    html+=`<div class="day-item-dates" style="color:${c.text};">${periodLabel(p.debut,p.fin)}</div>`;
+    html+=`<div class="day-item-dates" style="color:${c.text};">${pLabel(p.debut,p.fin)}</div>`;
     if(p.note)html+=`<div class="day-item-note" style="color:${c.text};">${p.note}</div>`;
-    if(canEdit){
-      html+=`<div class="day-item-actions">`;
-      html+=`<button class="dia-btn dia-del" onclick="delSlot('${p.id}')">🗑 Supprimer</button>`;
-      html+=`<button class="dia-btn dia-edit" onclick="editSlotPeriod('${p.id}')">📅 Modifier période</button>`;
-      html+=`<button class="dia-btn dia-edit" onclick="editSlotNote('${p.id}')">✏️ Modifier note</button>`;
-      html+=`<button class="dia-btn dia-cancel" onclick="closeModal('modal-day')">Annuler</button>`;
-      html+=`</div>`;
-    }
+    if(canEdit)html+=`<div class="day-item-actions">
+      <button class="dia-btn dia-del" onclick="delSlot('${p.id}')">🗑 Supprimer</button>
+      <button class="dia-btn dia-edit" onclick="editSlotPeriod('${p.id}')">📅 Modifier période</button>
+      <button class="dia-btn dia-edit" onclick="editSlotNote('${p.id}')">✏️ Modifier note</button>
+    </div>`;
     html+=`</div>`;
   });
 
   if(!html)html='<p style="color:var(--text-muted);font-size:13px;margin-bottom:14px;">Aucune permanence ni événement ce jour.</p>';
   document.getElementById('day-content').innerHTML=html;
 
-  // Boutons bas
   const acts=document.getElementById('day-actions');acts.innerHTML='';
   const btnClose=document.createElement('button');btnClose.className='btn btn-secondary';btnClose.textContent='Fermer';btnClose.onclick=()=>closeModal('modal-day');acts.appendChild(btnClose);
 
-  if(currentUser&&!slots.some(p=>p.memberId===currentUser.id)){
+  // Ajouter permanence : user normal ou admin
+  const mySlot=slots.find(p=>currentUser&&p.memberId===currentUser.id);
+  if(currentUser&&!mySlot){
     const b=document.createElement('button');b.className='btn btn-primary';b.textContent='+ Ma permanence';
-    b.onclick=()=>{closeModal('modal-day');startAddSlot(k);};acts.appendChild(b);
+    b.onclick=()=>{closeModal('modal-day');startAddSlot(k,null);};acts.appendChild(b);
   }
   if(isAdmin){
-    const b=document.createElement('button');b.className='btn btn-event';b.textContent='+ Événement';
-    b.onclick=()=>{closeModal('modal-day');startAddEventFromDay(k);};acts.appendChild(b);
+    const b=document.createElement('button');b.className='btn btn-primary';b.textContent='+ Permanence (admin)';
+    b.onclick=()=>{closeModal('modal-day');adminAddSlotFromDay(k);};acts.appendChild(b);
+    const b2=document.createElement('button');b2.className='btn btn-event';b2.textContent='+ Événement';
+    b2.onclick=()=>{closeModal('modal-day');startAddEventFromDay(k);};acts.appendChild(b2);
   }
   if(!currentUser&&!isAdmin){
     const b=document.createElement('button');b.className='btn btn-primary';b.textContent='+ Créer mon étiquette';
     b.onclick=()=>{closeModal('modal-day');openMemberModal(false);};acts.appendChild(b);
   }
-
   document.getElementById('modal-day').classList.add('open');
-  highlightPeriod(null);
 }
 
-// Surligner toute la période d'un élément au survol (optionnel, déjà visible dans la popup)
-function highlightPeriod(debut,fin){
-  document.querySelectorAll('.highlight-period').forEach(el=>el.classList.remove('highlight-period'));
-  if(!debut||!fin)return;
-  document.querySelectorAll('[data-k]').forEach(el=>{const k=el.dataset.k;if(k&&k>=debut&&k<=fin)el.classList.add('highlight-period');});
+// ─── PERMANENCES ─────────────────────────────────────────────────────
+function openSlotNoteModal(debut,fin,memberId,editId){
+  // Affiche la liste des membres si admin
+  const isAdminAdd=isAdmin&&!editId;
+  const selEl=document.getElementById('slot-member-select');
+  const selLbl=document.getElementById('slot-member-label');
+  if(isAdmin){
+    selEl.style.display='block';selLbl.style.display='block';
+    selEl.innerHTML=data.membres.map(m=>`<option value="${m.id}"${m.id===memberId?' selected':''}>${m.name}</option>`).join('');
+  }else{selEl.style.display='none';selLbl.style.display='none';}
+  document.getElementById('slot-title-h').textContent=editId?'Modifier la permanence':'Ma permanence';
+  document.getElementById('slot-period-display').textContent=pLabel(debut,fin);
+  // Chercher note existante
+  const existing=editId?data.permanences.find(p=>p.id===editId):null;
+  document.getElementById('slot-note').value=existing?existing.note||'':'';
+  cc('slot-note','slot-cc');
+  periodContext={...periodContext,debut,fin,editId,forceMemberId:memberId};
+  document.getElementById('modal-slot').classList.add('open');
 }
 
-// ─── PERMANENCES ──────────────────────────────────────────────────────
-function startAddSlot(k){
-  if(!currentUser){openMemberModal(false);return;}
-  periodContext={type:'slot',editId:null,defaultDay:k};
-  openPeriodModal('Choisir la période de permanence','Sélectionnez le début et la fin.',k,k);
+function startAddSlot(defaultDay,memberId){
+  periodContext={type:'slot',editId:null,forceMemberId:memberId||null};
+  openPeriodModal('Choisir la période','Début et fin de la permanence.',defaultDay,defaultDay);
+}
+
+function adminAddSlot(){
+  // Depuis admin bar — pas de jour présélectionné
+  periodContext={type:'slot',editId:null,forceMemberId:null,isAdminAdd:true};
+  openPeriodModal('Choisir la période (admin)','Sélectionnez début et fin.',today(),today());
+}
+function adminAddSlotFromDay(k){
+  periodContext={type:'slot',editId:null,forceMemberId:null,isAdminAdd:true};
+  openPeriodModal('Choisir la période (admin)','',k,k);
 }
 
 function editSlotPeriod(id){
   const p=data.permanences.find(p=>p.id===id);if(!p)return;
   closeModal('modal-day');
-  periodContext={type:'slot',editId:id};
+  periodContext={type:'slot',editId:id,forceMemberId:p.memberId};
   openPeriodModal('Modifier la période','Nouvelle période pour cette permanence.',p.debut,p.fin);
 }
-
 function editSlotNote(id){
   const p=data.permanences.find(p=>p.id===id);if(!p)return;
   closeModal('modal-day');
-  document.getElementById('slot-title').textContent='Modifier la note';
-  document.getElementById('slot-period-display').textContent=periodLabel(p.debut,p.fin);
-  document.getElementById('slot-note').value=p.note||'';
-  cc('slot-note','slot-cc');
-  periodContext={type:'slot-note',editId:id};
-  document.getElementById('modal-slot').classList.add('open');
+  openSlotNoteModal(p.debut,p.fin,p.memberId,id);
 }
-
 async function delSlot(id){
   if(!confirm('Supprimer cette permanence ?'))return;
   data.permanences=data.permanences.filter(p=>p.id!==id);
   closeModal('modal-day');await saveData();render();showToast('Permanence supprimée');
 }
-
-function openSlotNoteModal(debut,fin){
-  document.getElementById('slot-title').textContent='Ma permanence';
-  document.getElementById('slot-period-display').textContent=periodLabel(debut,fin);
-  document.getElementById('slot-note').value='';
-  cc('slot-note','slot-cc');
-  document.getElementById('modal-slot').classList.add('open');
-}
-
 async function saveSlot(){
-  if(!currentUser)return;
   const note=document.getElementById('slot-note').value.trim();
   const ctx=periodContext;
-  if(ctx&&ctx.type==='slot-note'&&ctx.editId){
-    // Modifier note seulement
+  // Qui est le membre ?
+  let memberId=ctx.forceMemberId;
+  if(isAdmin){
+    const sel=document.getElementById('slot-member-select');
+    if(sel.style.display!=='none')memberId=sel.value;
+  }
+  if(!memberId&&currentUser)memberId=currentUser.id;
+  if(!memberId){showToast('Choisissez un membre');return;}
+  if(ctx.editId){
     const p=data.permanences.find(p=>p.id===ctx.editId);
-    if(p)p.note=note;
-  } else if(ctx&&ctx.type==='slot'&&ctx.debut&&ctx.fin){
-    if(ctx.editId){
-      // Modifier période
-      const p=data.permanences.find(p=>p.id===ctx.editId);
-      if(p){p.debut=ctx.debut;p.fin=ctx.fin;p.note=note;}
-    } else {
-      data.permanences.push({id:uid(),memberId:currentUser.id,debut:ctx.debut,fin:ctx.fin,note});
-    }
+    if(p){p.debut=ctx.debut;p.fin=ctx.fin;p.note=note;p.memberId=memberId;}
+  }else{
+    data.permanences.push({id:uid(),memberId,debut:ctx.debut,fin:ctx.fin,note});
   }
   closeModal('modal-slot');await saveData();render();showToast('Permanence enregistrée ✓');
 }
 
-// ─── ÉVÉNEMENTS ───────────────────────────────────────────────────────
-function startAddEvent(){
-  // Depuis bouton admin bar : période à saisir
-  periodContext={type:'event',editId:null};
-  openPeriodModal('Choisir la période de l\'événement','Sélectionnez le début et la fin.',today(),today());
+// ─── ÉVÉNEMENTS ──────────────────────────────────────────────────────
+function openEventNoteModal(debut,fin,editId){
+  document.getElementById('event-title-h').textContent=editId?'Modifier l\'événement':'Ajouter un événement';
+  document.getElementById('event-period-display').textContent=pLabel(debut,fin);
+  const existing=editId?data.evenements.find(e=>e.id===editId):null;
+  document.getElementById('event-title').value=existing?existing.titre:'';
+  document.getElementById('event-note').value=existing?existing.note:'';
+  cc('event-title','event-cc');
+  periodContext={...periodContext,debut,fin,editId};
+  document.getElementById('modal-event').classList.add('open');
 }
-function startAddEventFromDay(k){
-  periodContext={type:'event',editId:null};
-  openPeriodModal('Choisir la période de l\'événement','',k,k);
-}
+function startAddEvent(){periodContext={type:'event',editId:null};openPeriodModal('Période de l\'événement','',today(),today());}
+function startAddEventFromDay(k){periodContext={type:'event',editId:null};openPeriodModal('Période de l\'événement','',k,k);}
 function editEventPeriod(id){
   const ev=data.evenements.find(e=>e.id===id);if(!ev)return;
-  closeModal('modal-day');
-  periodContext={type:'event',editId:id};
-  openPeriodModal('Modifier la période','Nouvelle période pour cet événement.',ev.debut,ev.fin);
+  closeModal('modal-day');periodContext={type:'event',editId:id};
+  openPeriodModal('Modifier la période','',ev.debut,ev.fin);
 }
 function editEventNote(id){
   const ev=data.evenements.find(e=>e.id===id);if(!ev)return;
-  closeModal('modal-day');
-  document.getElementById('event-title-h').textContent='Modifier l\'événement';
-  document.getElementById('event-period-display').textContent=periodLabel(ev.debut,ev.fin);
-  document.getElementById('event-title').value=ev.titre||'';
-  document.getElementById('event-note').value=ev.note||'';
-  cc('event-title','event-cc');
-  periodContext={type:'event-note',editId:id};
-  document.getElementById('modal-event').classList.add('open');
+  closeModal('modal-day');openEventNoteModal(ev.debut,ev.fin,id);
 }
 async function delEvent(id){
   if(!confirm('Supprimer cet événement ?'))return;
@@ -746,26 +711,16 @@ async function delEvent(id){
   closeModal('modal-day');await saveData();render();showToast('Événement supprimé');
 }
 async function saveEvent(){
-  if(!isAdmin)return;
   const titre=document.getElementById('event-title').value.trim();
   if(!titre){showToast('Ajoutez un titre');return;}
   const note=document.getElementById('event-note').value.trim();
   const ctx=periodContext;
-  if(ctx&&ctx.type==='event-note'&&ctx.editId){
-    const ev=data.evenements.find(e=>e.id===ctx.editId);
-    if(ev){ev.titre=titre;ev.note=note;}
-  } else if(ctx&&ctx.type==='event'&&ctx.debut&&ctx.fin){
-    if(ctx.editId){
-      const ev=data.evenements.find(e=>e.id===ctx.editId);
-      if(ev){ev.debut=ctx.debut;ev.fin=ctx.fin;ev.titre=titre;ev.note=note;}
-    } else {
-      data.evenements.push({id:uid(),titre,debut:ctx.debut,fin:ctx.fin,note});
-    }
-  }
+  if(ctx.editId){const ev=data.evenements.find(e=>e.id===ctx.editId);if(ev){ev.titre=titre;ev.note=note;ev.debut=ctx.debut;ev.fin=ctx.fin;}}
+  else data.evenements.push({id:uid(),titre,debut:ctx.debut,fin:ctx.fin,note});
   closeModal('modal-event');await saveData();render();showToast('Événement enregistré ✓');
 }
 
-// ─── MODAL PÉRIODE (sélecteur date) ──────────────────────────────────
+// ─── MODAL PÉRIODE ───────────────────────────────────────────────────
 function openPeriodModal(title,sub,debut,fin){
   document.getElementById('period-modal-title').textContent=title;
   document.getElementById('period-modal-sub').textContent=sub;
@@ -773,45 +728,54 @@ function openPeriodModal(title,sub,debut,fin){
   document.getElementById('period-end').value=fin;
   document.getElementById('modal-period').classList.add('open');
 }
-
 function confirmPeriod(){
   const debut=document.getElementById('period-start').value;
   const fin=document.getElementById('period-end').value;
   if(!debut||!fin){showToast('Choisissez début et fin');return;}
   if(fin<debut){showToast('La fin doit être après le début');return;}
-  if(!inRange(debut)||!inRange(fin)){showToast('Les dates doivent être entre juin 2026 et déc. 2027');return;}
+  if(!inRange(debut)||!inRange(fin)){showToast('Dates hors de la période juin 2026 – déc. 2027');return;}
   periodContext.debut=debut;periodContext.fin=fin;
   closeModal('modal-period');
-
-  const ctx=periodContext;
-  if(ctx.type==='slot'){
-    // Ouvrir saisie note
-    openSlotNoteModal(debut,fin);
-  } else if(ctx.type==='event'){
-    // Ouvrir saisie événement
-    document.getElementById('event-title-h').textContent=ctx.editId?'Modifier l\'événement':'Ajouter un événement';
-    document.getElementById('event-period-display').textContent=periodLabel(debut,fin);
-    const existing=ctx.editId?data.evenements.find(e=>e.id===ctx.editId):null;
-    document.getElementById('event-title').value=existing?existing.titre:'';
-    document.getElementById('event-note').value=existing?existing.note:'';
-    cc('event-title','event-cc');
-    document.getElementById('modal-event').classList.add('open');
-  }
+  if(periodContext.type==='slot')openSlotNoteModal(debut,fin,periodContext.forceMemberId,periodContext.editId);
+  else if(periodContext.type==='event')openEventNoteModal(debut,fin,periodContext.editId);
 }
 
 // ─── MODAL HELPERS ────────────────────────────────────────────────────
 function closeModal(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.modal-overlay').forEach(ov=>{ov.addEventListener('click',e=>{if(e.target===ov)closeModal(ov.id);});});
+document.querySelectorAll('.modal-overlay').forEach(ov=>ov.addEventListener('click',e=>{if(e.target===ov)closeModal(ov.id);}));
 
-// ─── SWIPE (mobile) ───────────────────────────────────────────────────
+// ─── SWIPE MOBILE ─────────────────────────────────────────────────────
 (function(){
-  let tx=0,ty=0,moved=false;
-  document.getElementById('cal-wrap').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;moved=false;},{passive:true});
-  document.getElementById('cal-wrap').addEventListener('touchmove',e=>{moved=true;},{passive:true});
-  document.getElementById('cal-wrap').addEventListener('touchend',e=>{
-    if(!moved)return;
-    const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
-    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50)navigate(dx<0?1:-1);
+  const outer=document.getElementById('cal-outer');
+  let tx=0,ty=0,scrollX=0,scrollY=0,dragging=false,moved=false;
+
+  outer.addEventListener('touchstart',e=>{
+    tx=e.touches[0].clientX;ty=e.touches[0].clientY;
+    scrollX=outer.scrollLeft;scrollY=outer.scrollTop;
+    moved=false;dragging=true;
+  },{passive:true});
+
+  outer.addEventListener('touchmove',e=>{
+    if(!dragging)return;
+    const dx=e.touches[0].clientX-tx,dy=e.touches[0].clientY-ty;
+    if(!moved&&(Math.abs(dx)>5||Math.abs(dy)>5))moved=true;
+    // Si scroll interne possible (contenu plus large/haut), laisser faire
+    // Sinon swipe horizontal = changement de mois
+  },{passive:true});
+
+  outer.addEventListener('touchend',e=>{
+    if(!dragging||!moved){dragging=false;return;}
+    dragging=false;
+    // Si le contenu est plus large que le conteneur, on fait défiler normalement
+    if(outer.scrollWidth>outer.clientWidth||outer.scrollHeight>outer.clientHeight){
+      // scroll géré nativement, mais on détecte aussi swipe de mois
+    }
+    const dx=e.changedTouches[0].clientX-tx;
+    const dy=e.changedTouches[0].clientY-ty;
+    // Swipe horizontal fort = changer de mois (seulement si pas de scroll horizontal)
+    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>60&&outer.scrollLeft===scrollX){
+      navigate(dx<0?1:-1);
+    }
   },{passive:true});
 })();
 </script>
