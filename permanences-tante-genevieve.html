@@ -309,6 +309,15 @@
   </div>
 </div>
 
+<!-- MODAL: POPUP JOUR AGRANDI -->
+<div class="modal-overlay" id="modal-day-popup">
+  <div class="modal" style="max-width:440px;">
+    <h3 id="popup-title" style="font-size:17px;margin-bottom:14px;"></h3>
+    <div id="popup-content"></div>
+    <div class="modal-actions" id="popup-actions" style="flex-wrap:wrap;gap:8px;"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -721,28 +730,14 @@ function endSelect(k){
 
 function cellClick(k){
   if(!inRange(keyToDate(k))) return;
-
+  // Si on est en train de sélectionner une période (2e clic)
   if(waitingForEnd){
-    // 2e clic : on fixe la fin
-    selEnd=k;
-    waitingForEnd=false;
+    selEnd=k; waitingForEnd=false;
     updateSelectionUI();
     if(isAdmin) openAdminChoice(); else openSlotModal();
   } else {
-    // 1er clic : on fixe le début
-    selStart=k; selEnd=k;
-    updateSelectionUI();
-    waitingForEnd=true;
-    // Mettre à jour le message d'info
-    const infoEl=document.getElementById('selection-info');
-    infoEl.style.display='block';
-    infoEl.textContent='1er jour sélectionné : '+formatDateFR(keyToDate(k))+' — cliquez sur le dernier jour ou validez ici';
-    // Ajouter bouton "Valider ce jour seul"
-    const btn=document.createElement('button');
-    btn.textContent='Valider ce jour seul';
-    btn.style.cssText='margin-left:12px;padding:3px 10px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:white;font-size:12px;cursor:pointer;';
-    btn.onclick=(e)=>{ e.stopPropagation(); waitingForEnd=false; selEnd=k; updateSelectionUI(); if(isAdmin) openAdminChoice(); else openSlotModal(); };
-    infoEl.appendChild(btn);
+    // Sinon : ouvrir le popup agrandi du jour
+    openDayPopup(k);
   }
 }
 
@@ -956,6 +951,129 @@ function closeModal(id){ document.getElementById(id).classList.remove('open'); i
 document.querySelectorAll('.modal-overlay').forEach(ov=>{ ov.addEventListener('click',e=>{ if(e.target===ov) closeModal(ov.id); }); });
 document.addEventListener('mouseup',()=>{ if(selecting) selecting=false; });
 document.addEventListener('selectstart',e=>{ if(selecting) e.preventDefault(); });
+
+// ─── SWIPE NAVIGATION (mobile) ────────────────────────────────────────
+(function(){
+  let tx=0, ty=0, moved=false;
+  const wrap=document.getElementById('cal-wrap');
+  wrap.addEventListener('touchstart',e=>{ tx=e.touches[0].clientX; ty=e.touches[0].clientY; moved=false; },{passive:true});
+  wrap.addEventListener('touchmove',e=>{ moved=true; },{passive:true});
+  wrap.addEventListener('touchend',e=>{
+    if(!moved) return;
+    const dx=e.changedTouches[0].clientX-tx;
+    const dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){
+      navigate(dx<0?1:-1);
+    }
+  },{passive:true});
+})();
+
+// ─── POPUP JOUR (case agrandie) ───────────────────────────────────────
+function openDayPopup(k){
+  if(!inRange(keyToDate(k))) return;
+  viewSlotDayKey=k;
+  const d=keyToDate(k);
+  const slots=data.creneaux[k]||[], events=data.evenements[k]||[];
+
+  // Titre
+  document.getElementById('popup-title').textContent=formatDateFR(d);
+
+  // Contenu existant
+  let html='';
+  events.forEach((ev,i)=>{
+    html+=`<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;padding:8px;background:var(--event-bg);border-left:3px solid var(--event-border);border-radius:6px;">`;
+    html+=`<div><div style="font-size:13px;font-weight:700;color:var(--event-text);">📅 ${ev.title}</div>`;
+    if(ev.note) html+=`<div style="font-size:12px;color:var(--text-soft);margin-top:2px;">${ev.note}</div>`;
+    html+=`</div>`;
+    if(isAdmin) html+=`<span style="font-size:12px;color:#B71C1C;cursor:pointer;white-space:nowrap;" onclick="adminDeleteEventInPopup('${k}',${i})">🗑</span>`;
+    html+=`</div>`;
+  });
+  slots.forEach(s=>{
+    const mem=data.membres.find(m=>m.id===s.memberId); if(!mem) return;
+    const c=COLORS[mem.color]||COLORS[0];
+    html+=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">`;
+    html+=`<span style="background:${c.bg};color:${c.text};border:1.5px solid ${c.border};border-radius:99px;padding:3px 12px;font-size:13px;font-weight:600;white-space:nowrap;">${mem.name}</span>`;
+    if(s.note) html+=`<span style="font-size:13px;color:var(--text-soft);">${s.note}</span>`;
+    const isMe=currentUser&&s.memberId===currentUser.id;
+    if(isMe) html+=`<span style="margin-left:auto;font-size:12px;color:var(--accent);cursor:pointer;white-space:nowrap;" onclick="editMySlotInPopup('${k}')">✏️ modifier</span>`;
+    if(isAdmin&&!isMe) html+=`<span style="margin-left:auto;font-size:12px;color:#B71C1C;cursor:pointer;white-space:nowrap;" onclick="adminDeleteSlotInPopup('${k}','${s.memberId}')">🗑</span>`;
+    html+=`</div>`;
+  });
+  if(!html) html='<p style="color:var(--text-muted);font-size:13px;margin-bottom:12px;">Aucune permanence ni événement ce jour.</p>';
+
+  document.getElementById('popup-content').innerHTML=html;
+
+  // Boutons d'action en bas
+  const actionsEl=document.getElementById('popup-actions');
+  actionsEl.innerHTML='';
+
+  const btnClose=document.createElement('button');
+  btnClose.className='btn btn-secondary'; btnClose.textContent='Fermer';
+  btnClose.onclick=()=>closeModal('modal-day-popup');
+  actionsEl.appendChild(btnClose);
+
+  if(currentUser){
+    const alreadyHas=slots.some(s=>s.memberId===currentUser.id);
+    const btnSlot=document.createElement('button');
+    btnSlot.className='btn btn-primary';
+    btnSlot.textContent=alreadyHas?'Modifier ma permanence':'+ Ma permanence';
+    btnSlot.onclick=()=>{ closeModal('modal-day-popup'); selStart=k; selEnd=k; openSlotModal(); };
+    actionsEl.appendChild(btnSlot);
+    // Bouton période
+    const btnPeriod=document.createElement('button');
+    btnPeriod.className='btn btn-secondary';
+    btnPeriod.textContent='📅 Période (plusieurs jours)';
+    btnPeriod.onclick=()=>{
+      closeModal('modal-day-popup');
+      selStart=k; selEnd=k; waitingForEnd=true;
+      updateSelectionUI();
+      const infoEl=document.getElementById('selection-info');
+      infoEl.style.display='block';
+      infoEl.textContent='Début : '+formatDateFR(keyToDate(k))+' — cliquez maintenant sur le dernier jour';
+    };
+    actionsEl.appendChild(btnPeriod);
+  } else if(!isAdmin) {
+    const btnNew=document.createElement('button');
+    btnNew.className='btn btn-primary'; btnNew.textContent='+ Créer mon étiquette';
+    btnNew.onclick=()=>{ closeModal('modal-day-popup'); openMemberModal(false); };
+    actionsEl.appendChild(btnNew);
+  }
+
+  if(isAdmin){
+    const btnEv=document.createElement('button');
+    btnEv.className='btn btn-event'; btnEv.textContent='+ Événement';
+    btnEv.onclick=()=>{ closeModal('modal-day-popup'); selStart=k; selEnd=k; openEventModal(null,undefined); };
+    actionsEl.appendChild(btnEv);
+  }
+
+  document.getElementById('modal-day-popup').classList.add('open');
+}
+
+async function adminDeleteEventInPopup(k,idx){
+  if(!isAdmin) return;
+  if(!confirm('Supprimer cet événement ?')) return;
+  if(data.evenements[k]){ data.evenements[k].splice(idx,1); if(data.evenements[k].length===0) delete data.evenements[k]; }
+  await saveData();
+  closeModal('modal-day-popup');
+  render();
+  showToast('Événement supprimé');
+}
+
+async function adminDeleteSlotInPopup(k,memberId){
+  if(!isAdmin) return;
+  if(!confirm('Supprimer cette permanence ?')) return;
+  if(data.creneaux[k]){ data.creneaux[k]=data.creneaux[k].filter(s=>s.memberId!==memberId); if(data.creneaux[k].length===0) delete data.creneaux[k]; }
+  await saveData();
+  closeModal('modal-day-popup');
+  render();
+  showToast('Permanence supprimée');
+}
+
+function editMySlotInPopup(k){
+  closeModal('modal-day-popup');
+  selStart=k; selEnd=k;
+  openSlotModal();
+}
 </script>
 </body>
 </html>
